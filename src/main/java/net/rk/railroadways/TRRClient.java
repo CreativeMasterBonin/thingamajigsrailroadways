@@ -74,7 +74,7 @@ public class TRRClient{
         },TRRBlocks.BRITISH_RAILWAY_LIGHTS.asItem(),TRRBlocks.DUAL_RAILWAY_LIGHTS.asItem(),TRRBlocks.CROSSBUCK.asItem(),
                 TRRBlocks.RAILROAD_CROSSING_ARM_LIGHTED.asItem(),TRRBlocks.RAILROAD_CROSSING_ARM.asItem(),TRRBlocks.BIG_RAILROAD_CROSSING_CANTILEVER_LIGHTS.asItem(),
                 TRRBlocks.RAILROAD_CROSSING_CANTILEVER_LIGHTS.asItem(),TRRBlocks.RAILROAD_CROSSING_LIGHTS.asItem(),TRRBlocks.TRI_RAILWAY_LIGHTS.asItem(),
-                TRRBlocks.CROSSBUCK_WITH_LADDER.asItem());
+                TRRBlocks.CROSSBUCK_WITH_LADDER.asItem(),TRRBlocks.BIG_RAILROAD_CROSSING_LIGHTS.asItem());
     }
 
     public void addCreative(BuildCreativeModeTabContentsEvent event) {
