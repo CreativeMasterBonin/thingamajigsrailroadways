@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=east": {
+      "model": "thingamajigsrailroadways:block/railroad_crossing_bell_type_two",
+      "y": 90
+    },
+    "facing=north": {
+      "model": "thingamajigsrailroadways:block/railroad_crossing_bell_type_two"
+    },
+    "facing=south": {
+      "model": "thingamajigsrailroadways:block/railroad_crossing_bell_type_two",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "thingamajigsrailroadways:block/railroad_crossing_bell_type_two",
+      "y": 270
+    }
+  }
+}

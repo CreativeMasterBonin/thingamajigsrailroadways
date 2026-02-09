@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=east": {
+      "model": "thingamajigsrailroadways:block/rr_cantilever",
+      "y": 90
+    },
+    "facing=north": {
+      "model": "thingamajigsrailroadways:block/rr_cantilever"
+    },
+    "facing=south": {
+      "model": "thingamajigsrailroadways:block/rr_cantilever",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "thingamajigsrailroadways:block/rr_cantilever",
+      "y": 270
+    }
+  }
+}

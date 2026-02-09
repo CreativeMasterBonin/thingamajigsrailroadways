@@ -1,0 +1,48 @@
+modLoader = "javafml"
+
+loaderVersion = "${loader_version_range}"
+
+license = "${mod_license}"
+
+issueTrackerURL="https://github.com/roberttkahelin8/thingamajigs2addons/issues"
+
+[[mods]]
+modId = "${mod_id}"
+version = "${mod_version}"
+displayName = "${mod_name}"
+
+# A URL to query for updates for this mod. See the JSON update specification https://docs.neoforge.net/docs/misc/updatechecker/
+#updateJSONURL="https://change.me.example.invalid/updates.json" #optional
+
+#displayURL="https://change.me.to.your.mods.homepage.example.invalid/" #optional
+logoFile="icon.png"
+credits="Made by CreativeMasterBonin"
+authors = "${mod_authors}"
+description = '''${mod_description}'''
+
+#[[mixins]]
+#config="${mod_id}.mixins.json"
+
+#[[accessTransformers]]
+#file="META-INF/accesstransformer.cfg"
+
+[[dependencies."${mod_id}"]]
+modId = "neoforge"
+type = "required"
+versionRange = "${neo_version_range}"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies."${mod_id}"]]
+modId = "minecraft"
+type = "required"
+versionRange = "${minecraft_version_range}"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies."${mod_id}"]]
+modId = "thingamajigs"
+type = "required"
+versionRange = "[1.7.3,)"
+ordering = "NONE"
+side = "BOTH"

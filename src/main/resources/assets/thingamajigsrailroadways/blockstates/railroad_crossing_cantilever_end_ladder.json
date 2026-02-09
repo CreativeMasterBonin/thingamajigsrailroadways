@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=east": {
+      "model": "thingamajigsrailroadways:block/rr_cantilever_end_ladder",
+      "y": 90
+    },
+    "facing=north": {
+      "model": "thingamajigsrailroadways:block/rr_cantilever_end_ladder"
+    },
+    "facing=south": {
+      "model": "thingamajigsrailroadways:block/rr_cantilever_end_ladder",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "thingamajigsrailroadways:block/rr_cantilever_end_ladder",
+      "y": 270
+    }
+  }
+}

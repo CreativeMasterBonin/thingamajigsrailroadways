@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=east": {
+      "model": "thingamajigsrailroadways:block/pole_rr_ladder",
+      "y": 90
+    },
+    "facing=north": {
+      "model": "thingamajigsrailroadways:block/pole_rr_ladder"
+    },
+    "facing=south": {
+      "model": "thingamajigsrailroadways:block/pole_rr_ladder",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "thingamajigsrailroadways:block/pole_rr_ladder",
+      "y": 270
+    }
+  }
+}

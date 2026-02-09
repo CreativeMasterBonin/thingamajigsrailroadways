@@ -1,0 +1,22 @@
+{
+	"credit": "Made By CreativeMasterBonin",
+	"textures": {
+		"1": "minecraft:block/blast_furnace_side",
+		"particle": "#1"
+	},
+	"elements": [
+		{
+			"from": [7, 0, 6],
+			"to": [9, 16, 10],
+			"rotation": {"angle": 0, "axis": "x", "origin": [8, 8, 8]},
+			"faces": {
+				"north": {"uv": [0, 0, 16, 2], "rotation": 90, "texture": "#1"},
+				"east": {"uv": [0, 0, 16, 4], "rotation": 270, "texture": "#1"},
+				"south": {"uv": [0, 10, 16, 12], "rotation": 90, "texture": "#1"},
+				"west": {"uv": [0, 0, 16, 4], "rotation": 90, "texture": "#1"},
+				"up": {"uv": [0, 4, 2, 8], "rotation": 180, "texture": "#1"},
+				"down": {"uv": [0, 0, 2, 4], "texture": "#1"}
+			}
+		}
+	]
+}
