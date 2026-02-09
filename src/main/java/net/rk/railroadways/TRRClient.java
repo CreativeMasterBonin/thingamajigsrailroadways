@@ -9,7 +9,6 @@ import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
-import net.neoforged.neoforge.client.event.RegisterColorHandlersEvent;
 import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
 import net.neoforged.neoforge.client.extensions.common.IClientItemExtensions;
 import net.neoforged.neoforge.client.extensions.common.RegisterClientExtensionsEvent;
@@ -28,8 +27,6 @@ public class TRRClient{
         eventBus.addListener(this::clientSetup);
         eventBus.addListener(this::layerSetup);
         eventBus.addListener(this::setupMenuTypes);
-        eventBus.addListener(this::blockColorSetup);
-        eventBus.addListener(this::itemColorSetup);
         eventBus.addListener(this::addCreative);
     }
 
@@ -66,14 +63,6 @@ public class TRRClient{
         event.register(TRRMenu.TRI_LIGHTS_MENU.get(),TriLightsScreen::new);
         event.register(TRRMenu.RR_CANT_LIGHTS_MENU.get(),RRCantLightsScreen::new);
         event.register(TRRMenu.RAILROAD_CROSSING_LIGHTS_MENU.get(),RailroadCrossingArmLightedScreen::new);
-    }
-
-    public void blockColorSetup(RegisterColorHandlersEvent.Block event){
-
-    }
-
-    public void itemColorSetup(RegisterColorHandlersEvent.Item event){
-
     }
 
     public void clientExtensions(RegisterClientExtensionsEvent event) {
