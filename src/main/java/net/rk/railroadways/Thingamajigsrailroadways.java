@@ -37,7 +37,6 @@ public class Thingamajigsrailroadways{
     );
 
     public static boolean werok = false;
-
     public Thingamajigsrailroadways(IEventBus modEventBus, ModContainer modContainer) {
         modEventBus.addListener(this::commonSetup);
 

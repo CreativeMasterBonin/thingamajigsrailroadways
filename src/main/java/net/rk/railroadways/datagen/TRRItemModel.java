@@ -16,26 +16,18 @@ public class TRRItemModel extends ItemModelProvider{
     }
 
     @Override
-    protected void registerModels() {
-        //defaultCustomSimpleItem(TRRBlocks.CROSSBUCK.get(),"crossbuck");
-        //defaultCustomSimpleItem(TRRBlocks.RAILROAD_CROSSING_LIGHTS.get(),"rr_lights");
+    public void registerModels() {
         defaultCustomSimpleItemOldBlock(TRRBlocks.PURPLE_RAIL.get(),"rails/purple");
         defaultCustomSimpleItemOldBlock(TRRBlocks.PURPLE_POWERED_RAIL.get(),"rails/purple_powered_off");
         defaultCustomSimpleItemOldBlock(TRRBlocks.PURPLE_ACTIVATOR_RAIL.get(),"rails/purple_activator_off");
         defaultCustomSimpleItemOldBlock(TRRBlocks.PURPLE_DETECTOR_RAIL.get(),"rails/purple_detector_off");
-        //defaultCustomSimpleItem(TRRBlocks.BRITISH_RAILWAY_LIGHTS.get(),"british_lights");
-        //defaultCustomSimpleItem(TRRBlocks.DUAL_RAILWAY_LIGHTS.get(),"dual_lights");
-        //defaultCustomSimpleItem(TRRBlocks.TRI_RAILWAY_LIGHTS.get(),"tri_lights");
-        //defaultCustomSimpleItem(TRRBlocks.RAILROAD_CROSSING_CANTILEVER_LIGHTS.get(),"rr_cantilever_lights");
-        //defaultCustomSimpleItem(TRRBlocks.RAILROAD_CROSSING_ARM_LIGHTED.get(),"crossing_arm_with_lights");
         fromModelMod(TRRBlocks.RR_LADDER_POLE.get(),"block/pole_rr_ladder");
         fromModelMod(TRRBlocks.RAILROAD_CROSSING_CANTILEVER_END_LADDER.get(),"block/rr_cantilever_end_ladder");
         fromModelMod(TRRBlocks.RAILROAD_CROSSING_CANTILEVER_END_NO_POLE.get(),"block/rr_cantilever_end_no_pole");
         fromModelMod(TRRBlocks.RAILROAD_CROSSING_CANTILEVER_END_NO_POLE_LADDER.get(),"block/rr_cantilever_end_no_pole_ladder");
         fromModelMod(TRRBlocks.POLE_CAP.get(),"block/pole_cap");
-        //defaultCustomSimpleItem(TRRBlocks.BIG_RAILROAD_CROSSING_CANTILEVER_LIGHTS.get(),"big_rr_cantilever_lights");
-        //defaultCustomSimpleItem(TRRBlocks.BIG_RAILROAD_CROSSING_LIGHTS.get(),"big_rr_lights");
         fromModelMod(TRRBlocks.CLICKY_MECHANICAL_BELL.get(),"block/clicky_mechanical_bell");
+        fromModelMod(TRRBlocks.ELECTRONIC_BELL_TYPE_5.get(),"block/railroad_crossing_ebell_type_five");
     }
 
     private ItemModelBuilder fromModelMod(Block block2, String source){

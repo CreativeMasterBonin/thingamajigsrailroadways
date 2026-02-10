@@ -63,5 +63,14 @@ public class TRRSoundDefinition extends SoundDefinitionsProvider {
                         .stream(false)
                         .preload(true)
         ).subtitle("thingamajigsrailroadways.subtitle.clicky_mechanical_bell_ring"));
+
+        this.add(TRRSound.EBELL_FIVE, SoundDefinition.definition().with(
+                sound("thingamajigsrailroadways:block/ebell_five")
+                        .volume(1.0f)
+                        .pitch(1.0f)
+                        .attenuationDistance(12)
+                        .stream(false)
+                        .preload(true)
+        ).subtitle("thingamajigsrailroadways.subtitle.ebell_ring"));
     }
 }

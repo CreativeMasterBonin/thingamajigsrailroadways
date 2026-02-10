@@ -212,6 +212,13 @@ public class TRRRecipe extends RecipeProvider{
                 .requires(Ingredient.of(Items.LADDER))
                 .unlockedBy("has_thingy",has(TItems.RAILROAD_COMPONENT)).group("railroad_crossing_components")
                 .save(rc);
+
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC,TRRBlocks.ELECTRONIC_BELL_TYPE_5.asItem(),2)
+                .requires(Ingredient.of(TItems.RAILROAD_COMPONENT))
+                .requires(Ingredient.of(Items.IRON_INGOT))
+                .requires(Ingredient.of(ItemTags.FISHES))
+                .unlockedBy("has_thingy",has(TItems.RAILROAD_COMPONENT)).group("railroad_crossing_components")
+                .save(rc);
     }
 
     public static RecipeBuilder stonecutterAny(Item requiredItem, Ingredient inputItem, Item result, int amt) {

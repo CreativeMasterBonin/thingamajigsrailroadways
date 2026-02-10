@@ -459,6 +459,32 @@ public class TRRBlocks {
                 }
             });
 
+    public static final DeferredBlock<Block> ELECTRONIC_BELL_TYPE_5 = register("railroad_crossing_ebell_type_five",
+            () -> new RotatingBaseRailroadCrossingBell(BlockBehaviour.Properties.of(),12){
+                @Override
+                public boolean attemptPlaySound(Level lp, BlockPos bp) {
+                    if (!lp.isClientSide){
+                        lp.playSeededSound(null,bp.getX(),bp.getY(),bp.getZ(),
+                                TRRSound.EBELL_FIVE.get(),SoundSource.BLOCKS,0.35f,1.0f,lp.random.nextLong());
+                        return true;
+                    }
+                    else {
+                        return false;
+                    }
+                }
+                public static final VoxelShape ALL = Stream.of(
+                        Block.box(7, 0, 7, 9, 10, 9),
+                        Block.box(5.5, 2, 5.5, 10.5, 4, 10.5),
+                        Block.box(5.5, 6, 5.5, 10.5, 8, 10.5),
+                        Block.box(5.5, 10, 5.5, 10.5, 12, 10.5),
+                        Block.box(6.5, 4, 6.5, 9.5, 10, 9.5)
+                ).reduce((v1, v2) -> Shapes.join(v1, v2, BooleanOp.OR)).get();
+                @Override
+                protected VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
+                    return ALL;
+                }
+            });
+
 
 
 

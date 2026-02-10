@@ -47,6 +47,7 @@ public class TRRLoot extends VanillaBlockLoot{
         this.dropSelf(TRRBlocks.BIG_RAILROAD_CROSSING_LIGHTS.get());
         this.dropSelf(TRRBlocks.CLICKY_MECHANICAL_BELL.get());
         this.dropSelf(TRRBlocks.CROSSBUCK_WITH_LADDER.get());
+        this.dropSelf(TRRBlocks.ELECTRONIC_BELL_TYPE_5.get());
     }
 
     @Override

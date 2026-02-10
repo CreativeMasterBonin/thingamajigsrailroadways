@@ -30,6 +30,7 @@ public class TRRBlockTag extends BlockTagsProvider{
                 .add(TRRBlocks.ELECTRONIC_BELL_TYPE_4.get())
                 .add(TRRBlocks.POLE_CAP.get())
                 .add(TRRBlocks.CLICKY_MECHANICAL_BELL.get())
+                .add(TRRBlocks.ELECTRONIC_BELL_TYPE_5.get())
         ;
 
         this.tag(TTag.VERTICAL_REDSTONE_BLOCKS)

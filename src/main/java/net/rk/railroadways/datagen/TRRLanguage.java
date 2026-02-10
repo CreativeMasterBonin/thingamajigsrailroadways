@@ -23,6 +23,7 @@ public class TRRLanguage extends LanguageProvider {
         this.add(TRRBlocks.ELECTRONIC_BELL_TYPE_2.get(),"Railroad Crossing E-Bell (Type 2)");
         this.add(TRRBlocks.ELECTRONIC_BELL_TYPE_3.get(),"Railroad Crossing E-Bell (Type 3)");
         this.add(TRRBlocks.ELECTRONIC_BELL_TYPE_4.get(),"Railroad Crossing E-Bell (Type 4)");
+        this.add(TRRBlocks.ELECTRONIC_BELL_TYPE_5.get(),"Railroad Crossing E-Bell (Type 5)");
         this.add(TRRBlocks.MECHANICAL_BELL_TYPE_1.get(),"Railroad Crossing Mechanical Bell (Type 1)");
         this.add(TRRBlocks.MECHANICAL_BELL_TYPE_2.get(),"Railroad Crossing Mechanical Bell (Type 2)");
         this.add(TRRBlocks.CLICKY_MECHANICAL_BELL.get(),"Railroad Crossing Mechanical Bell (Clicky)");

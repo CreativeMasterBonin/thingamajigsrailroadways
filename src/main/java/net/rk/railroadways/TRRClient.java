@@ -109,6 +109,7 @@ public class TRRClient{
             event.accept(TRRBlocks.ELECTRONIC_BELL_TYPE_2.asItem());
             event.accept(TRRBlocks.ELECTRONIC_BELL_TYPE_3.asItem());
             event.accept(TRRBlocks.ELECTRONIC_BELL_TYPE_4.asItem());
+            event.accept(TRRBlocks.ELECTRONIC_BELL_TYPE_5.asItem());
         }
     }
 }
