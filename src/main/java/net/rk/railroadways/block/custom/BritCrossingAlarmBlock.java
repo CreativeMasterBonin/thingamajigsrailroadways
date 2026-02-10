@@ -62,6 +62,8 @@ public class BritCrossingAlarmBlock extends Block{
         if (!lvl.isClientSide) {
             boolean allverticalredstoneblocks = lvl.getBlockState(bp.below()).is(TTag.VERTICAL_REDSTONE_BLOCKS);
             boolean allrrbells = lvl.getBlockState(bp.below()).is(TTag.RAILROAD_CROSSING_BELLS);
+            boolean isCant = lvl.getBlockState(bp.below()).is(TTag.RR_CANTILEVERS);
+
             if(!allrrbells){
                 if(allverticalredstoneblocks){
                     if(lvl.getBlockState(bp.below()).getValue(POWERED) == true){
@@ -70,20 +72,34 @@ public class BritCrossingAlarmBlock extends Block{
                     else if(lvl.getBlockState(bp.below()).getValue(POWERED) == false){
                         lvl.setBlock(bp,bs.setValue(POWERED,false),3);
                     }
+                    return;
+                }
+                else if(isCant){
+                    if(lvl.getBlockState(bp.below()).getValue(POWERED) == true){
+                        lvl.setBlock(bp,bs.setValue(POWERED,true),3);
+                    }
+                    else if(lvl.getBlockState(bp.below()).getValue(POWERED) == false){
+                        lvl.setBlock(bp,bs.setValue(POWERED,false),3);
+                    }
+                    return;
                 }
             }
         }
     }
 
     public void tick(BlockState bs, ServerLevel slvl, BlockPos bp, RandomSource rs) {
-        if(!slvl.isClientSide()){
+        if(!slvl.isClientSide){
             if(bs.getValue(POWERED)){
                 boolean allverticalredstoneblocks = slvl.getBlockState(bp.below()).is(TTag.VERTICAL_REDSTONE_BLOCKS);
-                if(!allverticalredstoneblocks){
+                boolean isCant = slvl.getBlockState(bp.below()).is(TTag.RR_CANTILEVERS);
+
+                boolean both = allverticalredstoneblocks || isCant;
+
+                if(!both){
                     slvl.setBlock(bp,bs.setValue(POWERED,false),3);
                     return;
                 }
-                attemptPlaySound(slvl,bp);
+                slvl.playSound(null,bp, TSoundEvent.YODELER.get(), SoundSource.BLOCKS,1.25F,1.0F);
                 slvl.scheduleTick(bp,bs.getBlock(),britTickSpeed, TickPriority.LOW);
             }
         }

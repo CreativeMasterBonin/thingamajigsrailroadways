@@ -182,7 +182,7 @@ public class TRRBEWLR extends BlockEntityWithoutLevelRenderer{
         }
         else if(stack.is(TRRBlocks.CROSSBUCK.asItem())){
             poseStack.pushPose();
-            vc = buffer.getBuffer(RenderType.entityCutout(DynamicSignModel.SIGN_TEXTURE_LOCATION.getModel()));
+            vc = buffer.getBuffer(RenderType.entityCutout(ResourceLocation.parse("thingamajigsrailroadways:textures/entity/signs/sign_usa_crossbuck.png")));
             dynamicSignModel.setupAnim(dynamicSignBE);
 
             if(stack.has(DataComponents.BLOCK_ENTITY_DATA)){
@@ -270,7 +270,7 @@ public class TRRBEWLR extends BlockEntityWithoutLevelRenderer{
         }
         else if(stack.is(TRRBlocks.CROSSBUCK_WITH_LADDER.asItem())){
             poseStack.pushPose();
-            vc = buffer.getBuffer(RenderType.entityCutout(DynamicSignModel.SIGN_TEXTURE_LOCATION.getModel()));
+            vc = buffer.getBuffer(RenderType.entityCutout(ResourceLocation.parse("thingamajigsrailroadways:textures/entity/signs/sign_usa_crossbuck.png")));
             dynamicSignModelLadder.setupAnim(dynamicSignBE);
 
             if(stack.has(DataComponents.BLOCK_ENTITY_DATA)){
@@ -396,13 +396,14 @@ public class TRRBEWLR extends BlockEntityWithoutLevelRenderer{
                     poseStack.mulPose(Axis.XP.rotationDegrees(197));
                     poseStack.mulPose(Axis.YP.rotationDegrees(-7));
                     poseStack.mulPose(Axis.ZP.rotationDegrees(0));
-                    rrArmLightsModel.getGate().xRot = -87;
+                    rrArmLightsModel.getGate().xRot = 1.0f;
                 }
                 else if(displayContext == ItemDisplayContext.FIRST_PERSON_LEFT_HAND){
-                    poseStack.translate(-0.29D,1.2D,0.5D);
+                    poseStack.translate(-0.3D,1.2D,0.2D);
                     poseStack.mulPose(Axis.XP.rotationDegrees(197));
                     poseStack.mulPose(Axis.YP.rotationDegrees(7));
                     poseStack.mulPose(Axis.ZP.rotationDegrees(0));
+                    rrArmLightsModel.getGate().xRot = 1.0f;
                 }
             }
             else{
