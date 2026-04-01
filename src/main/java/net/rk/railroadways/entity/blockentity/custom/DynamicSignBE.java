@@ -34,7 +34,18 @@ public class DynamicSignBE extends BlockEntity{
             "thingamajigsrailroadways:textures/entity/signs/sign_rr_ahead.png",
             "thingamajigsrailroadways:textures/entity/signs/sign_rr_ahead_old.png",
             "thingamajigsrailroadways:textures/entity/signs/sign_swrls.png",
-            "thingamajigsrailroadways:textures/entity/signs/sign_inverted_usa_crossbuck.png"
+            "thingamajigsrailroadways:textures/entity/signs/sign_inverted_usa_crossbuck.png",
+            "thingamajigsrailroadways:textures/entity/signs/one_track.png",
+            "thingamajigsrailroadways:textures/entity/signs/two_track.png",
+            "thingamajigsrailroadways:textures/entity/signs/three_track.png",
+            "thingamajigsrailroadways:textures/entity/signs/four_track.png",
+            "thingamajigsrailroadways:textures/entity/signs/five_track.png",
+            "thingamajigsrailroadways:textures/entity/signs/six_track.png",
+            "thingamajigsrailroadways:textures/entity/signs/seven_track.png",
+            "thingamajigsrailroadways:textures/entity/signs/eight_track.png",
+            "thingamajigsrailroadways:textures/entity/signs/nine_track.png",
+            "thingamajigsrailroadways:textures/entity/signs/ten_track.png",
+            "thingamajigsrailroadways:textures/entity/signs/tracks_track.png"
     );
     public int signType = 0;
     public String signOverrideLoc = locs.get(signType);

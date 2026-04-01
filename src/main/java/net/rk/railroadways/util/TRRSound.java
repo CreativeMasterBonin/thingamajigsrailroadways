@@ -13,6 +13,19 @@ public class TRRSound{
     public static final DeferredRegister<SoundEvent> SOUND_EVENTS =
             DeferredRegister.create(BuiltInRegistries.SOUND_EVENT, "thingamajigsrailroadways");
 
+    public static final Supplier<SoundEvent> MECH_BELL_ONE = SOUND_EVENTS.register("mech_bell_one",
+            () -> SoundEvent.createVariableRangeEvent(
+                    ResourceLocation.fromNamespaceAndPath(Thingamajigsrailroadways.MODID, "mech_bell_one")));
+
+    public static final Supplier<SoundEvent> MECH_BELL_TWO = SOUND_EVENTS.register("mech_bell_two",
+            () -> SoundEvent.createVariableRangeEvent(
+                    ResourceLocation.fromNamespaceAndPath(Thingamajigsrailroadways.MODID, "mech_bell_two")));
+
+    public static final Supplier<SoundEvent> YODELER = SOUND_EVENTS.register("yodeler",
+            () -> SoundEvent.createVariableRangeEvent(
+                    ResourceLocation.fromNamespaceAndPath(Thingamajigsrailroadways.MODID, "yodeler")));
+
+
     public static final Supplier<SoundEvent> NEW_EBELL_ONE = SOUND_EVENTS.register("new_ebell_one",
             () -> SoundEvent.createVariableRangeEvent(
                     ResourceLocation.fromNamespaceAndPath(Thingamajigsrailroadways.MODID, "new_ebell_one")));

@@ -3,8 +3,8 @@
 	"ambientocclusion": false,
     "render_type": "cutout",
 	"textures": {
-		"0": "thingamajigs:block/parts/fire_alarm_lightbox",
-		"1": "thingamajigs:block/parts/fire_alarm_back",
+		"0": "thingamajigsrailroadways:block/rr_metal",
+		"1": "block/red_concrete",
 		"particle": "#0"
 	},
 	"elements": [

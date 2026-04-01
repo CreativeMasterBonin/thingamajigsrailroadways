@@ -23,14 +23,13 @@ import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraft.world.ticks.TickPriority;
 import net.rk.railroadways.block.TRRBlocks;
-import net.rk.thingamajigs.block.custom.VerticalPoleRedstone;
-import net.rk.thingamajigs.datagen.TTag;
-import net.rk.thingamajigs.xtras.TSoundEvent;
+import net.rk.railroadways.datagen.TRRBlockTag;
+import net.rk.railroadways.util.TRRSound;
 
 import java.util.List;
 
 public class BritCrossingAlarmBlock extends Block{
-    public static final BooleanProperty POWERED = VerticalPoleRedstone.POWERED;
+    public static final BooleanProperty POWERED = VerticalPoleRedstoneRR.POWERED;
     public static final VoxelShape ALL = Block.box(6, 0, 6, 10, 2, 10);
     public static final int britTickSpeed = 10;
 
@@ -60,9 +59,9 @@ public class BritCrossingAlarmBlock extends Block{
 
     public void neighborChanged(BlockState bs, Level lvl, BlockPos bp, Block blk, BlockPos bp2, boolean p_55671_) {
         if (!lvl.isClientSide) {
-            boolean allverticalredstoneblocks = lvl.getBlockState(bp.below()).is(TTag.VERTICAL_REDSTONE_BLOCKS);
-            boolean allrrbells = lvl.getBlockState(bp.below()).is(TTag.RAILROAD_CROSSING_BELLS);
-            boolean isCant = lvl.getBlockState(bp.below()).is(TTag.RR_CANTILEVERS);
+            boolean allverticalredstoneblocks = lvl.getBlockState(bp.below()).is(TRRBlockTag.VERTICAL_REDSTONE_BLOCKS);
+            boolean allrrbells = lvl.getBlockState(bp.below()).is(TRRBlockTag.RAILROAD_CROSSING_BELLS);
+            boolean isCant = lvl.getBlockState(bp.below()).is(TRRBlockTag.RR_CANTILEVERS);
 
             if(!allrrbells){
                 if(allverticalredstoneblocks){
@@ -90,8 +89,8 @@ public class BritCrossingAlarmBlock extends Block{
     public void tick(BlockState bs, ServerLevel slvl, BlockPos bp, RandomSource rs) {
         if(!slvl.isClientSide){
             if(bs.getValue(POWERED)){
-                boolean allverticalredstoneblocks = slvl.getBlockState(bp.below()).is(TTag.VERTICAL_REDSTONE_BLOCKS);
-                boolean isCant = slvl.getBlockState(bp.below()).is(TTag.RR_CANTILEVERS);
+                boolean allverticalredstoneblocks = slvl.getBlockState(bp.below()).is(TRRBlockTag.VERTICAL_REDSTONE_BLOCKS);
+                boolean isCant = slvl.getBlockState(bp.below()).is(TRRBlockTag.RR_CANTILEVERS);
 
                 boolean both = allverticalredstoneblocks || isCant;
 
@@ -99,7 +98,7 @@ public class BritCrossingAlarmBlock extends Block{
                     slvl.setBlock(bp,bs.setValue(POWERED,false),3);
                     return;
                 }
-                slvl.playSound(null,bp, TSoundEvent.YODELER.get(), SoundSource.BLOCKS,1.25F,1.0F);
+                slvl.playSound(null,bp, TRRSound.YODELER.get(), SoundSource.BLOCKS,1.25F,1.0F);
                 slvl.scheduleTick(bp,bs.getBlock(),britTickSpeed, TickPriority.LOW);
             }
         }
@@ -113,7 +112,7 @@ public class BritCrossingAlarmBlock extends Block{
 
     public boolean attemptPlaySound(Level lp, BlockPos bp) {
         if (!lp.isClientSide) {
-            lp.playSound(null,bp, TSoundEvent.YODELER.get(), SoundSource.BLOCKS,1.25F,1.0F);
+            lp.playSound(null,bp, TRRSound.YODELER.get(), SoundSource.BLOCKS,1.25F,1.0F);
             return true;
         }
         else {

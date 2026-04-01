@@ -5,6 +5,7 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.CreativeModeTabs;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.ModList;
@@ -18,7 +19,6 @@ import net.rk.railroadways.item.TRRItems;
 import net.rk.railroadways.menu.TRRMenu;
 import net.rk.railroadways.network.TRRHandler;
 import net.rk.railroadways.util.TRRSound;
-import net.rk.thingamajigs.Thingamajigs;
 import org.slf4j.Logger;
 
 @Mod(Thingamajigsrailroadways.MODID)
@@ -31,18 +31,13 @@ public class Thingamajigsrailroadways{
     public static final DeferredHolder<CreativeModeTab, CreativeModeTab> TRR_TAB = CMT_TRR.register(
             "trr_main_tab", () -> CreativeModeTab.builder()
                     .title(Component.translatable("itemGroup.thingamajigsrailroadways"))
-                    .withTabsBefore(Thingamajigs.MAIN_CTAB.getKey())
+                    .withTabsBefore(CreativeModeTabs.SPAWN_EGGS)
                     .icon(() -> TRRBlocks.PURPLE_RAIL.asItem().getDefaultInstance())
                     .build()
     );
 
-    public static boolean werok = false;
     public Thingamajigsrailroadways(IEventBus modEventBus, ModContainer modContainer) {
         modEventBus.addListener(this::commonSetup);
-
-        if(ModList.get().isLoaded("thingamajigs")){
-            werok = true;
-        }
 
         modEventBus.addListener(TRRHandler::register);
         TRRSound.register(modEventBus);

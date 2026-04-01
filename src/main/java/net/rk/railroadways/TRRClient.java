@@ -83,6 +83,7 @@ public class TRRClient{
             event.accept(TRRBlocks.PURPLE_POWERED_RAIL.asItem());
             event.accept(TRRBlocks.PURPLE_DETECTOR_RAIL.asItem());
             event.accept(TRRBlocks.PURPLE_ACTIVATOR_RAIL.asItem());
+            event.accept(TRRBlocks.VERTICAL_POLE_REDSTONE_RR.asItem());
             event.accept(TRRBlocks.POLE_CAP.asItem());
             event.accept(TRRBlocks.RR_LADDER_POLE.asItem());
             event.accept(TRRBlocks.RAILROAD_CROSSING_CANTILEVER.asItem());

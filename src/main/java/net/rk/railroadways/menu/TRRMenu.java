@@ -6,11 +6,11 @@ import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.common.extensions.IMenuTypeExtension;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
-import net.rk.thingamajigs.Thingamajigs;
+import net.rk.railroadways.Thingamajigsrailroadways;
 
 public class TRRMenu{
     public static final DeferredRegister<MenuType<?>> MENU_TYPES = DeferredRegister.create(
-            BuiltInRegistries.MENU, Thingamajigs.MODID);
+            BuiltInRegistries.MENU, Thingamajigsrailroadways.MODID);
 
     public static final DeferredHolder<MenuType<?>,MenuType<RailroadCrossingArmMenu>> RAILROAD_CROSSING_MENU =
             MENU_TYPES.register("railroad_crossing_menu", () ->

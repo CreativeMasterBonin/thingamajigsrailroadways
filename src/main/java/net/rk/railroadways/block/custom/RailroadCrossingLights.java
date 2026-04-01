@@ -38,20 +38,18 @@ import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraft.world.ticks.TickPriority;
 import net.rk.railroadways.block.TRRBlocks;
+import net.rk.railroadways.datagen.TRRBlockTag;
 import net.rk.railroadways.entity.blockentity.TRRBlockEntity;
 import net.rk.railroadways.entity.blockentity.custom.RailroadCrossingLightsBE;
 import net.rk.railroadways.menu.RailroadCrossingLightsMenu;
-import net.rk.thingamajigs.block.TBlocks;
-import net.rk.thingamajigs.block.custom.Pole;
-import net.rk.thingamajigs.block.custom.VerticalPoleRedstone;
-import net.rk.thingamajigs.datagen.TTag;
+import net.rk.railroadways.util.PoleShapes;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 import java.util.logging.Logger;
 
 public class RailroadCrossingLights extends BaseEntityBlock{
-    public static final BooleanProperty POWERED = VerticalPoleRedstone.POWERED;
+    public static final BooleanProperty POWERED = VerticalPoleRedstoneRR.POWERED;
 
     public static final MapCodec<RailroadCrossingLights> CODEC = simpleCodec(RailroadCrossingLights::new);
 
@@ -83,10 +81,10 @@ public class RailroadCrossingLights extends BaseEntityBlock{
     @Override
     public void neighborChanged(BlockState bs, Level lvl, BlockPos bp, Block blk, BlockPos bp2, boolean p_55671_) {
         if (!lvl.isClientSide) {
-            boolean allverticalredstoneblocks = lvl.getBlockState(bp.below()).is(TTag.VERTICAL_REDSTONE_BLOCKS);
-            boolean allrrbells = lvl.getBlockState(bp.below()).is(TTag.RAILROAD_CROSSING_BELLS);
+            boolean allverticalredstoneblocks = lvl.getBlockState(bp.below()).is(TRRBlockTag.VERTICAL_REDSTONE_BLOCKS);
+            boolean allrrbells = lvl.getBlockState(bp.below()).is(TRRBlockTag.RAILROAD_CROSSING_BELLS);
 
-            boolean allrrbellsabove = lvl.getBlockState(bp.above()).is(TTag.RAILROAD_CROSSING_BELLS);
+            boolean allrrbellsabove = lvl.getBlockState(bp.above()).is(TRRBlockTag.RAILROAD_CROSSING_BELLS);
 
             // Bells and this block hate each other, so it's disabled.
             if(allrrbellsabove){
@@ -104,20 +102,12 @@ public class RailroadCrossingLights extends BaseEntityBlock{
                 return;
             }
 
-            if(lvl.getBlockState(bp.above()).is(TTag.RR_CANTILEVERS)){
+            if(lvl.getBlockState(bp.above()).is(TRRBlockTag.RR_CANTILEVERS)){
                 if(allverticalredstoneblocks){
                     if(lvl.getBlockState(bp.below()).getValue(POWERED)){
                         lvl.setBlock(bp,bs.setValue(POWERED,true),3);
                     }
                     else if(!lvl.getBlockState(bp.below()).getValue(POWERED)){
-                        lvl.setBlock(bp,bs.setValue(POWERED,false),3);
-                    }
-                }
-                else if(lvl.getBlockState(bp.below()).is(TBlocks.CROSSWALK_BUTTON.get())){
-                    if(lvl.getBlockState(bp.below()).getValue(POWERED)){
-                        lvl.setBlock(bp,bs.setValue(POWERED,true),3);
-                    }
-                    else{
                         lvl.setBlock(bp,bs.setValue(POWERED,false),3);
                     }
                 }
@@ -208,7 +198,7 @@ public class RailroadCrossingLights extends BaseEntityBlock{
 
     @Override
     protected VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
-        return context.isHoldingItem(TRRBlocks.RAILROAD_CROSSING_LIGHTS.asItem()) ? Shapes.block() : Pole.VERTICAL_ALL;
+        return context.isHoldingItem(TRRBlocks.RAILROAD_CROSSING_LIGHTS.asItem()) ? Shapes.block() : PoleShapes.VERTICAL_ALL;
     }
 
     public VoxelShape getInteractionShape(BlockState bs, BlockGetter bg, BlockPos bp) {
@@ -216,6 +206,6 @@ public class RailroadCrossingLights extends BaseEntityBlock{
     }
 
     public VoxelShape getCollisionShape(BlockState pState, BlockGetter pLevel, BlockPos pPos, CollisionContext pContext) {
-        return Pole.VERTICAL_ALL;
+        return PoleShapes.VERTICAL_ALL;
     }
 }

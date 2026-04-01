@@ -8,9 +8,8 @@ import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.level.block.Blocks;
 import net.rk.railroadways.block.TRRBlocks;
-import net.rk.thingamajigs.block.TBlocks;
-import net.rk.thingamajigs.item.TItems;
 
 import java.util.concurrent.CompletableFuture;
 
@@ -21,36 +20,44 @@ public class TRRRecipe extends RecipeProvider{
 
     @Override
     protected void buildRecipes(RecipeOutput rc) {
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC,TRRBlocks.VERTICAL_POLE_REDSTONE_RR.asItem(),4)
+                .requires(Ingredient.of(TRRTag.RAILROAD_COMPONENT_ITEMS))
+                .requires(Ingredient.of(Items.IRON_BARS))
+                .requires(Ingredient.of(Items.REDSTONE_BLOCK))
+                .requires(Ingredient.of(Items.GOLD_NUGGET))
+                .unlockedBy("has_thingy",has(TRRTag.RAILROAD_COMPONENT_ITEMS)).group("railroad_crossing_components")
+                .save(rc);
+
         ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC,TRRBlocks.BRITISH_RAILWAY_ALARM.asItem(),2)
-                .requires(Ingredient.of(TItems.RAILROAD_COMPONENT))
+                .requires(Ingredient.of(TRRTag.RAILROAD_COMPONENT_ITEMS))
                 .requires(Ingredient.of(Items.RED_CONCRETE))
                 .requires(Ingredient.of(Items.REDSTONE))
-                .unlockedBy("has_thingy",has(TItems.RAILROAD_COMPONENT)).group("railroad_crossing_components")
+                .unlockedBy("has_thingy",has(TRRTag.RAILROAD_COMPONENT_ITEMS)).group("railroad_crossing_components")
                 .save(rc);
         ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC,TRRBlocks.BRITISH_RAILWAY_LIGHTS.asItem(),2)
-                .requires(Ingredient.of(TItems.RAILROAD_COMPONENT))
+                .requires(Ingredient.of(TRRTag.RAILROAD_COMPONENT_ITEMS))
                 .requires(Ingredient.of(Items.RED_DYE))
                 .requires(Ingredient.of(Items.WHITE_DYE))
                 .requires(Ingredient.of(Items.GLOWSTONE_DUST))
-                .unlockedBy("has_thingy",has(TItems.RAILROAD_COMPONENT)).group("railroad_crossing_components")
+                .unlockedBy("has_thingy",has(TRRTag.RAILROAD_COMPONENT_ITEMS)).group("railroad_crossing_components")
                 .save(rc);
         stonecutterAny(TRRBlocks.RAILROAD_CROSSING_ARM.asItem(),
-                Ingredient.of(TItems.RAILROAD_COMPONENT),
+                Ingredient.of(TRRTag.RAILROAD_COMPONENT_ITEMS),
                 TRRBlocks.RAILROAD_CROSSING_ARM.asItem(),1)
                 .save(rc);
         stonecutterAny(TRRBlocks.RAILROAD_CROSSING_LIGHTS.asItem(),
-                Ingredient.of(TItems.RAILROAD_COMPONENT),
+                Ingredient.of(TRRTag.RAILROAD_COMPONENT_ITEMS),
                 TRRBlocks.RAILROAD_CROSSING_LIGHTS.asItem(),1)
                 .save(rc);
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC,TRRBlocks.CROSSBUCK.asItem(),1)
                 .define('#',Items.IRON_INGOT)
-                .define('p',TBlocks.VERTICAL_POLE_REDSTONE.asItem())
-                .define('r',TItems.RAILROAD_COMPONENT)
+                .define('p',TRRBlocks.VERTICAL_POLE_REDSTONE_RR.asItem())
+                .define('r',TRRTag.RAILROAD_COMPONENT_ITEMS)
                 .pattern("# #")
                 .pattern(" r ")
                 .pattern("#p#")
-                .unlockedBy("has_thingy",has(TItems.RAILROAD_COMPONENT))
+                .unlockedBy("has_thingy",has(TRRTag.RAILROAD_COMPONENT_ITEMS))
                 .save(rc);
 
         stonecutterAny(TRRBlocks.DUAL_RAILWAY_LIGHTS.asItem(),
@@ -63,40 +70,40 @@ public class TRRRecipe extends RecipeProvider{
                 .save(rc);
 
         ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC,TRRBlocks.MECHANICAL_BELL_TYPE_1.asItem(),2)
-                .requires(Ingredient.of(TItems.RAILROAD_COMPONENT))
+                .requires(Ingredient.of(TRRTag.RAILROAD_COMPONENT_ITEMS))
                 .requires(Ingredient.of(Items.IRON_INGOT))
                 .requires(Ingredient.of(Items.BUCKET))
-                .unlockedBy("has_thingy",has(TItems.RAILROAD_COMPONENT)).group("railroad_crossing_components")
+                .unlockedBy("has_thingy",has(TRRTag.RAILROAD_COMPONENT_ITEMS)).group("railroad_crossing_components")
                 .save(rc);
         ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC,TRRBlocks.MECHANICAL_BELL_TYPE_2.asItem(),2)
-                .requires(Ingredient.of(TItems.RAILROAD_COMPONENT))
+                .requires(Ingredient.of(TRRTag.RAILROAD_COMPONENT_ITEMS))
                 .requires(Ingredient.of(Items.IRON_INGOT))
                 .requires(Ingredient.of(Items.FLINT))
-                .unlockedBy("has_thingy",has(TItems.RAILROAD_COMPONENT)).group("railroad_crossing_components")
+                .unlockedBy("has_thingy",has(TRRTag.RAILROAD_COMPONENT_ITEMS)).group("railroad_crossing_components")
                 .save(rc);
         ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC,TRRBlocks.ELECTRONIC_BELL_TYPE_1.asItem(),2)
-                .requires(Ingredient.of(TItems.RAILROAD_COMPONENT))
+                .requires(Ingredient.of(TRRTag.RAILROAD_COMPONENT_ITEMS))
                 .requires(Ingredient.of(Items.IRON_INGOT))
-                .requires(Ingredient.of(TBlocks.SCREEN.asItem()))
-                .unlockedBy("has_thingy",has(TItems.RAILROAD_COMPONENT)).group("railroad_crossing_components")
+                .requires(Ingredient.of(Blocks.DROPPER))
+                .unlockedBy("has_thingy",has(TRRTag.RAILROAD_COMPONENT_ITEMS)).group("railroad_crossing_components")
                 .save(rc);
         ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC,TRRBlocks.ELECTRONIC_BELL_TYPE_2.asItem(),2)
-                .requires(Ingredient.of(TItems.RAILROAD_COMPONENT))
+                .requires(Ingredient.of(TRRTag.RAILROAD_COMPONENT_ITEMS))
                 .requires(Ingredient.of(Items.IRON_INGOT))
-                .requires(Ingredient.of(TBlocks.CIRCUITS.asItem()))
-                .unlockedBy("has_thingy",has(TItems.RAILROAD_COMPONENT)).group("railroad_crossing_components")
+                .requires(Ingredient.of(Blocks.CALIBRATED_SCULK_SENSOR))
+                .unlockedBy("has_thingy",has(TRRTag.RAILROAD_COMPONENT_ITEMS)).group("railroad_crossing_components")
                 .save(rc);
         ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC,TRRBlocks.ELECTRONIC_BELL_TYPE_3.asItem(),2)
-                .requires(Ingredient.of(TItems.RAILROAD_COMPONENT))
+                .requires(Ingredient.of(TRRTag.RAILROAD_COMPONENT_ITEMS))
                 .requires(Ingredient.of(Items.IRON_INGOT))
                 .requires(Ingredient.of(Items.STICK))
-                .unlockedBy("has_thingy",has(TItems.RAILROAD_COMPONENT)).group("railroad_crossing_components")
+                .unlockedBy("has_thingy",has(TRRTag.RAILROAD_COMPONENT_ITEMS)).group("railroad_crossing_components")
                 .save(rc);
         ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC,TRRBlocks.ELECTRONIC_BELL_TYPE_4.asItem(),2)
-                .requires(Ingredient.of(TItems.RAILROAD_COMPONENT))
+                .requires(Ingredient.of(TRRTag.RAILROAD_COMPONENT_ITEMS))
                 .requires(Ingredient.of(Items.IRON_INGOT))
                 .requires(Ingredient.of(ItemTags.TRAPDOORS))
-                .unlockedBy("has_thingy",has(TItems.RAILROAD_COMPONENT)).group("railroad_crossing_components")
+                .unlockedBy("has_thingy",has(TRRTag.RAILROAD_COMPONENT_ITEMS)).group("railroad_crossing_components")
                 .save(rc);
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC,TRRBlocks.PURPLE_RAIL.asItem(),16)
@@ -140,11 +147,11 @@ public class TRRRecipe extends RecipeProvider{
                 .save(rc);
 
         stonecutterAny(TRRBlocks.RAILROAD_CROSSING_CANTILEVER.asItem(),
-                Ingredient.of(TItems.RAILROAD_COMPONENT),
+                Ingredient.of(TRRTag.RAILROAD_COMPONENT_ITEMS),
                 TRRBlocks.RAILROAD_CROSSING_CANTILEVER.asItem(),1)
                 .save(rc);
         stonecutterAny(TRRBlocks.RAILROAD_CROSSING_CANTILEVER_END.asItem(),
-                Ingredient.of(TItems.RAILROAD_COMPONENT),
+                Ingredient.of(TRRTag.RAILROAD_COMPONENT_ITEMS),
                 TRRBlocks.RAILROAD_CROSSING_CANTILEVER_END.asItem(),1)
                 .save(rc);
 
@@ -164,7 +171,7 @@ public class TRRRecipe extends RecipeProvider{
                 .save(rc);
 
         stonecutterAny(TRRBlocks.RR_LADDER_POLE.asItem(),
-                Ingredient.of(TBlocks.VERTICAL_POLE_REDSTONE.asItem()),
+                Ingredient.of(TRRBlocks.VERTICAL_POLE_REDSTONE_RR.asItem()),
                 TRRBlocks.RR_LADDER_POLE.asItem(),1)
                 .save(rc);
 
@@ -184,7 +191,7 @@ public class TRRRecipe extends RecipeProvider{
                 .save(rc);
 
         stonecutterAny(TRRBlocks.POLE_CAP.asItem(),
-                Ingredient.of(TBlocks.STRAIGHT_POLE.asItem()),
+                Ingredient.of(Items.IRON_BARS),
                 TRRBlocks.POLE_CAP.asItem(),1)
                 .save(rc);
 
@@ -199,25 +206,25 @@ public class TRRRecipe extends RecipeProvider{
                 .save(rc);
 
         ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC,TRRBlocks.CLICKY_MECHANICAL_BELL.asItem(),2)
-                .requires(Ingredient.of(TItems.RAILROAD_COMPONENT))
+                .requires(Ingredient.of(TRRTag.RAILROAD_COMPONENT_ITEMS))
                 .requires(Ingredient.of(Items.IRON_INGOT))
-                .requires(Ingredient.of(TItems.CIRCLE_SIGN_GLOB))
+                .requires(Ingredient.of(Items.CLOCK))
                 .requires(Ingredient.of(Items.COMPARATOR))
-                .unlockedBy("has_thingy",has(TItems.RAILROAD_COMPONENT)).group("railroad_crossing_components")
+                .unlockedBy("has_thingy",has(TRRTag.RAILROAD_COMPONENT_ITEMS)).group("railroad_crossing_components")
                 .save(rc);
 
         ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC,TRRBlocks.CROSSBUCK_WITH_LADDER.asItem(),1)
                 .requires(Ingredient.of(TRRBlocks.CROSSBUCK.asItem()))
                 .requires(Ingredient.of(Items.IRON_INGOT))
                 .requires(Ingredient.of(Items.LADDER))
-                .unlockedBy("has_thingy",has(TItems.RAILROAD_COMPONENT)).group("railroad_crossing_components")
+                .unlockedBy("has_thingy",has(TRRTag.RAILROAD_COMPONENT_ITEMS)).group("railroad_crossing_components")
                 .save(rc);
 
         ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC,TRRBlocks.ELECTRONIC_BELL_TYPE_5.asItem(),2)
-                .requires(Ingredient.of(TItems.RAILROAD_COMPONENT))
+                .requires(Ingredient.of(TRRTag.RAILROAD_COMPONENT_ITEMS))
                 .requires(Ingredient.of(Items.IRON_INGOT))
                 .requires(Ingredient.of(ItemTags.FISHES))
-                .unlockedBy("has_thingy",has(TItems.RAILROAD_COMPONENT)).group("railroad_crossing_components")
+                .unlockedBy("has_thingy",has(TRRTag.RAILROAD_COMPONENT_ITEMS)).group("railroad_crossing_components")
                 .save(rc);
     }
 

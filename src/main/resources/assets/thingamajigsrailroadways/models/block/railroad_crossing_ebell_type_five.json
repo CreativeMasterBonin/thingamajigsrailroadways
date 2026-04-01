@@ -4,8 +4,8 @@
 	"ambientocclusion": false,
 	"render_type": "cutout",
 	"textures": {
-		"0": "thingamajigs:block/extra_metal",
-		"1": "thingamajigs:block/giant_grate",
+		"0": "thingamajigsrailroadways:block/rr_metal",
+		"1": "thingamajigsrailroadways:block/rr_grate",
 		"particle": "#0"
 	},
 	"elements": [

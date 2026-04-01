@@ -12,7 +12,7 @@ public class TRRLanguage extends LanguageProvider {
 
     @Override
     protected void addTranslations() {
-        this.add("itemGroup.thingamajigsrailroadways","Thingamajigs Railroadways");
+        this.add("itemGroup.thingamajigsrailroadways","Railroadways");
         this.add(TRRBlocks.RAILROAD_CROSSING_ARM.get(),"Railroad Crossing Gate (Classic Style)");
         this.add(TRRBlocks.RAILROAD_CROSSING_ARM_LIGHTED.get(),"Railroad Crossing Gate (With Lights)");
         this.add(TRRBlocks.CROSSBUCK.get(),"Crossbuck (Customizable)");
@@ -44,6 +44,7 @@ public class TRRLanguage extends LanguageProvider {
         this.add(TRRBlocks.RAILROAD_CROSSING_CANTILEVER_END_NO_POLE.get(),"Railroad Crossing Cantilever End (No Pole)");
         this.add(TRRBlocks.RAILROAD_CROSSING_CANTILEVER_END_NO_POLE_LADDER.get(),"Railroad Crossing Cantilever End (No Pole With Ladder)");
         this.add(TRRBlocks.POLE_CAP.get(),"Pole Cap");
+        this.add(TRRBlocks.VERTICAL_POLE_REDSTONE_RR.get(),"Vertical Redstone Pole (Crossing Variant)");
 
 
         this.add("editbox.hint.dynamic_sign_crossbuck","Enter texture resource path");
@@ -66,6 +67,22 @@ public class TRRLanguage extends LanguageProvider {
         this.add("sign_type.stop_when_red_lights_show","Stop When Red Lights Show");
         this.add("sign_type.unset", "Unset Type");
         this.add("sign_type.custom", "Custom");
+        this.add("sign_type.one_track", "One Track");
+        this.add("sign_type.two_track", "Two Track");
+        this.add("sign_type.three_track", "Three Track");
+        this.add("sign_type.four_track", "Four Track");
+        this.add("sign_type.five_track", "Five Track");
+        this.add("sign_type.six_track", "Six Track");
+        this.add("sign_type.seven_track", "Seven Track");
+        this.add("sign_type.eight_track", "Eight Track");
+        this.add("sign_type.nine_track", "Nine Track");
+        this.add("sign_type.ten_track", "Ten Track");
+        this.add("sign_type.tracks_track", "Tracks Track");
+        this.add("block.thingamajigsrailroadways.rr_bell.desc", "Rings when on top of a Vertical Redstone Compatible block and powered");
+        this.add("block.thingamajigsrailroadways.vertical_pole_redstone_rr.desc", "Powers compatible blocks above it when powered with a high redstone signal");
+        this.add("block.thingamajigsrailroadways.tri_railway_lights.desc", "Normally flashes a white light; when powered shows alternating red lights");
+        this.add("block.thingamajigsrailroadways.dual_railway_lights.desc", "Normally flashes a white light; when powered shows a single flashing red light");
+        this.add("block.thingamajigsrailroadways.yodeler.desc", "Sounds an alarm when on top of a Vertical Redstone Compatible block and powered");
 
         this.add("block.thingamajigsrailroadways.rr_arm.desc","Activates attached vertical redstone components and gate will lower with redstone signal. Gate will rise without redstone signal.");
         this.add("container.thingamajigsrailroadways.rr_arm.title","Railroad Crossing Gate Settings");
@@ -96,6 +113,8 @@ public class TRRLanguage extends LanguageProvider {
 
         this.add("thingamajigsrailroadways.subtitle.ebell_ring","E-Bell Rings");
         this.add("thingamajigsrailroadways.subtitle.clicky_mechanical_bell_ring","Mechanical Bell Rings");
+        this.add("thingamajigsrailroadways.subtitle.mechanical_bell_ring","Mechanical Bell Rings");
+        this.add("thingamajigsrailroadways.subtitle.yodeler_beeps","Yodeler Alarm Beeps");
 
         this.add("block.thingamajigsrailroadways.purple_powered_rail.desc","Gives a super boost to minecarts");
         this.add("block.thingamajigsrailroadways.purple_activator_rail.desc","Hurts monsters in minecarts above when powered");

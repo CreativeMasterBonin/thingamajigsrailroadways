@@ -15,8 +15,8 @@ import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.network.PacketDistributor;
 import net.rk.railroadways.entity.blockentity.custom.RailroadCrossingArmWithLights;
 import net.rk.railroadways.menu.RailroadCrossingArmLightedMenu;
+import net.rk.railroadways.menu.RevertedButton;
 import net.rk.railroadways.network.record.RailroadCrossingArmLightedPayload;
-import net.rk.thingamajigs.screen.widget.RevertedButton;
 
 import java.util.HashMap;
 

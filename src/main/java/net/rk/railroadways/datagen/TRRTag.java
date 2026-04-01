@@ -11,7 +11,13 @@ import net.minecraft.world.level.material.Fluid;
 
 @SuppressWarnings("deprecated")
 public class TRRTag{
+    public static final TagKey<Item> RAILROAD_COMPONENT_ITEMS = thingamajigsRRItemTag("railroad_component_items");
     public static final TagKey<Item> CANTILEVER_HELD_ITEMS = thingamajigsRRItemTag("cantilever_held_items");
+
+    public static final TagKey<Block> CANTILEVERS = thingamajigsRRBlockTag("cantilevers");
+    public static final TagKey<Block> VERTICAL_REDSTONE_COMPATIBLE = thingamajigsRRBlockTag("vertical_redstone_compatible");
+    public static final TagKey<Block> CROSSING_BELLS = thingamajigsRRBlockTag("crossing_bells");
+
 
     private static TagKey<Block> thingamajigsRRBlockTag(String name){
         return BlockTags.create(ResourceLocation.fromNamespaceAndPath("thingamajigsrailroadways", name));

@@ -18,10 +18,9 @@ import net.neoforged.neoforge.client.gui.widget.ExtendedSlider;
 import net.neoforged.neoforge.network.PacketDistributor;
 import net.rk.railroadways.entity.blockentity.custom.RailroadCrossingCantLightsBE;
 import net.rk.railroadways.menu.RRCantLightsMenu;
+import net.rk.railroadways.menu.RevertedButton;
 import net.rk.railroadways.network.record.RRCantLightsPayload;
 import net.rk.railroadways.screen.widget.ActionCheckbox;
-import net.rk.thingamajigs.screen.widget.RevertedButton;
-import net.rk.thingamajigs.xtras.TColors;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -69,7 +68,7 @@ public class RRCantLightsScreen extends AbstractContainerScreen<RRCantLightsMenu
                         rrclbe.frontRightAngle,
                         rrclbe.backLeftAngle,
                         rrclbe.backRightAngle),
-                this.titleLabelX, this.titleLabelY + 80, TColors.getWhite(), true);
+                this.titleLabelX, this.titleLabelY + 80, 16777215, true);
     }
 
     @Override

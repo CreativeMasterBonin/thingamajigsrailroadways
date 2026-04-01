@@ -4,7 +4,7 @@ loaderVersion = "${loader_version_range}"
 
 license = "${mod_license}"
 
-issueTrackerURL="https://github.com/roberttkahelin8/thingamajigs2addons/issues"
+issueTrackerURL="https://github.com/CreativeMasterBonin/thingamajigsrailroadways/issues"
 
 [[mods]]
 modId = "${mod_id}"
@@ -14,7 +14,7 @@ displayName = "${mod_name}"
 # A URL to query for updates for this mod. See the JSON update specification https://docs.neoforge.net/docs/misc/updatechecker/
 #updateJSONURL="https://change.me.example.invalid/updates.json" #optional
 
-#displayURL="https://change.me.to.your.mods.homepage.example.invalid/" #optional
+displayURL="https://github.com/CreativeMasterBonin/thingamajigsrailroadways"
 logoFile="icon.png"
 credits="Made by CreativeMasterBonin"
 authors = "${mod_authors}"
@@ -42,7 +42,7 @@ side = "BOTH"
 
 [[dependencies."${mod_id}"]]
 modId = "thingamajigs"
-type = "required"
-versionRange = "[1.7.3,)"
+type = "optional"
+versionRange = "[1.8.4,)"
 ordering = "NONE"
 side = "BOTH"

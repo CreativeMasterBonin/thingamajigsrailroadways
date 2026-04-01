@@ -20,13 +20,12 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.ticks.TickPriority;
-import net.rk.thingamajigs.block.custom.VerticalPoleRedstone;
-import net.rk.thingamajigs.datagen.TTag;
+import net.rk.railroadways.datagen.TRRBlockTag;
 
 import java.util.List;
 
 public class BaseRailroadCrossingBell extends Block{
-    public static final BooleanProperty POWERED = VerticalPoleRedstone.POWERED;
+    public static final BooleanProperty POWERED = VerticalPoleRedstoneRR.POWERED;
     public static final int MECHANICAL_BELL_SPEED = 10;
     public static final int ELECTRONIC_BELL_SPEED = 12;
     public int bellSpeed = MECHANICAL_BELL_SPEED;
@@ -74,9 +73,11 @@ public class BaseRailroadCrossingBell extends Block{
     @Override
     public void neighborChanged(BlockState bs, Level lvl, BlockPos bp, Block blk, BlockPos bp2, boolean p_55671_) {
         if (!lvl.isClientSide) {
-            boolean allverticalredstoneblocks = lvl.getBlockState(bp.below()).is(TTag.VERTICAL_REDSTONE_BLOCKS);
-            boolean allrrbells = lvl.getBlockState(bp.below()).is(TTag.RAILROAD_CROSSING_BELLS);
-            boolean isCant = lvl.getBlockState(bp.below()).is(TTag.RR_CANTILEVERS);
+            boolean allverticalredstoneblocks = lvl.getBlockState(bp.below()).is(TRRBlockTag.VERTICAL_REDSTONE_BLOCKS);
+            boolean allrrbells = lvl.getBlockState(bp.below()).is(TRRBlockTag.RAILROAD_CROSSING_BELLS);
+            boolean isCant = lvl.getBlockState(bp.below()).is(TRRBlockTag.RR_CANTILEVERS);
+
+
 
             if(!allrrbells){
                 if(allverticalredstoneblocks){
@@ -106,8 +107,8 @@ public class BaseRailroadCrossingBell extends Block{
     public void tick(BlockState bs, ServerLevel slvl, BlockPos bp, RandomSource rs) {
         if(!slvl.isClientSide){
             if(bs.getValue(POWERED)){
-                boolean allverticalredstoneblocks = slvl.getBlockState(bp.below()).is(TTag.VERTICAL_REDSTONE_BLOCKS);
-                boolean isCant = slvl.getBlockState(bp.below()).is(TTag.RR_CANTILEVERS);
+                boolean allverticalredstoneblocks = slvl.getBlockState(bp.below()).is(TRRBlockTag.VERTICAL_REDSTONE_BLOCKS);
+                boolean isCant = slvl.getBlockState(bp.below()).is(TRRBlockTag.RR_CANTILEVERS);
 
                 boolean both = allverticalredstoneblocks || isCant;
 
@@ -150,7 +151,7 @@ public class BaseRailroadCrossingBell extends Block{
 
     @Override
     public void appendHoverText(ItemStack stack, Item.TooltipContext context, List<Component> tooltipComponents, TooltipFlag tooltipFlag) {
-        tooltipComponents.add(Component.translatable("block.rr_bell.desc")
+        tooltipComponents.add(Component.translatable("block.thingamajigsrailroadways.rr_bell.desc")
                 .withStyle(ChatFormatting.GRAY));
     }
 }

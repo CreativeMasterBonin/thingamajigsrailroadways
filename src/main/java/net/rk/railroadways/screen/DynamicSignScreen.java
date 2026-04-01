@@ -17,11 +17,10 @@ import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.network.PacketDistributor;
 import net.rk.railroadways.entity.blockentity.custom.DynamicSignBE;
 import net.rk.railroadways.menu.DynamicSignMenu;
+import net.rk.railroadways.menu.RevertedButton;
 import net.rk.railroadways.network.record.DynamicSignPayload;
 import net.rk.railroadways.screen.widget.ActionCheckbox;
 import net.rk.railroadways.screen.widget.DynamicEditBox;
-import net.rk.thingamajigs.screen.widget.RevertedButton;
-import net.rk.thingamajigs.xtras.TColors;
 
 import java.util.HashMap;
 
@@ -72,16 +71,16 @@ public class DynamicSignScreen extends AbstractContainerScreen<DynamicSignMenu>{
         if(this.dsbe.customSign){
             guiGraphics.drawString(this.font,Component.translatable("container.thingamajigsrailroadways.dynamic_sign.custom_on"),
                     this.titleLabelX + 9,this.titleLabelY + 79,
-                    TColors.getWhite(),true);
+                    16777215,true);
         }
         else{
             guiGraphics.drawString(this.font,Component.translatable("container.thingamajigsrailroadways.dynamic_sign.custom_off"),
                     this.titleLabelX + 9,this.titleLabelY + 79,
-                    TColors.getWhite(),true);
+                    16777215,true);
         }
         guiGraphics.drawString(this.font,Component.translatable("container.thingamajigsrailroadways.dynamic_sign.sign_type",dsbe.signType),
                 this.titleLabelX + 9,this.titleLabelY + 98,
-                TColors.getWhite(),true);
+                16777215,true);
 
         String signtypename;
 
@@ -101,6 +100,17 @@ public class DynamicSignScreen extends AbstractContainerScreen<DynamicSignMenu>{
             case 12 -> signtypename = "sign_type.rr_ahead_old";
             case 13 -> signtypename = "sign_type.stop_when_red_lights_show";
             case 14 -> signtypename = "sign_type.inverted_usa";
+            case 15 -> signtypename = "sign_type.one_track";
+            case 16 -> signtypename = "sign_type.two_track";
+            case 17 -> signtypename = "sign_type.three_track";
+            case 18 -> signtypename = "sign_type.four_track";
+            case 19 -> signtypename = "sign_type.five_track";
+            case 20 -> signtypename = "sign_type.six_track";
+            case 21 -> signtypename = "sign_type.seven_track";
+            case 22 -> signtypename = "sign_type.eight_track";
+            case 23 -> signtypename = "sign_type.nine_track";
+            case 24 -> signtypename = "sign_type.ten_track";
+            case 25 -> signtypename = "sign_type.tracks_track";
             default -> signtypename = "sign_type.unset";
         }
 
@@ -110,7 +120,7 @@ public class DynamicSignScreen extends AbstractContainerScreen<DynamicSignMenu>{
 
         guiGraphics.drawString(this.font,Component.translatable(signtypename),
                 this.titleLabelX + 9,this.titleLabelY + 115,
-                TColors.getWhite(),true);
+                16777215,true);
     }
 
     @Override

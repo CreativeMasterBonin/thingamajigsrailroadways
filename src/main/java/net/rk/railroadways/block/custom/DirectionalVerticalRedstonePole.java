@@ -7,9 +7,8 @@ import net.minecraft.world.level.block.HorizontalDirectionalBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
-import net.rk.thingamajigs.block.custom.VerticalPoleRedstone;
 
-public class DirectionalVerticalRedstonePole extends VerticalPoleRedstone {
+public class DirectionalVerticalRedstonePole extends VerticalPoleRedstoneRR {
     public static final DirectionProperty FACING = HorizontalDirectionalBlock.FACING;
 
     public DirectionalVerticalRedstonePole(Properties properties) {

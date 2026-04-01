@@ -3,21 +3,28 @@ package net.rk.railroadways.datagen;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.tags.ItemTagsProvider;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
-import net.rk.railroadways.block.TRRBlocks;
-import net.rk.thingamajigs.Thingamajigs;
+import net.rk.railroadways.Thingamajigsrailroadways;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.concurrent.CompletableFuture;
 
 public class TRRItemTag extends ItemTagsProvider{
-    public TRRItemTag(PackOutput p_275343_, CompletableFuture<HolderLookup.Provider> p_275729_, CompletableFuture<TagLookup<Block>> p_275322_, @Nullable ExistingFileHelper existingFileHelper) {
-        super(p_275343_, p_275729_, p_275322_, Thingamajigs.MODID, existingFileHelper);
+    public TRRItemTag(PackOutput output, CompletableFuture<HolderLookup.Provider> future, CompletableFuture<TagLookup<Block>> tagFuture, @Nullable ExistingFileHelper existingFileHelper) {
+        super(output, future, tagFuture, Thingamajigsrailroadways.MODID, existingFileHelper);
     }
 
     @Override
-    protected void addTags(HolderLookup.Provider prvdr) {
-
+    public void addTags(HolderLookup.Provider prvdr) {
+        this.tag(TRRTag.RAILROAD_COMPONENT_ITEMS)
+                .add(Items.POWERED_RAIL)
+                .add(Items.ACTIVATOR_RAIL)
+                .add(Items.DETECTOR_RAIL)
+                .add(Items.TNT_MINECART)
+                .add(Items.FURNACE_MINECART)
+                .add(Items.HOPPER_MINECART)
+        ;
     }
 }

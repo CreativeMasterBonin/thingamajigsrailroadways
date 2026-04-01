@@ -2,9 +2,9 @@
 	"credit": "Made By CreativeMasterBonin",
 	"render_type": "cutout",
 	"textures": {
-		"0": "thingamajigs:block/extra_metal",
-		"1": "thingamajigs:block/giant_grate",
-		"particle": "thingamajigs:block/extra_metal"
+		"0": "thingamajigsrailroadways:block/rr_metal",
+		"1": "thingamajigsrailroadways:block/rr_grate",
+		"particle": "#0"
 	},
 	"elements": [
 		{

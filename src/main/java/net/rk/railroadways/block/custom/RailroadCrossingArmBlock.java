@@ -41,7 +41,6 @@ import net.rk.railroadways.block.TRRBlocks;
 import net.rk.railroadways.entity.blockentity.TRRBlockEntity;
 import net.rk.railroadways.entity.blockentity.custom.RailroadCrossingBE;
 import net.rk.railroadways.menu.RailroadCrossingArmMenu;
-import net.rk.thingamajigs.block.custom.VerticalPoleRedstone;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -49,7 +48,7 @@ import java.util.logging.Logger;
 import java.util.stream.Stream;
 
 public class RailroadCrossingArmBlock extends BaseEntityBlock{
-    public static final BooleanProperty POWERED = VerticalPoleRedstone.POWERED;
+    public static final BooleanProperty POWERED = VerticalPoleRedstoneRR.POWERED;
 
     public static final MapCodec<RailroadCrossingArmBlock> CODEC = simpleCodec(RailroadCrossingArmBlock::new);
     public static final VoxelShape ALL = Stream.of(

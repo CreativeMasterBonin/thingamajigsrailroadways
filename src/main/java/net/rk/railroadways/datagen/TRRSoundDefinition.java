@@ -72,5 +72,32 @@ public class TRRSoundDefinition extends SoundDefinitionsProvider {
                         .stream(false)
                         .preload(true)
         ).subtitle("thingamajigsrailroadways.subtitle.ebell_ring"));
+
+        // moved sounds to standalone
+        this.add(TRRSound.MECH_BELL_ONE, SoundDefinition.definition().with(
+                sound("thingamajigsrailroadways:block/mech_bell_one")
+                        .volume(1.0f)
+                        .pitch(1.0f)
+                        .attenuationDistance(16)
+                        .stream(false)
+                        .preload(true)
+        ).subtitle("thingamajigsrailroadways.subtitle.mechanical_bell_ring"));
+        this.add(TRRSound.MECH_BELL_TWO, SoundDefinition.definition().with(
+                sound("thingamajigsrailroadways:block/mech_bell_two")
+                        .volume(1.0f)
+                        .pitch(1.0f)
+                        .attenuationDistance(16)
+                        .stream(false)
+                        .preload(true)
+        ).subtitle("thingamajigsrailroadways.subtitle.mechanical_bell_ring"));
+
+        this.add(TRRSound.YODELER, SoundDefinition.definition().with(
+                sound("thingamajigsrailroadways:block/yodeler")
+                        .volume(1.0f)
+                        .pitch(1.0f)
+                        .attenuationDistance(18)
+                        .stream(false)
+                        .preload(true)
+        ).subtitle("thingamajigsrailroadways.subtitle.yodeler_beeps"));
     }
 }

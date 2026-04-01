@@ -1,9 +1,9 @@
 {
 	"credit": "Made By CreativeMasterBonin",
 	"textures": {
-		"0": "thingamajigs:block/extra_metal",
+		"0": "thingamajigsrailroadways:block/rr_metal",
 		"1": "minecraft:block/gray_shulker_box",
-		"particle": "thingamajigs:block/extra_metal"
+		"particle": "#0"
 	},
 	"elements": [
 		{

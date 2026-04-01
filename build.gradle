@@ -74,7 +74,7 @@ neoForge {
             client()
             // Comma-separated list of namespaces to load gametests from. Empty = all namespaces.
             systemProperty 'neoforge.enabledGameTestNamespaces', project.mod_id
-            jvmArgument("-XX:+AllowEnhancedClassRedefinition")
+            //jvmArgument("-XX:+AllowEnhancedClassRedefinition")
         }
 
         server {
@@ -136,7 +136,7 @@ dependencies {
     runtimeOnly "mezz.jei:jei-1.21-neoforge:19.5.3.67"
 
     //implementation("maven.modrinth:riypeXAj:3JOAYiLD")// thingamajigs 1.7.3 neo
-    implementation "curse.maven:blueys-thingamajigs-404380:7594990"
+    //implementation "curse.maven:blueys-thingamajigs-404380:7594990"
     implementation("maven.modrinth:b1ZV3DIJ:TbNOQ4qu") // athena 4.0.0 neo
 }
 
@@ -156,7 +156,7 @@ tasks.withType(ProcessResources).configureEach {
             mod_license            : mod_license,
             mod_version            : mod_version,
             mod_authors            : "CreativeMasterBonin",
-            mod_description        : "An addon for Thingamajigs 2. Adds railroad crossing blocks and railway signs."
+            mod_description        : "Adds railroad crossing gates, lights, cantilevers and customizable railway signs."
     ]
     inputs.properties replaceProperties
 

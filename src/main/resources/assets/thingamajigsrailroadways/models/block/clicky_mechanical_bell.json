@@ -2,8 +2,8 @@
 	"format_version": "1.9.0",
 	"credit": "Made By CreativeMasterBonin",
 	"textures": {
-		"0": "thingamajigs:block/extra_metal",
-		"particle": "thingamajigs:block/extra_metal"
+		"0": "thingamajigsrailroadways:block/rr_metal",
+		"particle": "#0"
 	},
 	"elements": [
 		{

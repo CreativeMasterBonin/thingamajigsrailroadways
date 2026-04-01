@@ -25,17 +25,14 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraft.world.ticks.TickPriority;
-import net.rk.railroadways.block.TRRBlocks;
-import net.rk.thingamajigs.block.TBlocks;
-import net.rk.thingamajigs.block.custom.VerticalPoleRedstone;
-import net.rk.thingamajigs.datagen.TTag;
+import net.rk.railroadways.datagen.TRRBlockTag;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 import java.util.stream.Stream;
 
 public class RailroadCrossingCantilever extends Block{
-    public static final BooleanProperty POWERED = VerticalPoleRedstone.POWERED;
+    public static final BooleanProperty POWERED = VerticalPoleRedstoneRR.POWERED;
     public static final DirectionProperty FACING = HorizontalDirectionalBlock.FACING;
 
     public static final VoxelShape NORTH_SOUTH = Stream.of(
@@ -164,9 +161,9 @@ public class RailroadCrossingCantilever extends Block{
         // check if the block below is tagged as a vertical redstone block
         // or if it's redstone, tick the block above (to update the redstone)
         if(!lvl.isClientSide){
-            boolean allverticalredstoneblocks = lvl.getBlockState(bp.below()).is(TTag.VERTICAL_REDSTONE_BLOCKS);
-            boolean allrrbells = lvl.getBlockState(bp.below()).is(TTag.RAILROAD_CROSSING_BELLS);
-            boolean allrrbellsabove = lvl.getBlockState(bp.above()).is(TTag.RAILROAD_CROSSING_BELLS);
+            boolean allverticalredstoneblocks = lvl.getBlockState(bp.below()).is(TRRBlockTag.VERTICAL_REDSTONE_BLOCKS);
+            boolean allrrbells = lvl.getBlockState(bp.below()).is(TRRBlockTag.RAILROAD_CROSSING_BELLS);
+            boolean allrrbellsabove = lvl.getBlockState(bp.above()).is(TRRBlockTag.RAILROAD_CROSSING_BELLS);
 
             // Bells and this block hate each other, so it's disabled.
             if(allrrbellsabove){

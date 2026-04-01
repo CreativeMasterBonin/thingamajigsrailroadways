@@ -28,7 +28,6 @@ import net.rk.railroadways.Thingamajigsrailroadways;
 import net.rk.railroadways.block.custom.*;
 import net.rk.railroadways.item.TRRItems;
 import net.rk.railroadways.util.TRRSound;
-import net.rk.thingamajigs.xtras.TSoundEvent;
 
 import java.util.List;
 import java.util.function.Supplier;
@@ -99,7 +98,7 @@ public class TRRBlocks {
                 public boolean attemptPlaySound(Level lp, BlockPos bp) {
                     if (!lp.isClientSide){
                         lp.playSeededSound(null,bp.getX(),bp.getY(),bp.getZ(),
-                                TSoundEvent.MECH_BELL_ONE.get(),SoundSource.BLOCKS,0.35f,1.0f,lp.random.nextLong());
+                                TRRSound.MECH_BELL_ONE.get(),SoundSource.BLOCKS,0.35f,1.0f,lp.random.nextLong());
                         return true;
                     }
                     else {
@@ -119,7 +118,7 @@ public class TRRBlocks {
                 public boolean attemptPlaySound(Level lp, BlockPos bp) {
                     if (!lp.isClientSide){
                         lp.playSeededSound(null,bp.getX(),bp.getY(),bp.getZ(),
-                                TSoundEvent.MECH_BELL_TWO.get(),SoundSource.BLOCKS,0.35f,1.0f,lp.random.nextLong());
+                                TRRSound.MECH_BELL_TWO.get(),SoundSource.BLOCKS,0.35f,1.0f,lp.random.nextLong());
                         return true;
                     }
                     else {
@@ -485,7 +484,8 @@ public class TRRBlocks {
                 }
             });
 
-
+    public static final DeferredBlock<Block> VERTICAL_POLE_REDSTONE_RR = register("vertical_pole_redstone_rr",
+            () -> new VerticalPoleRedstoneRR(BlockBehaviour.Properties.of()));
 
 
     //

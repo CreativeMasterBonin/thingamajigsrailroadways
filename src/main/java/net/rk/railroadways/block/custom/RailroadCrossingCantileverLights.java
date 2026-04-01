@@ -39,14 +39,13 @@ import net.minecraft.world.ticks.TickPriority;
 import net.rk.railroadways.entity.blockentity.TRRBlockEntity;
 import net.rk.railroadways.entity.blockentity.custom.RailroadCrossingCantLightsBE;
 import net.rk.railroadways.menu.RRCantLightsMenu;
-import net.rk.thingamajigs.block.custom.VerticalPoleRedstone;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 import java.util.logging.Logger;
 
 public class RailroadCrossingCantileverLights extends BaseEntityBlock{
-    public static final BooleanProperty POWERED = VerticalPoleRedstone.POWERED;
+    public static final BooleanProperty POWERED = VerticalPoleRedstoneRR.POWERED;
     public static final DirectionProperty FACING = HorizontalDirectionalBlock.FACING;
     public static final MapCodec<RailroadCrossingCantileverLights> CODEC = simpleCodec(RailroadCrossingCantileverLights::new);
 

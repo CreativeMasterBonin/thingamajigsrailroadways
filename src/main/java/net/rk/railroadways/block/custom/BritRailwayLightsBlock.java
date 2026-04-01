@@ -31,18 +31,16 @@ import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.material.PushReaction;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.ticks.TickPriority;
+import net.rk.railroadways.datagen.TRRBlockTag;
 import net.rk.railroadways.entity.blockentity.TRRBlockEntity;
 import net.rk.railroadways.entity.blockentity.custom.BritRailwayLightsBE;
 import net.rk.railroadways.menu.BritLightsMenu;
-import net.rk.thingamajigs.block.TBlocks;
-import net.rk.thingamajigs.block.custom.VerticalPoleRedstone;
-import net.rk.thingamajigs.datagen.TTag;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.logging.Logger;
 
 public class BritRailwayLightsBlock extends BaseEntityBlock{
-    public static final BooleanProperty POWERED = VerticalPoleRedstone.POWERED;
+    public static final BooleanProperty POWERED = VerticalPoleRedstoneRR.POWERED;
     public static final MapCodec<BritRailwayLightsBlock> CODEC = simpleCodec(BritRailwayLightsBlock::new);
 
     public BritRailwayLightsBlock(Properties properties) {
@@ -74,10 +72,10 @@ public class BritRailwayLightsBlock extends BaseEntityBlock{
     @Override
     public void neighborChanged(BlockState bs, Level lvl, BlockPos bp, Block blk, BlockPos bp2, boolean p_55671_) {
         if (!lvl.isClientSide) {
-            boolean allverticalredstoneblocks = lvl.getBlockState(bp.below()).is(TTag.VERTICAL_REDSTONE_BLOCKS);
-            boolean allrrbells = lvl.getBlockState(bp.below()).is(TTag.RAILROAD_CROSSING_BELLS);
+            boolean allverticalredstoneblocks = lvl.getBlockState(bp.below()).is(TRRBlockTag.VERTICAL_REDSTONE_BLOCKS);
+            boolean allrrbells = lvl.getBlockState(bp.below()).is(TRRBlockTag.RAILROAD_CROSSING_BELLS);
 
-            boolean allrrbellsabove = lvl.getBlockState(bp.above()).is(TTag.RAILROAD_CROSSING_BELLS);
+            boolean allrrbellsabove = lvl.getBlockState(bp.above()).is(TRRBlockTag.RAILROAD_CROSSING_BELLS);
 
             if(allrrbellsabove){
                 if(allverticalredstoneblocks){
@@ -94,20 +92,12 @@ public class BritRailwayLightsBlock extends BaseEntityBlock{
                 return;
             }
 
-            if(lvl.getBlockState(bp.above()).is(TTag.RR_CANTILEVERS)){
+            if(lvl.getBlockState(bp.above()).is(TRRBlockTag.RR_CANTILEVERS)){
                 if(allverticalredstoneblocks){
                     if(lvl.getBlockState(bp.below()).getValue(POWERED)){
                         lvl.setBlock(bp,bs.setValue(POWERED,true),3);
                     }
                     else if(!lvl.getBlockState(bp.below()).getValue(POWERED)){
-                        lvl.setBlock(bp,bs.setValue(POWERED,false),3);
-                    }
-                }
-                else if(lvl.getBlockState(bp.below()).is(TBlocks.CROSSWALK_BUTTON.get())){
-                    if(lvl.getBlockState(bp.below()).getValue(POWERED)){
-                        lvl.setBlock(bp,bs.setValue(POWERED,true),3);
-                    }
-                    else{
                         lvl.setBlock(bp,bs.setValue(POWERED,false),3);
                     }
                 }

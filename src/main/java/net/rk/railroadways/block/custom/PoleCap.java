@@ -19,15 +19,14 @@ import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraft.world.ticks.TickPriority;
 import net.rk.railroadways.block.TRRBlocks;
-import net.rk.thingamajigs.block.custom.VerticalPoleRedstone;
-import net.rk.thingamajigs.datagen.TTag;
+import net.rk.railroadways.datagen.TRRBlockTag;
 
 public class PoleCap extends Block{
     public static VoxelShape ALL = Shapes.join(
             Block.box(6, 0, 6, 10, 1, 10),
             Block.box(7, 1, 7, 9, 2, 9), BooleanOp.OR);
 
-    public static final BooleanProperty POWERED = VerticalPoleRedstone.POWERED;
+    public static final BooleanProperty POWERED = VerticalPoleRedstoneRR.POWERED;
     public int bellSpeed = 32;
 
     public PoleCap(Properties properties) {
@@ -71,9 +70,9 @@ public class PoleCap extends Block{
     @Override
     public void neighborChanged(BlockState bs, Level lvl, BlockPos bp, Block blk, BlockPos bp2, boolean p_55671_) {
         if (!lvl.isClientSide) {
-            boolean allverticalredstoneblocks = lvl.getBlockState(bp.below()).is(TTag.VERTICAL_REDSTONE_BLOCKS);
-            boolean allrrbells = lvl.getBlockState(bp.below()).is(TTag.RAILROAD_CROSSING_BELLS);
-            boolean isCant = lvl.getBlockState(bp.below()).is(TTag.RR_CANTILEVERS);
+            boolean allverticalredstoneblocks = lvl.getBlockState(bp.below()).is(TRRBlockTag.VERTICAL_REDSTONE_BLOCKS);
+            boolean allrrbells = lvl.getBlockState(bp.below()).is(TRRBlockTag.RAILROAD_CROSSING_BELLS);
+            boolean isCant = lvl.getBlockState(bp.below()).is(TRRBlockTag.RR_CANTILEVERS);
 
             if(!allrrbells){
                 if(allverticalredstoneblocks){
@@ -103,8 +102,8 @@ public class PoleCap extends Block{
     public void tick(BlockState bs, ServerLevel slvl, BlockPos bp, RandomSource rs) {
         if(!slvl.isClientSide){
             if(bs.getValue(POWERED)){
-                boolean allverticalredstoneblocks = slvl.getBlockState(bp.below()).is(TTag.VERTICAL_REDSTONE_BLOCKS);
-                boolean isCant = slvl.getBlockState(bp.below()).is(TTag.RR_CANTILEVERS);
+                boolean allverticalredstoneblocks = slvl.getBlockState(bp.below()).is(TRRBlockTag.VERTICAL_REDSTONE_BLOCKS);
+                boolean isCant = slvl.getBlockState(bp.below()).is(TRRBlockTag.RR_CANTILEVERS);
 
                 boolean both = allverticalredstoneblocks || isCant;
 

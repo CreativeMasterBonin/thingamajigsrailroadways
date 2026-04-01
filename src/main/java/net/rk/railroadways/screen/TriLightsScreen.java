@@ -14,9 +14,9 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.network.PacketDistributor;
 import net.rk.railroadways.entity.blockentity.custom.TriRailwayLightsBE;
+import net.rk.railroadways.menu.RevertedButton;
 import net.rk.railroadways.menu.TriLightsMenu;
 import net.rk.railroadways.network.record.TriLightsPayload;
-import net.rk.thingamajigs.screen.widget.RevertedButton;
 
 import java.util.HashMap;
 

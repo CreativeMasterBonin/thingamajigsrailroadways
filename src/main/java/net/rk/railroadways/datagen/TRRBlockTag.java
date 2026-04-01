@@ -1,26 +1,33 @@
 package net.rk.railroadways.datagen;
 
 import net.minecraft.core.HolderLookup;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.data.PackOutput;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
+import net.minecraft.tags.TagKey;
+import net.minecraft.world.level.block.Block;
 import net.neoforged.neoforge.common.Tags;
 import net.neoforged.neoforge.common.data.BlockTagsProvider;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
+import net.rk.railroadways.Thingamajigsrailroadways;
 import net.rk.railroadways.block.TRRBlocks;
-import net.rk.thingamajigs.Thingamajigs;
-import net.rk.thingamajigs.datagen.TTag;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.concurrent.CompletableFuture;
 
 public class TRRBlockTag extends BlockTagsProvider{
     public TRRBlockTag(PackOutput output, CompletableFuture<HolderLookup.Provider> lookupProvider, @Nullable ExistingFileHelper existingFileHelper) {
-        super(output, lookupProvider, Thingamajigs.MODID, existingFileHelper);
+        super(output, lookupProvider, Thingamajigsrailroadways.MODID, existingFileHelper);
     }
 
+    public static final TagKey<Block> RAILROAD_CROSSING_BELLS = TagKey.create(Registries.BLOCK, ResourceLocation.parse("thingamajigs:railroad_crossing_bells"));
+    public static final TagKey<Block> VERTICAL_REDSTONE_BLOCKS = TagKey.create(Registries.BLOCK, ResourceLocation.parse("thingamajigs:vertical_redstone_blocks"));
+    public static final TagKey<Block> RR_CANTILEVERS = TagKey.create(Registries.BLOCK, ResourceLocation.parse("thingamajigs:rr_cantilevers"));
+
     @Override
-    protected void addTags(HolderLookup.Provider tc){
-        this.tag(TTag.RAILROAD_CROSSING_BELLS)
+    public void addTags(HolderLookup.Provider tc){
+        this.tag(RAILROAD_CROSSING_BELLS)
                 .add(TRRBlocks.ELECTRONIC_BELL_TYPE_1.get())
                 .add(TRRBlocks.ELECTRONIC_BELL_TYPE_2.get())
                 .add(TRRBlocks.MECHANICAL_BELL_TYPE_1.get())
@@ -33,7 +40,7 @@ public class TRRBlockTag extends BlockTagsProvider{
                 .add(TRRBlocks.ELECTRONIC_BELL_TYPE_5.get())
         ;
 
-        this.tag(TTag.VERTICAL_REDSTONE_BLOCKS)
+        this.tag(VERTICAL_REDSTONE_BLOCKS)
                 .add(TRRBlocks.RAILROAD_CROSSING_ARM.get())
                 .add(TRRBlocks.CROSSBUCK.get())
                 .add(TRRBlocks.RAILROAD_CROSSING_LIGHTS.get())
@@ -44,9 +51,47 @@ public class TRRBlockTag extends BlockTagsProvider{
                 .add(TRRBlocks.RAILROAD_CROSSING_ARM_LIGHTED.get())
                 .add(TRRBlocks.RR_LADDER_POLE.get())
                 .add(TRRBlocks.CROSSBUCK_WITH_LADDER.get())
+                .add(TRRBlocks.VERTICAL_POLE_REDSTONE_RR.get())
         ;
 
-        this.tag(TTag.RR_CANTILEVERS)
+        this.tag(RR_CANTILEVERS)
+                .add(TRRBlocks.RAILROAD_CROSSING_CANTILEVER.get())
+                .add(TRRBlocks.RAILROAD_CROSSING_CANTILEVER_END.get())
+                .add(TRRBlocks.RAILROAD_CROSSING_CANTILEVER_LIGHTS.get())
+                .add(TRRBlocks.RAILROAD_CROSSING_CANTILEVER_END_NO_POLE.get())
+                .add(TRRBlocks.RAILROAD_CROSSING_CANTILEVER_END_LADDER.get())
+                .add(TRRBlocks.RAILROAD_CROSSING_CANTILEVER_END_NO_POLE_LADDER.get())
+                .add(TRRBlocks.BIG_RAILROAD_CROSSING_CANTILEVER_LIGHTS.get())
+        ;
+
+        this.tag(TRRTag.CROSSING_BELLS)
+                .add(TRRBlocks.ELECTRONIC_BELL_TYPE_1.get())
+                .add(TRRBlocks.ELECTRONIC_BELL_TYPE_2.get())
+                .add(TRRBlocks.MECHANICAL_BELL_TYPE_1.get())
+                .add(TRRBlocks.MECHANICAL_BELL_TYPE_2.get())
+                .add(TRRBlocks.BRITISH_RAILWAY_ALARM.get())
+                .add(TRRBlocks.ELECTRONIC_BELL_TYPE_3.get())
+                .add(TRRBlocks.ELECTRONIC_BELL_TYPE_4.get())
+                .add(TRRBlocks.POLE_CAP.get())
+                .add(TRRBlocks.CLICKY_MECHANICAL_BELL.get())
+                .add(TRRBlocks.ELECTRONIC_BELL_TYPE_5.get())
+        ;
+
+        this.tag(TRRTag.VERTICAL_REDSTONE_COMPATIBLE)
+                .add(TRRBlocks.RAILROAD_CROSSING_ARM.get())
+                .add(TRRBlocks.CROSSBUCK.get())
+                .add(TRRBlocks.RAILROAD_CROSSING_LIGHTS.get())
+                .add(TRRBlocks.BIG_RAILROAD_CROSSING_LIGHTS.get())
+                .add(TRRBlocks.BRITISH_RAILWAY_LIGHTS.get())
+                .add(TRRBlocks.DUAL_RAILWAY_LIGHTS.get())
+                .add(TRRBlocks.TRI_RAILWAY_LIGHTS.get())
+                .add(TRRBlocks.RAILROAD_CROSSING_ARM_LIGHTED.get())
+                .add(TRRBlocks.RR_LADDER_POLE.get())
+                .add(TRRBlocks.CROSSBUCK_WITH_LADDER.get())
+                .add(TRRBlocks.VERTICAL_POLE_REDSTONE_RR.get())
+        ;
+
+        this.tag(TRRTag.CANTILEVERS)
                 .add(TRRBlocks.RAILROAD_CROSSING_CANTILEVER.get())
                 .add(TRRBlocks.RAILROAD_CROSSING_CANTILEVER_END.get())
                 .add(TRRBlocks.RAILROAD_CROSSING_CANTILEVER_LIGHTS.get())
@@ -62,18 +107,19 @@ public class TRRBlockTag extends BlockTagsProvider{
                 .add(TRRBlocks.RAILROAD_CROSSING_LIGHTS.get())
                 .add(TRRBlocks.BIG_RAILROAD_CROSSING_LIGHTS.get())
                 .add(TRRBlocks.BRITISH_RAILWAY_LIGHTS.get())
-                .addTag(TTag.RAILROAD_CROSSING_BELLS)
+                .addTag(TRRTag.CROSSING_BELLS)
                 .add(TRRBlocks.PURPLE_RAIL.get())
                 .add(TRRBlocks.PURPLE_POWERED_RAIL.get())
                 .add(TRRBlocks.PURPLE_ACTIVATOR_RAIL.get())
                 .add(TRRBlocks.PURPLE_DETECTOR_RAIL.get())
                 .add(TRRBlocks.DUAL_RAILWAY_LIGHTS.get())
                 .add(TRRBlocks.TRI_RAILWAY_LIGHTS.get())
-                .addTag(TTag.RR_CANTILEVERS)
+                .addTag(TRRTag.CANTILEVERS)
                 .add(TRRBlocks.RAILROAD_CROSSING_ARM_LIGHTED.get())
                 .add(TRRBlocks.RR_LADDER_POLE.get())
                 .add(TRRBlocks.POLE_CAP.get())
                 .add(TRRBlocks.CROSSBUCK_WITH_LADDER.get())
+                .add(TRRBlocks.VERTICAL_POLE_REDSTONE_RR.get())
         ;
 
         this.tag(BlockTags.IMPERMEABLE)
@@ -82,13 +128,14 @@ public class TRRBlockTag extends BlockTagsProvider{
                 .add(TRRBlocks.RAILROAD_CROSSING_LIGHTS.get())
                 .add(TRRBlocks.BIG_RAILROAD_CROSSING_LIGHTS.get())
                 .add(TRRBlocks.BRITISH_RAILWAY_LIGHTS.get())
-                .addTag(TTag.RAILROAD_CROSSING_BELLS)
+                .addTag(TRRTag.CROSSING_BELLS)
                 .add(TRRBlocks.DUAL_RAILWAY_LIGHTS.get())
                 .add(TRRBlocks.TRI_RAILWAY_LIGHTS.get())
-                .addTag(TTag.RR_CANTILEVERS)
+                .addTag(TRRTag.CANTILEVERS)
                 .add(TRRBlocks.RAILROAD_CROSSING_ARM_LIGHTED.get())
                 .add(TRRBlocks.POLE_CAP.get())
                 .add(TRRBlocks.CROSSBUCK_WITH_LADDER.get())
+                .add(TRRBlocks.VERTICAL_POLE_REDSTONE_RR.get())
         ;
 
         this.tag(BlockTags.WALL_POST_OVERRIDE)
@@ -96,13 +143,14 @@ public class TRRBlockTag extends BlockTagsProvider{
                 .add(TRRBlocks.RAILROAD_CROSSING_LIGHTS.get())
                 .add(TRRBlocks.BIG_RAILROAD_CROSSING_LIGHTS.get())
                 .add(TRRBlocks.BRITISH_RAILWAY_LIGHTS.get())
-                .addTag(TTag.RAILROAD_CROSSING_BELLS)
+                .addTag(TRRTag.CROSSING_BELLS)
                 .add(TRRBlocks.DUAL_RAILWAY_LIGHTS.get())
                 .add(TRRBlocks.TRI_RAILWAY_LIGHTS.get())
                 .add(TRRBlocks.RAILROAD_CROSSING_CANTILEVER_LIGHTS.get())
                 .add(TRRBlocks.RR_LADDER_POLE.get())
                 .add(TRRBlocks.POLE_CAP.get())
                 .add(TRRBlocks.CROSSBUCK_WITH_LADDER.get())
+                .add(TRRBlocks.VERTICAL_POLE_REDSTONE_RR.get())
         ;
 
         this.tag(BlockTags.PREVENT_MOB_SPAWNING_INSIDE)
@@ -111,18 +159,19 @@ public class TRRBlockTag extends BlockTagsProvider{
                 .add(TRRBlocks.RAILROAD_CROSSING_LIGHTS.get())
                 .add(TRRBlocks.BIG_RAILROAD_CROSSING_LIGHTS.get())
                 .add(TRRBlocks.BRITISH_RAILWAY_LIGHTS.get())
-                .addTag(TTag.RAILROAD_CROSSING_BELLS)
+                .addTag(TRRTag.CROSSING_BELLS)
                 .add(TRRBlocks.PURPLE_RAIL.get())
                 .add(TRRBlocks.PURPLE_POWERED_RAIL.get())
                 .add(TRRBlocks.PURPLE_ACTIVATOR_RAIL.get())
                 .add(TRRBlocks.PURPLE_DETECTOR_RAIL.get())
                 .add(TRRBlocks.DUAL_RAILWAY_LIGHTS.get())
                 .add(TRRBlocks.TRI_RAILWAY_LIGHTS.get())
-                .addTag(TTag.RR_CANTILEVERS)
+                .addTag(TRRTag.CANTILEVERS)
                 .add(TRRBlocks.RAILROAD_CROSSING_ARM_LIGHTED.get())
                 .add(TRRBlocks.RR_LADDER_POLE.get())
                 .add(TRRBlocks.POLE_CAP.get())
                 .add(TRRBlocks.CROSSBUCK_WITH_LADDER.get())
+                .add(TRRBlocks.VERTICAL_POLE_REDSTONE_RR.get())
         ;
 
         this.tag(BlockTags.INVALID_SPAWN_INSIDE)
@@ -131,18 +180,19 @@ public class TRRBlockTag extends BlockTagsProvider{
                 .add(TRRBlocks.RAILROAD_CROSSING_LIGHTS.get())
                 .add(TRRBlocks.BIG_RAILROAD_CROSSING_LIGHTS.get())
                 .add(TRRBlocks.BRITISH_RAILWAY_LIGHTS.get())
-                .addTag(TTag.RAILROAD_CROSSING_BELLS)
+                .addTag(TRRTag.CROSSING_BELLS)
                 .add(TRRBlocks.PURPLE_RAIL.get())
                 .add(TRRBlocks.PURPLE_POWERED_RAIL.get())
                 .add(TRRBlocks.PURPLE_ACTIVATOR_RAIL.get())
                 .add(TRRBlocks.PURPLE_DETECTOR_RAIL.get())
                 .add(TRRBlocks.DUAL_RAILWAY_LIGHTS.get())
                 .add(TRRBlocks.TRI_RAILWAY_LIGHTS.get())
-                .addTag(TTag.RR_CANTILEVERS)
+                .addTag(TRRTag.CANTILEVERS)
                 .add(TRRBlocks.RAILROAD_CROSSING_ARM_LIGHTED.get())
                 .add(TRRBlocks.RR_LADDER_POLE.get())
                 .add(TRRBlocks.POLE_CAP.get())
                 .add(TRRBlocks.CROSSBUCK_WITH_LADDER.get())
+                .add(TRRBlocks.VERTICAL_POLE_REDSTONE_RR.get())
         ;
 
         this.tag(Tags.Blocks.RELOCATION_NOT_SUPPORTED)
@@ -151,14 +201,15 @@ public class TRRBlockTag extends BlockTagsProvider{
                 .add(TRRBlocks.RAILROAD_CROSSING_LIGHTS.get())
                 .add(TRRBlocks.BIG_RAILROAD_CROSSING_LIGHTS.get())
                 .add(TRRBlocks.BRITISH_RAILWAY_LIGHTS.get())
-                .addTag(TTag.RAILROAD_CROSSING_BELLS)
+                .addTag(TRRTag.CROSSING_BELLS)
                 .add(TRRBlocks.DUAL_RAILWAY_LIGHTS.get())
                 .add(TRRBlocks.TRI_RAILWAY_LIGHTS.get())
-                .addTag(TTag.RR_CANTILEVERS)
+                .addTag(TRRTag.CANTILEVERS)
                 .add(TRRBlocks.RAILROAD_CROSSING_ARM_LIGHTED.get())
                 .add(TRRBlocks.RR_LADDER_POLE.get())
                 .add(TRRBlocks.POLE_CAP.get())
                 .add(TRRBlocks.CROSSBUCK_WITH_LADDER.get())
+                .add(TRRBlocks.VERTICAL_POLE_REDSTONE_RR.get())
         ;
 
         this.tag(BlockTags.DRAGON_TRANSPARENT)
@@ -167,14 +218,15 @@ public class TRRBlockTag extends BlockTagsProvider{
                 .add(TRRBlocks.RAILROAD_CROSSING_LIGHTS.get())
                 .add(TRRBlocks.BIG_RAILROAD_CROSSING_LIGHTS.get())
                 .add(TRRBlocks.BRITISH_RAILWAY_LIGHTS.get())
-                .addTag(TTag.RAILROAD_CROSSING_BELLS)
+                .addTag(TRRTag.CROSSING_BELLS)
                 .add(TRRBlocks.DUAL_RAILWAY_LIGHTS.get())
                 .add(TRRBlocks.TRI_RAILWAY_LIGHTS.get())
-                .addTag(TTag.RR_CANTILEVERS)
+                .addTag(TRRTag.CANTILEVERS)
                 .add(TRRBlocks.RAILROAD_CROSSING_ARM_LIGHTED.get())
                 .add(TRRBlocks.RR_LADDER_POLE.get())
                 .add(TRRBlocks.POLE_CAP.get())
                 .add(TRRBlocks.CROSSBUCK_WITH_LADDER.get())
+                .add(TRRBlocks.VERTICAL_POLE_REDSTONE_RR.get())
         ;
 
         this.tag(BlockTags.WITHER_IMMUNE)
@@ -183,14 +235,15 @@ public class TRRBlockTag extends BlockTagsProvider{
                 .add(TRRBlocks.RAILROAD_CROSSING_LIGHTS.get())
                 .add(TRRBlocks.BIG_RAILROAD_CROSSING_LIGHTS.get())
                 .add(TRRBlocks.BRITISH_RAILWAY_LIGHTS.get())
-                .addTag(TTag.RAILROAD_CROSSING_BELLS)
+                .addTag(TRRTag.CROSSING_BELLS)
                 .add(TRRBlocks.DUAL_RAILWAY_LIGHTS.get())
                 .add(TRRBlocks.TRI_RAILWAY_LIGHTS.get())
-                .addTag(TTag.RR_CANTILEVERS)
+                .addTag(TRRTag.CANTILEVERS)
                 .add(TRRBlocks.RAILROAD_CROSSING_ARM_LIGHTED.get())
                 .add(TRRBlocks.RR_LADDER_POLE.get())
                 .add(TRRBlocks.POLE_CAP.get())
                 .add(TRRBlocks.CROSSBUCK_WITH_LADDER.get())
+                .add(TRRBlocks.VERTICAL_POLE_REDSTONE_RR.get())
         ;
 
         this.tag(BlockTags.RAILS)
@@ -220,6 +273,7 @@ public class TRRBlockTag extends BlockTagsProvider{
                 .add(TRRBlocks.CROSSBUCK_WITH_LADDER.get())
                 .add(TRRBlocks.RAILROAD_CROSSING_LIGHTS.get())
                 .add(TRRBlocks.BIG_RAILROAD_CROSSING_LIGHTS.get())
+                .add(TRRBlocks.VERTICAL_POLE_REDSTONE_RR.get())
         ;
     }
 

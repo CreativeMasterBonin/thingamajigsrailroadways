@@ -3,7 +3,7 @@
 	"ambientocclusion": false,
 	"render_type": "cutout",
 	"textures": {
-		"0": "thingamajigs:block/extra_metal",
+		"0": "thingamajigsrailroadways:block/rr_metal",
 		"1": "minecraft:block/blast_furnace_side",
 		"particle": "minecraft:block/blast_furnace_side"
 	},

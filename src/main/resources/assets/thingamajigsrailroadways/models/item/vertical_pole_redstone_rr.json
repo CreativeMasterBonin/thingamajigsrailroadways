@@ -1,0 +1,6 @@
+{
+    "parent": "thingamajigsrailroadways:block/unpowered_pole",
+    "textures": {
+        "particle": "thingamajigsrailroadways:block/rr_metal"
+    }
+}

@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "powered=false":[
+        {"model":  "thingamajigsrailroadways:block/unpowered_pole"}
+    ],
+    "powered=true":[
+        {"model":  "thingamajigsrailroadways:block/powered_pole"}
+    ]
+  }
+}
