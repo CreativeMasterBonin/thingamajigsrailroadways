@@ -58,6 +58,11 @@ public class TRRBlockEntity{
                                     TRRBlocks.RAILROAD_CROSSING_ARM_LIGHTED.get())
                             .build(null));
 
+    public static final Supplier<BlockEntityType<PoleWithCrossingStopLightBE>> POLE_WITH_CROSSING_STOP_LIGHT_BE = BLOCK_ENTITIES.register(
+            "pole_with_crossing_stop_light_be",() ->
+                    BlockEntityType.Builder.of(PoleWithCrossingStopLightBE::new,TRRBlocks.POLE_WITH_CROSSING_STOP_LIGHT.get())
+                            .build(null));
+
     public static void register(IEventBus eventBus){
         BLOCK_ENTITIES.register(eventBus);
     }

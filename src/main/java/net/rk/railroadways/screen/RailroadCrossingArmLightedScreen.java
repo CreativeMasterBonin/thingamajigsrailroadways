@@ -186,7 +186,7 @@ public class RailroadCrossingArmLightedScreen extends AbstractContainerScreen<Ra
                     rcbe.endArmAngle,
                     rcbe.armLength,
                     rcbe.armGateOffsetZ,
-                    rcbe.yAngle - 0.05f
+                    rcbe.yAngle - 1.0f
             ));
             Minecraft.getInstance().getSoundManager().play(SimpleSoundInstance.forUI(SoundEvents.ITEM_PICKUP,lowPitch));
         }){};
@@ -199,7 +199,7 @@ public class RailroadCrossingArmLightedScreen extends AbstractContainerScreen<Ra
                     rcbe.endArmAngle,
                     rcbe.armLength,
                     rcbe.armGateOffsetZ,
-                    rcbe.yAngle + 0.05f
+                    rcbe.yAngle + 1.0f
             ));
             Minecraft.getInstance().getSoundManager().play(SimpleSoundInstance.forUI(SoundEvents.ITEM_PICKUP,normalPitch));
         }){};

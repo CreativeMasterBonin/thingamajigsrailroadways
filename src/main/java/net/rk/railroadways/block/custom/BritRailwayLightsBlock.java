@@ -172,7 +172,7 @@ public class BritRailwayLightsBlock extends BaseEntityBlock{
             }
         }
         catch (Exception e){
-            Logger.getAnonymousLogger().warning("TRailroadways Exception caught in Brit Railway Lights Block! Err: " + e.getMessage());
+            Logger.getAnonymousLogger().warning("Railroadways exception caught in Brit Railway Lights Block! Err: " + e.getMessage());
             return InteractionResult.FAIL;
         }
         return InteractionResult.PASS;

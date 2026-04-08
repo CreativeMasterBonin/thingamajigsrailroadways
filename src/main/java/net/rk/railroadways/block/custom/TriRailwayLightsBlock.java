@@ -170,7 +170,7 @@ public class TriRailwayLightsBlock extends BaseEntityBlock{
             }
         }
         catch (Exception e){
-            Logger.getAnonymousLogger().warning("TRailroadways Exception caught in Tri Railway Lights Block! Err: " + e.getMessage());
+            Logger.getAnonymousLogger().warning("Railroadways Exception caught in Tri Railway Lights Block! Err: " + e.getMessage());
             return InteractionResult.FAIL;
         }
         return InteractionResult.PASS;

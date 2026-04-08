@@ -18,7 +18,7 @@ import org.jetbrains.annotations.Nullable;
 public class RailroadCrossingArmWithLights extends BlockEntity {
     BlockPos bp;
     public float armAngle = 0;
-    public float startingArmAngle = 1.35f;
+    public float startingArmAngle = 80.0f;
     public float endArmAngle = 0.0f;
     public float yAngle = 0.0f;
     public float armLength = 1.0f;
@@ -86,12 +86,13 @@ public class RailroadCrossingArmWithLights extends BlockEntity {
         if(rrcbe.ticks % rrcbe.flasherTickDelay == 0){
             rrcbe.alternateFlashCycle = !rrcbe.alternateFlashCycle;
         }
+
         //
         if(slvl.getBlockState(sbp).getBlock() == TRRBlocks.RAILROAD_CROSSING_ARM_LIGHTED.get()){
             if(slvl.getBlockState(sbp).getValue(RailroadCrossingArmBlock.POWERED) == true){
                 //
                 if(rrcbe.armAngle > rrcbe.endArmAngle){
-                    rrcbe.armAngle = Mth.rotLerp(0.05f,rrcbe.armAngle,rrcbe.armAngle - 0.15f);
+                    rrcbe.armAngle = Mth.rotLerp(Mth.HALF_PI,rrcbe.armAngle,rrcbe.armAngle - 0.5f);
 
                     rrcbe.railroadCrossingArmState = RailroadCrossingArmWithLights.RailroadCrossingArmState.MOVING;
                     rrcbe.updateBlock();
@@ -105,7 +106,7 @@ public class RailroadCrossingArmWithLights extends BlockEntity {
             }
             else{
                 if(rrcbe.armAngle < rrcbe.startingArmAngle){
-                    rrcbe.armAngle = Mth.rotLerp(0.05f,rrcbe.armAngle,rrcbe.armAngle + 0.15f);
+                    rrcbe.armAngle = Mth.rotLerp(Mth.HALF_PI,rrcbe.armAngle,rrcbe.armAngle + 0.5f);
                     rrcbe.railroadCrossingArmState = RailroadCrossingArmWithLights.RailroadCrossingArmState.MOVING;
                     rrcbe.updateBlock();
                 }

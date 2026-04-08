@@ -1,7 +1,5 @@
-Thingamajigs 2: Railroadways
+Railroadways
 ---
-
-This is an addon mod for Thingamajigs 2.
 
 Railroadways adds railroad/railway objects used to protect cars and to make your rails safer.
 
@@ -34,6 +32,7 @@ Just clone and open the project in your IDE of choice, and let gradle setup ever
 
 To run a test of MC with the mod and dependencies, run the application `Client`, and not the gradle `runClient` as it allows hotswapping when wanted. You need to run those tasks in `Debug` mode to allow advanced changes such as hotswapping.
 
-The `build.gradle` file has a line in it called `jvmArgument("-XX:+AllowEnhancedClassRedefinition")` which enables hotswapping when using a `jbr-XX` java version.
+The `build.gradle` file has a line in it called `jvmArgument("-XX:+AllowEnhancedClassRedefinition")` which enables hotswapping when using a `jbr-XX` java version.<br>
+<br>NOTE: Do not run the client unless a jbr-xx java version has been specified and setup in the project, otherwise the task will fail!
 <br><br><br><br>
 NOT AN OFFICIAL MINECRAFT PRODUCT. NOT AFFILIATED WITH MOJANG STUDIOS OR MICROSOFT.

@@ -170,7 +170,7 @@ public class RailroadCrossingCantileverLights extends BaseEntityBlock{
             }
         }
         catch (Exception e){
-            Logger.getAnonymousLogger().warning("TRailroadways Exception caught in Railroad Crossing Lights! Err: " + e.getMessage());
+            Logger.getAnonymousLogger().warning("Railroadways exception caught in Railroad Crossing Cantilever Lights! Err: " + e.getMessage());
             return InteractionResult.FAIL;
         }
         return InteractionResult.PASS;

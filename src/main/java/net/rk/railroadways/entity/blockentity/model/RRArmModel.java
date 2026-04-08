@@ -11,6 +11,7 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.rk.railroadways.entity.blockentity.custom.RailroadCrossingBE;
+import net.rk.railroadways.util.Utilities;
 
 public class RRArmModel extends Model{
     public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(
@@ -58,8 +59,8 @@ public class RRArmModel extends Model{
     public void setupAnim(RailroadCrossingBE rcbe){
         barrier.zScale = rcbe.armLength;
         barrier.z = rcbe.armGateOffsetZ;
-        main.yRot = rcbe.yAngle;
-        gate.xRot = rcbe.armAngle * -1;
+        main.yRot = Utilities.degreesToRadians(rcbe.yAngle);
+        gate.xRot = Utilities.degreesToRadians(rcbe.armAngle * -1);
         main.zRot = 0;
         main.xRot = Mth.PI;
     }

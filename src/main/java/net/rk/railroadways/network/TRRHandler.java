@@ -48,5 +48,10 @@ public class TRRHandler {
                 RailroadCrossingArmLightedPayload.TYPE,
                 RailroadCrossingArmLightedPayload.STREAM_CODEC,
                 RailroadCrossingArmLightedPacket.get()::handle);
+
+        regex_reg.playToServer(
+                PoleWithCrossingStopLightPayload.TYPE,
+                PoleWithCrossingStopLightPayload.STREAM_CODEC,
+                PoleWithCrossingStopLightPacket.get()::handle);
     }
 }

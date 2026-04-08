@@ -44,5 +44,9 @@ public class TRRMenu{
             MENU_TYPES.register("railroad_crossing_lights_menu", () ->
                     IMenuTypeExtension.create(RailroadCrossingArmLightedMenu::new));
 
+    public static final DeferredHolder<MenuType<?>,MenuType<PoleWithCrossingStopLightMenu>> POLE_WITH_CROSSING_STOP_LIGHT_MENU =
+            MENU_TYPES.register("pole_with_crossing_stop_light_menu", () ->
+                    IMenuTypeExtension.create(PoleWithCrossingStopLightMenu::new));
+
     public static void register(IEventBus eventBus){MENU_TYPES.register(eventBus);}
 }

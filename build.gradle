@@ -137,7 +137,7 @@ dependencies {
 
     //implementation("maven.modrinth:riypeXAj:3JOAYiLD")// thingamajigs 1.7.3 neo
     //implementation "curse.maven:blueys-thingamajigs-404380:7594990"
-    implementation("maven.modrinth:b1ZV3DIJ:TbNOQ4qu") // athena 4.0.0 neo
+    runtimeOnly("maven.modrinth:b1ZV3DIJ:TbNOQ4qu") // athena 4.0.0 neo
 }
 
 // This block of code expands all declared replace properties in the specified resource targets.

@@ -1,6 +1,7 @@
 package net.rk.railroadways.network.packet;
 
 import net.minecraft.core.SectionPos;
+import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
@@ -35,9 +36,9 @@ public class RailroadCrossingArmPacket{
         }
 
         rcbe.armLength = payload.gateLength();
-        rcbe.yAngle = payload.rotation();
-        rcbe.startingArmAngle = payload.startArmAngle();
-        rcbe.endArmAngle = payload.endArmAngle();
+        rcbe.yAngle = Mth.clamp(payload.rotation(),-180.0f,180.0f);;
+        rcbe.startingArmAngle = Mth.clamp(payload.startArmAngle(),0.0f,180.0f);
+        rcbe.endArmAngle = Mth.clamp(payload.endArmAngle(),0.0f,180.0f);
         rcbe.armGateOffsetZ = payload.gateOffset();
 
         rcbe.updateBlock();

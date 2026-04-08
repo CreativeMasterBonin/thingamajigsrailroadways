@@ -39,6 +39,7 @@ public class TRRClient{
         BlockEntityRenderers.register(TRRBlockEntity.TRI_RR_LIGHTS_BE.get(),TriRailwayLightsBERenderer::new);
         BlockEntityRenderers.register(TRRBlockEntity.RR_CANTILEVER_LIGHTS_BE.get(),RRCantLightsBERenderer::new);
         BlockEntityRenderers.register(TRRBlockEntity.RAILROAD_CROSSING_ARM_LIGHTED_BE.get(),RailroadCrossingArmWithLightsRenderer::new);
+        BlockEntityRenderers.register(TRRBlockEntity.POLE_WITH_CROSSING_STOP_LIGHT_BE.get(),PoleWithCrossingStopLightBERenderer::new);
     }
 
     public void layerSetup(EntityRenderersEvent.RegisterLayerDefinitions event){
@@ -52,6 +53,8 @@ public class TRRClient{
         event.registerLayerDefinition(RRArmLightsModel.RAILROAD_CROSSING_ARM_WITH_LIGHTS,RRArmLightsModel::createBodyLayer);
         event.registerLayerDefinition(RRCantLightsBigModel.DEFAULT_TEXTURE,RRCantLightsBigModel::createBodyLayer);
         event.registerLayerDefinition(RRLightsBigModel.DEFAULT_TEXTURE,RRLightsBigModel::createBodyLayer);
+        event.registerLayerDefinition(PoleWithCrossingStopLightVerticalModel.VERTICAL_STOP_LAYER,PoleWithCrossingStopLightVerticalModel::createBodyLayer);
+        event.registerLayerDefinition(PoleWithCrossingStopLightHorizontalModel.HORIZONTAL_STOP_LAYER,PoleWithCrossingStopLightHorizontalModel::createBodyLayer);
     }
 
     public void setupMenuTypes(RegisterMenuScreensEvent event){
@@ -63,6 +66,7 @@ public class TRRClient{
         event.register(TRRMenu.TRI_LIGHTS_MENU.get(),TriLightsScreen::new);
         event.register(TRRMenu.RR_CANT_LIGHTS_MENU.get(),RRCantLightsScreen::new);
         event.register(TRRMenu.RAILROAD_CROSSING_LIGHTS_MENU.get(),RailroadCrossingArmLightedScreen::new);
+        event.register(TRRMenu.POLE_WITH_CROSSING_STOP_LIGHT_MENU.get(),PoleWithCrossingStopLightScreen::new);
     }
 
     public void clientExtensions(RegisterClientExtensionsEvent event) {
@@ -79,6 +83,8 @@ public class TRRClient{
 
     public void addCreative(BuildCreativeModeTabContentsEvent event) {
         if(event.getTabKey() == Thingamajigsrailroadways.TRR_TAB.getKey()){
+            event.accept(TRRBlocks.POLE_WITH_CROSSING_STOP_LIGHT.asItem());
+            //event.accept(TRRItems.COMPONENT_LINKER.asItem());
             event.accept(TRRBlocks.PURPLE_RAIL.asItem());
             event.accept(TRRBlocks.PURPLE_POWERED_RAIL.asItem());
             event.accept(TRRBlocks.PURPLE_DETECTOR_RAIL.asItem());

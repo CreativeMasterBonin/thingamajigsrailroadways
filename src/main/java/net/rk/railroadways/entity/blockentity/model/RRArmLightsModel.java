@@ -11,6 +11,7 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.rk.railroadways.entity.blockentity.custom.RailroadCrossingArmWithLights;
+import net.rk.railroadways.util.Utilities;
 
 public class RRArmLightsModel extends Model {
     public static final ModelLayerLocation RAILROAD_CROSSING_ARM_WITH_LIGHTS = new ModelLayerLocation(ResourceLocation.parse("thingamajigsrailroadways:textures/entity/railroad_arm_no_light.png"), "main");
@@ -64,8 +65,8 @@ public class RRArmLightsModel extends Model {
     public void setupAnim(RailroadCrossingArmWithLights rcbe) {
         arm.zScale = rcbe.armLength;
         arm.z = rcbe.armGateOffsetZ;
-        main.yRot = rcbe.yAngle;
-        gate.xRot = rcbe.armAngle; // reversed
+        main.yRot = Utilities.degreesToRadians(rcbe.yAngle);
+        gate.xRot = Utilities.degreesToRadians(rcbe.armAngle); // reversed
         main.zRot = 0;
         main.xRot = Mth.PI;
     }

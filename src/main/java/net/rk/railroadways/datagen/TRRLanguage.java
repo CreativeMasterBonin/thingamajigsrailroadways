@@ -45,10 +45,15 @@ public class TRRLanguage extends LanguageProvider {
         this.add(TRRBlocks.RAILROAD_CROSSING_CANTILEVER_END_NO_POLE_LADDER.get(),"Railroad Crossing Cantilever End (No Pole With Ladder)");
         this.add(TRRBlocks.POLE_CAP.get(),"Pole Cap");
         this.add(TRRBlocks.VERTICAL_POLE_REDSTONE_RR.get(),"Vertical Redstone Pole (Crossing Variant)");
+        this.add(TRRBlocks.POLE_WITH_CROSSING_STOP_LIGHT.get(),"Pole With Lighted Letters (Red Stop Variant)");
 
 
         this.add("editbox.hint.dynamic_sign_crossbuck","Enter texture resource path");
         this.add("checkbox.title.dynamic_sign_crossbuck","Custom Texture");
+        this.add("pole_with_crossing_stop_light.hint.toggle_shift_to_esc","Toggle Shift To Esc");
+        this.add("pole_with_crossing_stop_light.hint.shift_mode_off","SHIFT( ): No Value Doubling");
+        this.add("pole_with_crossing_stop_light.hint.shift_mode_on","SHIFT(X): Values Doubled");
+        this.add("pole_with_crossing_stop_light.info.rotation_and_flash_interval","Rotation: %s | Interval: %s");
 
         this.add("sign_type.aust_alt", "Australian Alt");
         this.add("sign_type.aust", "Australian");
@@ -68,30 +73,36 @@ public class TRRLanguage extends LanguageProvider {
         this.add("sign_type.unset", "Unset Type");
         this.add("sign_type.custom", "Custom");
         this.add("sign_type.one_track", "One Track");
-        this.add("sign_type.two_track", "Two Track");
-        this.add("sign_type.three_track", "Three Track");
-        this.add("sign_type.four_track", "Four Track");
-        this.add("sign_type.five_track", "Five Track");
-        this.add("sign_type.six_track", "Six Track");
-        this.add("sign_type.seven_track", "Seven Track");
-        this.add("sign_type.eight_track", "Eight Track");
-        this.add("sign_type.nine_track", "Nine Track");
-        this.add("sign_type.ten_track", "Ten Track");
-        this.add("sign_type.tracks_track", "Tracks Track");
+        this.add("sign_type.two_track", "Two Tracks");
+        this.add("sign_type.three_track", "Three Tracks");
+        this.add("sign_type.four_track", "Four Tracks");
+        this.add("sign_type.five_track", "Five Tracks");
+        this.add("sign_type.six_track", "Six Tracks");
+        this.add("sign_type.seven_track", "Seven Tracks");
+        this.add("sign_type.eight_track", "Eight Tracks");
+        this.add("sign_type.nine_track", "Nine Tracks");
+        this.add("sign_type.ten_track", "Ten Tracks");
+        this.add("sign_type.tracks_track", "Tracks");
         this.add("block.thingamajigsrailroadways.rr_bell.desc", "Rings when on top of a Vertical Redstone Compatible block and powered");
         this.add("block.thingamajigsrailroadways.vertical_pole_redstone_rr.desc", "Powers compatible blocks above it when powered with a high redstone signal");
         this.add("block.thingamajigsrailroadways.tri_railway_lights.desc", "Normally flashes a white light; when powered shows alternating red lights");
         this.add("block.thingamajigsrailroadways.dual_railway_lights.desc", "Normally flashes a white light; when powered shows a single flashing red light");
         this.add("block.thingamajigsrailroadways.yodeler.desc", "Sounds an alarm when on top of a Vertical Redstone Compatible block and powered");
+        this.add("block.rr_bell.desc","Rings when on top of a Vertical Redstone Compatible block and powered");
 
         this.add("block.thingamajigsrailroadways.rr_arm.desc","Activates attached vertical redstone components and gate will lower with redstone signal. Gate will rise without redstone signal.");
         this.add("container.thingamajigsrailroadways.rr_arm.title","Railroad Crossing Gate Settings");
+        this.add("container.thingamajigsrailroadways.pole_with_crossing_stop_light.title","Lighted Letters Settings");
+        this.add("checkbox.title.flashing","Flashes");
+        this.add("checkbox.title.horizontal","Horizontal");
         this.add("button.thingamajigsrailroadways.dec_gate", "<- Length");
         this.add("button.thingamajigsrailroadways.inc_gate", "Length ->");
         this.add("button.thingamajigsrailroadways.dec_gate_off", "<- L Offset");
         this.add("button.thingamajigsrailroadways.inc_gate_off", "L Offset ->");
         this.add("button.thingamajigsrailroadways.dec_gate_rot", "<- Rotation");
         this.add("button.thingamajigsrailroadways.inc_gate_rot", "Rotation ->");
+        this.add("button.thingamajigsrailroadways.dec_flasher_interval", "<- Interval");
+        this.add("button.thingamajigsrailroadways.inc_flasher_interval", "Interval ->");
         this.add("container.thingamajigsrailroadways.rr_lights.title", "Railroad Crossing Lights Settings");
         this.add("slider.thingamajigsrailroadways.front_left_light_rot", "Front Left Rot: ");
         this.add("slider.thingamajigsrailroadways.front_right_light_rot", "Front Right Rot: ");

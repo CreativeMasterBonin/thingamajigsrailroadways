@@ -105,7 +105,7 @@ public class CrossbuckBlock extends BaseEntityBlock{
             }
         }
         catch (Exception e){
-            Logger.getAnonymousLogger().warning("TRailroadways Exception caught in Crossbuck Block! Err: " + e.getMessage());
+            Logger.getAnonymousLogger().warning("Railroadways exception caught in Crossbuck Block! Err: " + e.getMessage());
             return InteractionResult.FAIL;
         }
         return InteractionResult.PASS;

@@ -487,6 +487,9 @@ public class TRRBlocks {
     public static final DeferredBlock<Block> VERTICAL_POLE_REDSTONE_RR = register("vertical_pole_redstone_rr",
             () -> new VerticalPoleRedstoneRR(BlockBehaviour.Properties.of()));
 
+    public static final DeferredBlock<Block> POLE_WITH_CROSSING_STOP_LIGHT = register("pole_with_crossing_stop_light",
+            () -> new PoleWithCrossingStopLight(BlockBehaviour.Properties.of()/*.lightLevel(poweredEmission(3))*/));
+
 
     //
     private static DeferredBlock<Block> register(String name, Supplier<Block> block) {
@@ -511,6 +514,12 @@ public class TRRBlocks {
     private static ToIntFunction<BlockState> enabledLitBlockEmission(int i) {
         return (properties) -> {
             return properties.getValue(BlockStateProperties.ENABLED) ? i : 0;
+        };
+    }
+
+    private static ToIntFunction<BlockState> poweredEmission(int i) {
+        return (properties) -> {
+            return properties.getValue(BlockStateProperties.POWERED) ? i : 0;
         };
     }
 
