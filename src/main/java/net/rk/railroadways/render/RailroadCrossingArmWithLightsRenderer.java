@@ -34,7 +34,7 @@ public class RailroadCrossingArmWithLightsRenderer implements BlockEntityRendere
 
         VertexConsumer vc = multiBufferSource.getBuffer(RenderType.entityTranslucent(lightsOffTemp));
 
-        if(railroadCrossingBE.getBlockState().getValue(RailroadCrossingArmLightedBlock.POWERED)){
+        if(railroadCrossingBE.getBlockState().getValue(RailroadCrossingArmLightedBlock.POWERED) || railroadCrossingBE.externalPower){
             if(railroadCrossingBE.getFlashState()){
                 vc = multiBufferSource.getBuffer(RenderType.entityTranslucent(firstLight));
             }

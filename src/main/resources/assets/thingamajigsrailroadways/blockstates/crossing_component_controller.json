@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=east": {
+      "model": "thingamajigsrailroadways:block/clicky_mechanical_bell",
+      "y": 90
+    },
+    "facing=north": {
+      "model": "thingamajigsrailroadways:block/clicky_mechanical_bell"
+    },
+    "facing=south": {
+      "model": "thingamajigsrailroadways:block/clicky_mechanical_bell",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "thingamajigsrailroadways:block/clicky_mechanical_bell",
+      "y": 270
+    }
+  }
+}

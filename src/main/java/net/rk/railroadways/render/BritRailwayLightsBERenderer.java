@@ -7,8 +7,10 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.Mth;
 import net.rk.railroadways.entity.blockentity.custom.BritRailwayLightsBE;
 import net.rk.railroadways.entity.blockentity.model.BritRRLightsModel;
+import net.rk.railroadways.util.Utilities;
 
 public class BritRailwayLightsBERenderer implements BlockEntityRenderer<BritRailwayLightsBE>{
     public BritRRLightsModel britrrlightsmodel;
@@ -20,6 +22,8 @@ public class BritRailwayLightsBERenderer implements BlockEntityRenderer<BritRail
     @Override
     public void render(BritRailwayLightsBE brwlbe, float v, PoseStack poseStack, MultiBufferSource multiBufferSource, int i, int i1){
         String strloc = brwlbe.offLoc;
+        boolean left = brwlbe.onLeftFlash;
+
         if(brwlbe.lightsState == BritRailwayLightsBE.BritRailwayLightsState.OFF){
             strloc = brwlbe.offLoc;
         }
@@ -27,7 +31,7 @@ public class BritRailwayLightsBERenderer implements BlockEntityRenderer<BritRail
             strloc = brwlbe.amberLoc;
         }
         else{
-            if(brwlbe.ticks >= brwlbe.delayTicks / 2){
+            if(left){
                 strloc = brwlbe.on0;
             }
             else{
@@ -39,11 +43,24 @@ public class BritRailwayLightsBERenderer implements BlockEntityRenderer<BritRail
                 .entityCutout(ResourceLocation.parse(strloc)));
 
         poseStack.pushPose();
-        poseStack.translate(0.5f,0.0f,0.5f);
+        this.britrrlightsmodel.getLights().yRot = Utilities.degreesToRadians(brwlbe.yAngle);
+        this.britrrlightsmodel.getLights().xRot = Utilities.degreesToRadians(180);
+        this.britrrlightsmodel.getLights().zRot = Utilities.degreesToRadians(0);
+        poseStack.translate(0.5f,-0.5f,0.5f);
+        if(brwlbe.lightsState == BritRailwayLightsBE.BritRailwayLightsState.ON){
+            this.britrrlightsmodel.getLights().render(poseStack,vc,Utilities.getLightLevel(2),i1);
+        }
+        else if(brwlbe.lightsState == BritRailwayLightsBE.BritRailwayLightsState.AMBER){
+            this.britrrlightsmodel.getLights().render(poseStack,vc,Utilities.getLightLevel(2),i1);
+        }
+        else{
+            this.britrrlightsmodel.getLights().render(poseStack,vc,i,i1);
+        }
+        poseStack.popPose();
 
-        this.britrrlightsmodel.setupAnim(brwlbe);
-        this.britrrlightsmodel.renderToBuffer(poseStack,vc,i,i1);
-
+        poseStack.pushPose();
+        poseStack.translate(0.5f,-0.5f,0.5f);
+        this.britrrlightsmodel.getMain().render(poseStack,vc,i,i1);
         poseStack.popPose();
     }
 }

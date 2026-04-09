@@ -63,6 +63,11 @@ public class TRRBlockEntity{
                     BlockEntityType.Builder.of(PoleWithCrossingStopLightBE::new,TRRBlocks.POLE_WITH_CROSSING_STOP_LIGHT.get())
                             .build(null));
 
+    public static final Supplier<BlockEntityType<CrossingComponentControllerBE>> CROSSING_COMPONENT_CONTROLLER_BE = BLOCK_ENTITIES.register(
+            "crossing_component_controller_be",() ->
+                    BlockEntityType.Builder.of(CrossingComponentControllerBE::new,TRRBlocks.CROSSING_COMPONENT_CONTROLLER.get())
+                            .build(null));
+
     public static void register(IEventBus eventBus){
         BLOCK_ENTITIES.register(eventBus);
     }

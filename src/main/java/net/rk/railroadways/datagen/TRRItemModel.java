@@ -9,6 +9,7 @@ import net.neoforged.neoforge.client.model.generators.ItemModelProvider;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import net.rk.railroadways.Thingamajigsrailroadways;
 import net.rk.railroadways.block.TRRBlocks;
+import net.rk.railroadways.item.TRRItems;
 
 public class TRRItemModel extends ItemModelProvider{
     public TRRItemModel(PackOutput output, ExistingFileHelper existingFileHelper) {
@@ -28,6 +29,8 @@ public class TRRItemModel extends ItemModelProvider{
         fromModelMod(TRRBlocks.POLE_CAP.get(),"block/pole_cap");
         fromModelMod(TRRBlocks.CLICKY_MECHANICAL_BELL.get(),"block/clicky_mechanical_bell");
         fromModelMod(TRRBlocks.ELECTRONIC_BELL_TYPE_5.get(),"block/railroad_crossing_ebell_type_five");
+        generatedItem(TRRItems.COMPONENT_LINKER.get().asItem(),"component_linker");
+        fromModelMod(TRRBlocks.CROSSING_COMPONENT_CONTROLLER.get(),"block/crossing_component_controller");
     }
 
     private ItemModelBuilder fromModelMod(Block block2, String source){
@@ -35,10 +38,16 @@ public class TRRItemModel extends ItemModelProvider{
                 ResourceLocation.fromNamespaceAndPath("thingamajigsrailroadways",source));
     }
 
-    private ItemModelBuilder defaultCustomSimpleItem(Block block1, String source){
+    private ItemModelBuilder generatedItem(Block block1, String source){
         return withExistingParent(block1.asItem().toString(),
                 ResourceLocation.withDefaultNamespace("item/generated")).texture("layer0",
                 ResourceLocation.fromNamespaceAndPath("thingamajigsrailroadways","item/" + source));
+    }
+
+    private ItemModelBuilder generatedItem(Item item, String source){
+        return withExistingParent(item.asItem().toString(),
+                ResourceLocation.withDefaultNamespace("item/generated")).texture("layer0",
+                ResourceLocation.fromNamespaceAndPath(Thingamajigsrailroadways.MODID,"item/" + source));
     }
 
     private ItemModelBuilder defaultCustomSimpleItemOldBlock(Block block1, String source){

@@ -10,6 +10,7 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.block.Blocks;
 import net.rk.railroadways.block.TRRBlocks;
+import net.rk.railroadways.item.TRRItems;
 
 import java.util.concurrent.CompletableFuture;
 
@@ -235,6 +236,23 @@ public class TRRRecipe extends RecipeProvider{
                 .requires(Ingredient.of(Items.HEAVY_WEIGHTED_PRESSURE_PLATE))
                 .requires(Ingredient.of(ItemTags.SIGNS))
                 .unlockedBy("has_thingy",has(TRRTag.RAILROAD_COMPONENT_ITEMS)).group("railroad_crossing_components")
+                .save(rc);
+
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, TRRItems.COMPONENT_LINKER.asItem(),1)
+                .requires(Ingredient.of(TRRTag.RAILROAD_COMPONENT_ITEMS))
+                .requires(Ingredient.of(Items.CALIBRATED_SCULK_SENSOR))
+                .requires(Ingredient.of(Items.REDSTONE_TORCH))
+                .unlockedBy("has_thingy",has(TRRTag.RAILROAD_COMPONENT_ITEMS)).group("railroad_crossing_modification_tools")
+                .save(rc);
+
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC,TRRBlocks.CROSSING_COMPONENT_CONTROLLER.asItem(),1)
+                .requires(Ingredient.of(TRRBlocks.VERTICAL_POLE_REDSTONE_RR.asItem()))
+                .requires(Ingredient.of(Items.COMPARATOR))
+                .requires(Ingredient.of(Items.CLOCK))
+                .requires(Ingredient.of(Items.OBSERVER))
+                .requires(Ingredient.of(Items.CALIBRATED_SCULK_SENSOR))
+                .requires(Ingredient.of(Items.IRON_BLOCK))
+                .unlockedBy("has_thingy",has(TRRBlocks.VERTICAL_POLE_REDSTONE_RR.asItem()))
                 .save(rc);
     }
 

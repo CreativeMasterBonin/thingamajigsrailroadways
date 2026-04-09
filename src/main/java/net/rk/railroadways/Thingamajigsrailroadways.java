@@ -1,8 +1,12 @@
 package net.rk.railroadways;
 
 import com.mojang.logging.LogUtils;
+import com.mojang.serialization.Codec;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.CreativeModeTabs;
 import net.neoforged.bus.api.IEventBus;
@@ -31,11 +35,22 @@ public class Thingamajigsrailroadways{
                     .icon(() -> TRRBlocks.PURPLE_RAIL.asItem().getDefaultInstance())
                     .build()
     );
+
+    public static final DeferredRegister<DataComponentType<?>> COMPONENTS =
+            DeferredRegister.createDataComponents(Thingamajigsrailroadways.MODID);
+
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<BlockPos>> SELECTED_POSITION =
+            COMPONENTS.register("selected_position",
+                    () -> DataComponentType.<BlockPos>builder()
+                            .persistent(BlockPos.CODEC).networkSynchronized(BlockPos.STREAM_CODEC).build());
+
     public Thingamajigsrailroadways(IEventBus modEventBus, ModContainer modContainer) {
         modEventBus.addListener(this::commonSetup);
 
         modEventBus.addListener(TRRHandler::register);
         TRRSound.register(modEventBus);
+
+        COMPONENTS.register(modEventBus);
 
         TRRBlocks.BLOCKS.register(modEventBus);
         TRRItems.ITEMS.register(modEventBus);

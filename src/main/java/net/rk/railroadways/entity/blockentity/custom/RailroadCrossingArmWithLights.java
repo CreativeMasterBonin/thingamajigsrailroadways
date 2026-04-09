@@ -10,6 +10,7 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.rk.railroadways.block.TRRBlocks;
 import net.rk.railroadways.block.custom.RailroadCrossingArmBlock;
 import net.rk.railroadways.entity.blockentity.TRRBlockEntity;
@@ -26,6 +27,9 @@ public class RailroadCrossingArmWithLights extends BlockEntity {
 
     public boolean alternateFlashCycle = false;
     public int flasherTickDelay = 15;
+
+    public boolean linkedToController = false;
+    public boolean externalPower = false;
 
     public int ticks;
     public RailroadCrossingArmWithLights.RailroadCrossingArmState railroadCrossingArmState = RailroadCrossingArmWithLights.RailroadCrossingArmState.UP;
@@ -82,9 +86,23 @@ public class RailroadCrossingArmWithLights extends BlockEntity {
     }
 
     public static void serverTick(Level slvl, BlockPos sbp, BlockState sbs, RailroadCrossingArmWithLights rrcbe){
-        ++rrcbe.ticks;
-        if(rrcbe.ticks % rrcbe.flasherTickDelay == 0){
-            rrcbe.alternateFlashCycle = !rrcbe.alternateFlashCycle;
+        if(rrcbe.linkedToController){
+            if(rrcbe.externalPower){
+                if(!sbs.getValue(BlockStateProperties.POWERED)){
+                    slvl.setBlock(sbp,sbs.setValue(BlockStateProperties.POWERED,true),3);
+                }
+            }
+            else{
+                if(sbs.getValue(BlockStateProperties.POWERED)){
+                    slvl.setBlock(sbp,sbs.setValue(BlockStateProperties.POWERED,false),3);
+                }
+            }
+        }
+        else{
+            ++rrcbe.ticks;
+            if(rrcbe.ticks % rrcbe.flasherTickDelay == 0){
+                rrcbe.alternateFlashCycle = !rrcbe.alternateFlashCycle;
+            }
         }
 
         //
@@ -146,6 +164,7 @@ public class RailroadCrossingArmWithLights extends BlockEntity {
         pTag.putFloat("arm_length",armLength);
         pTag.putFloat("arm_gate_offset_z",armGateOffsetZ);
         pTag.putInt("flasher_tick_delay",flasherTickDelay);
+        pTag.putBoolean("linked_to_controller",linkedToController);
     }
 
     @Override
@@ -161,6 +180,9 @@ public class RailroadCrossingArmWithLights extends BlockEntity {
         if(flasherTickDelay <= 0){
             flasherTickDelay = 15;
             updateBlock();
+        }
+        if(pTag.contains("linked_to_controller")){
+            linkedToController = pTag.getBoolean("linked_to_controller");
         }
     }
 }

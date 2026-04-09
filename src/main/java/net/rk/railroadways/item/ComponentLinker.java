@@ -1,11 +1,27 @@
 package net.rk.railroadways.item;
 
+import com.mojang.logging.LogUtils;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.component.DataComponentMap;
+import net.minecraft.core.component.DataComponentPatch;
 import net.minecraft.network.chat.Component;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.context.UseOnContext;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.rk.railroadways.Thingamajigsrailroadways;
+import net.rk.railroadways.block.custom.CrossingComponentController;
+import net.rk.railroadways.datagen.TRRTag;
+import net.rk.railroadways.entity.blockentity.custom.CrossingComponentControllerBE;
+import net.rk.railroadways.entity.blockentity.custom.RailroadCrossingArmWithLights;
 
 import java.util.List;
+import java.util.Objects;
 
 public class ComponentLinker extends Item{
     public ComponentLinker(Properties properties) {
@@ -14,67 +30,83 @@ public class ComponentLinker extends Item{
 
     @Override
     public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> tooltipComponents, TooltipFlag tooltipFlag) {
+        if(stack.has(Thingamajigsrailroadways.SELECTED_POSITION)){
+            tooltipComponents.add(Component.literal("Linked to: " + stack.get(Thingamajigsrailroadways.SELECTED_POSITION).toShortString()));
+        }
     }
 
-    /*@Override
-    public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand usedHand) {
-        if(!level.isClientSide){
-            if(player.isSecondaryUseActive()){
-                if(player.getItemInHand(usedHand).has(DataComponents.BLOCK_ENTITY_DATA)){
-                    player.getItemInHand(usedHand).remove(DataComponents.BLOCK_ENTITY_DATA);
-                    player.playSound(SoundEvents.BUCKET_EMPTY,0.75f,1.0f);
-                }
-                if(player.getItemInHand(usedHand).has(DataComponents.LODESTONE_TRACKER)){
-                    player.getItemInHand(usedHand).remove(DataComponents.LODESTONE_TRACKER);
-                    player.playSound(SoundEvents.LODESTONE_COMPASS_LOCK,0.60f,1.75f);
-                }
-            }
-        }
-        else{
-            return InteractionResultHolder.success(player.getItemInHand(usedHand));
-        }
-        return InteractionResultHolder.consume(player.getItemInHand(usedHand));
-    }*/
-
-    /*@Override
+    @Override
     public InteractionResult useOn(UseOnContext context) {
-        BlockPos blockPos = context.getClickedPos();
-        Level level = context.getLevel();
-        ItemStack stack = context.getItemInHand();
-        CompoundTag beData = new CompoundTag();
-        Player player = context.getPlayer();
-        Optional<GlobalPos> optionalPos = Optional.empty();
+        if(!context.getLevel().isClientSide){
+            BlockPos blockPos = context.getClickedPos();
+            Level level = context.getLevel();
+            BlockEntity blockEntity = level.getBlockEntity(blockPos);
+            ItemStack linker = context.getItemInHand();
+            Player player = context.getPlayer();
 
-        if(!level.isClientSide){
-            if(player.isSecondaryUseActive()){
-                if(level.getBlockEntity(blockPos) instanceof SyncableNode){
-                    if(level.getBlockEntity(blockPos) instanceof PoleWithCrossingStopLightBE poleStop){
+            if(player == null){
+                LogUtils.getLogger().error("Player was null somehow when trying to use ComponentLinker!");
+                return InteractionResult.FAIL;
+            }
 
+            if(blockEntity != null){
+                if(player.isSecondaryUseActive()){
+                    if(blockEntity instanceof CrossingComponentControllerBE controller){
+                        if(linker.has(Thingamajigsrailroadways.SELECTED_POSITION)){
+                            linker.remove(Thingamajigsrailroadways.SELECTED_POSITION);
+                        }
+                        DataComponentMap map = DataComponentMap.builder().set(Thingamajigsrailroadways.SELECTED_POSITION,controller.getBlockPos()).build();
+                        linker.applyComponents(map);
+                        player.displayClientMessage(Component.literal("Added controller to linker: " + controller.getBlockPos().toShortString()),true);
+                        player.playSound(SoundEvents.NOTE_BLOCK_BANJO.value(),0.5f,1.0f);
                     }
+                    else{
+                        if(linker.has(Thingamajigsrailroadways.SELECTED_POSITION)){
+                            CrossingComponentControllerBE be = (CrossingComponentControllerBE)level.getBlockEntity(Objects.requireNonNull(linker.get(Thingamajigsrailroadways.SELECTED_POSITION.value())));
+                            if(be != null){
+                                be.pairedPositions.add(blockPos);
+                                if(blockEntity instanceof RailroadCrossingArmWithLights lightedGate){
+                                    if(!lightedGate.linkedToController){
+                                        lightedGate.linkedToController = true;
+                                        lightedGate.updateBlock();
+                                        player.displayClientMessage(Component.literal("Paired " + lightedGate.getBlockPos() + " to " + be.getBlockPos()),true);
+                                    }
+                                    else{
+                                        lightedGate.linkedToController = false;
+                                        lightedGate.updateBlock();
+                                        be.removePosition(lightedGate.getBlockPos());
+                                        player.displayClientMessage(Component.literal("Unpaired " + lightedGate.getBlockPos() + " to " + be.getBlockPos()),true);
+                                    }
+                                }
+                                player.playSound(SoundEvents.NOTE_BLOCK_COW_BELL.value(),0.5f,1.0f);
+                            }
+                            else{
+                                player.displayClientMessage(Component.literal("Old controller is missing"),true);
+                            }
+                        }
+                        else{
+                            player.displayClientMessage(Component.literal("Link a controller first"),true);
+                        }
+                    }
+                    return InteractionResult.CONSUME;
                 }
             }
             else{
-                if(level.getBlockEntity(blockPos) instanceof SyncableNode){
-                    if(level.getBlockEntity(blockPos) instanceof PoleWithCrossingStopLightBE poleStop) {
-                        if (stack.has(DataComponents.BLOCK_ENTITY_DATA)){
-                            beData = stack.get(DataComponents.BLOCK_ENTITY_DATA).copyTag();
-                        }
-                        if (stack.has(DataComponents.LODESTONE_TRACKER)){
-                            if(!optionalPos.isPresent()){
-                                optionalPos = stack.get(DataComponents.LODESTONE_TRACKER).target();
-                            }
-                        }
-
-                        if (optionalPos.isPresent()){
-                            GlobalPos posOfBE = optionalPos.get();
-                            BlockPos blockPosOfBE = posOfBE.pos();
-
-                        }
+                if(player.isSecondaryUseActive()){
+                    if(linker.has(Thingamajigsrailroadways.SELECTED_POSITION)){
+                        linker.remove(Thingamajigsrailroadways.SELECTED_POSITION);
+                        player.displayClientMessage(Component.literal("Removed last linked controller data"),true);
+                        player.playSound(SoundEvents.NOTE_BLOCK_BANJO.value(),0.5f,0.75f);
+                    }
+                }
+                else{
+                    if(level.getBlockState(blockPos).is(TRRTag.VERTICAL_REDSTONE_COMPATIBLE)){
+                        level.destroyBlock(blockPos,true,player);
                     }
                 }
             }
-            return InteractionResult.FAIL;
+            return InteractionResult.CONSUME;
         }
         return InteractionResult.SUCCESS;
-    }*/
+    }
 }

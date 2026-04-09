@@ -53,6 +53,7 @@ public class TRRBlockTag extends BlockTagsProvider{
                 .add(TRRBlocks.CROSSBUCK_WITH_LADDER.get())
                 .add(TRRBlocks.VERTICAL_POLE_REDSTONE_RR.get())
                 .add(TRRBlocks.POLE_WITH_CROSSING_STOP_LIGHT.get())
+                .add(TRRBlocks.CROSSING_COMPONENT_CONTROLLER.get())
         ;
 
         this.tag(RR_CANTILEVERS)
@@ -91,6 +92,7 @@ public class TRRBlockTag extends BlockTagsProvider{
                 .add(TRRBlocks.CROSSBUCK_WITH_LADDER.get())
                 .add(TRRBlocks.VERTICAL_POLE_REDSTONE_RR.get())
                 .add(TRRBlocks.POLE_WITH_CROSSING_STOP_LIGHT.get())
+                .add(TRRBlocks.CROSSING_COMPONENT_CONTROLLER.get())
         ;
 
         this.tag(TRRTag.CANTILEVERS)

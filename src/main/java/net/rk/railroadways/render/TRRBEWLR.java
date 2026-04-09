@@ -3,6 +3,7 @@ package net.rk.railroadways.render;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
+import net.minecraft.Util;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.geom.EntityModelSet;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
@@ -15,6 +16,7 @@ import net.minecraft.core.component.DataComponents;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.ResourceManager;
+import net.minecraft.util.Mth;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.client.model.data.ModelData;
@@ -22,6 +24,7 @@ import net.rk.railroadways.block.TRRBlocks;
 import net.rk.railroadways.block.custom.RotatingCrossbuckBlock;
 import net.rk.railroadways.entity.blockentity.custom.*;
 import net.rk.railroadways.entity.blockentity.model.*;
+import net.rk.railroadways.util.Utilities;
 import org.joml.Vector3f;
 
 public class TRRBEWLR extends BlockEntityWithoutLevelRenderer{
@@ -33,6 +36,7 @@ public class TRRBEWLR extends BlockEntityWithoutLevelRenderer{
     public RailroadCrossingCantLightsBE railroadCrossingCantLightsBE;
     public RailroadCrossingLightsBE railroadCrossingLightsBE;
     public TriRailwayLightsBE triRailwayLightsBE;
+    public PoleWithCrossingStopLightBE poleWithCrossingStopLightBE;
 
     public BritRRLightsModel britRRLightsModel;
     public DualLightsModel dualLightsModel;
@@ -45,17 +49,21 @@ public class TRRBEWLR extends BlockEntityWithoutLevelRenderer{
     public RRLightsBigModel rrLightsBigModel;
     public RRLightsModel rrLightsModel;
     public TriLightsModel triLightsModel;
+    public PoleWithCrossingStopLightVerticalModel poleWithCrossingStopLightVerticalModel;
+
+    private static final BlockPos ZERO = new BlockPos(0,0,0);
 
     public TRRBEWLR(BlockEntityRenderDispatcher dispatcher, EntityModelSet set) {
         super(dispatcher,set);
-        this.britRailwayLightsBE = new BritRailwayLightsBE(new BlockPos(0,0,0),TRRBlocks.BRITISH_RAILWAY_LIGHTS.get().defaultBlockState());
-        this.dualRailwayLightsBE = new DualRailwayLightsBE(new BlockPos(0,0,0),TRRBlocks.DUAL_RAILWAY_LIGHTS.get().defaultBlockState());
-        this.dynamicSignBE = new DynamicSignBE(new BlockPos(0,0,0),TRRBlocks.CROSSBUCK.get().defaultBlockState());
-        this.railroadCrossingArmWithLights = new RailroadCrossingArmWithLights(new BlockPos(0,0,0),TRRBlocks.RAILROAD_CROSSING_ARM_LIGHTED.get().defaultBlockState());
-        this.railroadCrossingBE = new RailroadCrossingBE(new BlockPos(0,0,0),TRRBlocks.RAILROAD_CROSSING_ARM.get().defaultBlockState());
-        this.railroadCrossingCantLightsBE = new RailroadCrossingCantLightsBE(new BlockPos(0,0,0),TRRBlocks.RAILROAD_CROSSING_CANTILEVER_LIGHTS.get().defaultBlockState());
-        this.railroadCrossingLightsBE = new RailroadCrossingLightsBE(new BlockPos(0,0,0),TRRBlocks.RAILROAD_CROSSING_LIGHTS.get().defaultBlockState());
-        this.triRailwayLightsBE = new TriRailwayLightsBE(new BlockPos(0,0,0),TRRBlocks.TRI_RAILWAY_LIGHTS.get().defaultBlockState());
+        this.britRailwayLightsBE = new BritRailwayLightsBE(ZERO,TRRBlocks.BRITISH_RAILWAY_LIGHTS.get().defaultBlockState());
+        this.dualRailwayLightsBE = new DualRailwayLightsBE(ZERO,TRRBlocks.DUAL_RAILWAY_LIGHTS.get().defaultBlockState());
+        this.dynamicSignBE = new DynamicSignBE(ZERO,TRRBlocks.CROSSBUCK.get().defaultBlockState());
+        this.railroadCrossingArmWithLights = new RailroadCrossingArmWithLights(ZERO,TRRBlocks.RAILROAD_CROSSING_ARM_LIGHTED.get().defaultBlockState());
+        this.railroadCrossingBE = new RailroadCrossingBE(ZERO,TRRBlocks.RAILROAD_CROSSING_ARM.get().defaultBlockState());
+        this.railroadCrossingCantLightsBE = new RailroadCrossingCantLightsBE(ZERO,TRRBlocks.RAILROAD_CROSSING_CANTILEVER_LIGHTS.get().defaultBlockState());
+        this.railroadCrossingLightsBE = new RailroadCrossingLightsBE(ZERO,TRRBlocks.RAILROAD_CROSSING_LIGHTS.get().defaultBlockState());
+        this.triRailwayLightsBE = new TriRailwayLightsBE(ZERO,TRRBlocks.TRI_RAILWAY_LIGHTS.get().defaultBlockState());
+        this.poleWithCrossingStopLightBE = new PoleWithCrossingStopLightBE(ZERO,TRRBlocks.POLE_WITH_CROSSING_STOP_LIGHT.get().defaultBlockState());
 
         this.britRRLightsModel = new BritRRLightsModel(set.bakeLayer(BritRRLightsModel.BRIT_LIGHTS_OFF_LOC));
         this.dualLightsModel = new DualLightsModel(set.bakeLayer(DualLightsModel.DUAL_TEXTURE_LOC));
@@ -68,6 +76,7 @@ public class TRRBEWLR extends BlockEntityWithoutLevelRenderer{
         this.rrLightsBigModel = new RRLightsBigModel(set.bakeLayer(RRLightsBigModel.DEFAULT_TEXTURE));
         this.rrLightsModel = new RRLightsModel(set.bakeLayer(RRLightsModel.LIGHTS_TEXTURE_LOCATION));
         this.triLightsModel = new TriLightsModel(set.bakeLayer(TriLightsModel.TRI_TEXTURE_LOC));
+        this.poleWithCrossingStopLightVerticalModel = new PoleWithCrossingStopLightVerticalModel(set.bakeLayer(PoleWithCrossingStopLightVerticalModel.VERTICAL_STOP_LAYER));
     }
 
     @Override
@@ -84,11 +93,18 @@ public class TRRBEWLR extends BlockEntityWithoutLevelRenderer{
         this.rrLightsBigModel = new RRLightsBigModel(set.bakeLayer(RRLightsBigModel.DEFAULT_TEXTURE));
         this.rrLightsModel = new RRLightsModel(set.bakeLayer(RRLightsModel.LIGHTS_TEXTURE_LOCATION));
         this.triLightsModel = new TriLightsModel(set.bakeLayer(TriLightsModel.TRI_TEXTURE_LOC));
+        this.poleWithCrossingStopLightVerticalModel = new PoleWithCrossingStopLightVerticalModel(set.bakeLayer(PoleWithCrossingStopLightVerticalModel.VERTICAL_STOP_LAYER));
     }
 
     @Override
     public void renderByItem(ItemStack stack, ItemDisplayContext displayContext, PoseStack poseStack, MultiBufferSource buffer, int packedLight, int packedOverlay) {
         VertexConsumer vc;
+        if(britRailwayLightsBE != null){
+            britRailwayLightsBE.ticks += 1;
+            if(britRailwayLightsBE.ticks >= 60){
+                britRailwayLightsBE.ticks = 0;
+            }
+        }
         if(stack.is(TRRBlocks.BRITISH_RAILWAY_LIGHTS.asItem())){
             poseStack.pushPose();
             vc = buffer.getBuffer(RenderType.entityCutout(BritRRLightsModel.BRIT_LIGHTS_OFF_LOC.getModel()));
@@ -101,40 +117,69 @@ public class TRRBEWLR extends BlockEntityWithoutLevelRenderer{
                     poseStack.mulPose(Axis.XP.rotationDegrees(0));
                     poseStack.mulPose(Axis.YP.rotationDegrees(70));
                     poseStack.mulPose(Axis.ZP.rotationDegrees(0));
+                    britRRLightsModel.getLights().yRot = Utilities.degreesToRadians(210);
+                    britRRLightsModel.getLights().y = 25.0f;
                 }
                 else if(displayContext == ItemDisplayContext.FIRST_PERSON_RIGHT_HAND){
                     poseStack.translate(1.45D,-1.0D,0D);
+                    britRRLightsModel.getLights().yRot = Utilities.degreesToRadians(210);
+                    britRRLightsModel.getLights().y = 25.0f;
                 }
             }
             else{
                 if(displayContext == ItemDisplayContext.GUI){
+                    britRRLightsModel.getLights().yRot = Utilities.degreesToRadians(210);
                     poseStack.scale(0.5f,0.5f,0.5f);
                     poseStack.translate(1.1D,-0.3D,0D);
+                    britRRLightsModel.getLights().y = 25.0f;
                 }
                 else if(displayContext == ItemDisplayContext.THIRD_PERSON_LEFT_HAND){
-                    britRRLightsModel.getLights().yRot = -1.5f;
+                    britRRLightsModel.getLights().yRot = Utilities.degreesToRadians(170);
                     poseStack.scale(0.5f,0.5f,0.5f);
                     poseStack.translate(1.0D,0.5D,1D);
+                    britRRLightsModel.getLights().y = 25.0f;
                 }
                 else if(displayContext == ItemDisplayContext.THIRD_PERSON_RIGHT_HAND){
+                    britRRLightsModel.getLights().yRot = Utilities.degreesToRadians(210);
                     poseStack.scale(0.5f,0.5f,0.5f);
                     poseStack.translate(1.0D,0.5D,1D);
+                    britRRLightsModel.getLights().y = 25.0f;
                 }
                 else if(displayContext == ItemDisplayContext.HEAD){
-                    poseStack.scale(0.2f,0.2f,0.2f);
-                    poseStack.translate(3D,0.5D,2.5D);
+                    poseStack.translate(0.5D,1.55D,0.5D);
+                    poseStack.scale(0.5f,0.5f,0.5f);
+                    poseStack.mulPose(Axis.XP.rotationDegrees(180));
+                    poseStack.mulPose(Axis.YP.rotationDegrees(0));
+                    poseStack.mulPose(Axis.ZP.rotationDegrees(0));
+                    britRRLightsModel.getLights().y = 1.0f;
+                    britRRLightsModel.getLights().xRot = Utilities.degreesToRadians(180);
+                    if(britRailwayLightsBE != null){
+                        float a = Mth.sin((float)(Util.getMillis() % 2000L) / 2000f * Mth.TWO_PI);
+                        britRRLightsModel.getLights().yRot = Mth.lerp(britRailwayLightsBE.ticks,-a,a);
+                        if(Mth.sin((float)(Util.getMillis() % 2000L) / 2000f * Mth.TWO_PI) <= 0.5f){
+                            vc = buffer.getBuffer(RenderType.entityCutout(ResourceLocation.parse("thingamajigsrailroadways:textures/entity/brit_on_0.png")));
+                        }
+                        else{
+                            vc = buffer.getBuffer(RenderType.entityCutout(ResourceLocation.parse("thingamajigsrailroadways:textures/entity/brit_on_1.png")));
+                        }
+                    }
                 }
                 else if(displayContext == ItemDisplayContext.GROUND){
                     poseStack.scale(0.2f,0.2f,0.2f);
                     poseStack.translate(3D,0.5D,2.5D);
+                    britRRLightsModel.getLights().y = 25.0f;
                 }
                 else if(displayContext == ItemDisplayContext.FIXED){
-                    britRRLightsModel.getLights().yRot = 2.5f;
                     poseStack.scale(0.5f,0.5f,0.5f);
                     poseStack.translate(1.0D,-0.5D,1.2D);
+                    britRRLightsModel.getLights().yRot = Utilities.degreesToRadians(0);
+                    britRRLightsModel.getMain().z = -1.13f;
+                    britRRLightsModel.getLights().z = -1.13f;
+                    britRRLightsModel.getLights().y = 25.0f;
                 }
             }
             britRRLightsModel.getMain().render(poseStack,vc,packedLight,packedOverlay);
+            britRRLightsModel.getLights().render(poseStack,vc,packedLight,packedOverlay);
             poseStack.popPose();
         }
         else if(stack.is(TRRBlocks.DUAL_RAILWAY_LIGHTS.asItem())){
@@ -718,6 +763,68 @@ public class TRRBEWLR extends BlockEntityWithoutLevelRenderer{
             }
             triLightsModel.setupAnim(triRailwayLightsBE);
             triLightsModel.renderToBuffer(poseStack,vc,packedLight,packedOverlay);
+            poseStack.popPose();
+        }
+        else if(stack.is(TRRBlocks.POLE_WITH_CROSSING_STOP_LIGHT.asItem())){
+            poseStack.pushPose();
+            vc = buffer.getBuffer(RenderType.entityCutout(PoleWithCrossingStopLightVerticalModel.VERTICAL_STOP_LAYER.getModel()));
+            if(displayContext.firstPerson()){
+                if(displayContext == ItemDisplayContext.FIRST_PERSON_LEFT_HAND){
+                    poseStack.scale(0.5f,0.5f,0.5f);
+                    poseStack.translate(0.0f,0.0f,0.4f);
+                    poseStack.mulPose(Axis.YP.rotationDegrees(55));
+                    poseStack.mulPose(Axis.ZP.rotationDegrees(-4));
+                    poleWithCrossingStopLightVerticalModel.setupAnim(poleWithCrossingStopLightBE);
+                }
+                else if(displayContext == ItemDisplayContext.FIRST_PERSON_RIGHT_HAND){
+                    poseStack.scale(0.5f,0.5f,0.5f);
+                    poseStack.translate(2.0f,0.0f,0.4f);
+                    poseStack.mulPose(Axis.YP.rotationDegrees(-38));
+                    poseStack.mulPose(Axis.ZP.rotationDegrees(4));
+                    poleWithCrossingStopLightVerticalModel.setupAnim(poleWithCrossingStopLightBE);
+                }
+            }
+            else{
+                if(displayContext == ItemDisplayContext.THIRD_PERSON_LEFT_HAND){
+                    poseStack.scale(0.35f,0.35f,0.35f);
+                    poseStack.translate(1.5f,0.9f,1.5f);
+                    poleWithCrossingStopLightVerticalModel.setupAnim(poleWithCrossingStopLightBE);
+                }
+                else if(displayContext == ItemDisplayContext.THIRD_PERSON_RIGHT_HAND){
+                    poseStack.scale(0.35f,0.35f,0.35f);
+                    poseStack.translate(1.5f,0.9f,1.5f);
+                    poleWithCrossingStopLightVerticalModel.setupAnim(poleWithCrossingStopLightBE);
+                }
+                else if(displayContext == ItemDisplayContext.HEAD){
+                    poseStack.translate(0.5D,1.55D,0.5D);
+                    poseStack.scale(0.5f,0.5f,0.5f);
+                    poseStack.mulPose(Axis.XP.rotationDegrees(180));
+                    poseStack.mulPose(Axis.YP.rotationDegrees(0));
+                    poseStack.mulPose(Axis.ZP.rotationDegrees(0));
+                    poleWithCrossingStopLightVerticalModel.setupAnim(poleWithCrossingStopLightBE);
+                }
+                else if(displayContext == ItemDisplayContext.FIXED){
+                    poseStack.scale(0.35f,0.35f,0.35f);
+                    poseStack.translate(1.5f,0.5f,1.4f);
+                    poseStack.mulPose(Axis.YP.rotationDegrees(180));
+                    poleWithCrossingStopLightVerticalModel.setupAnim(poleWithCrossingStopLightBE);
+                }
+                else if(displayContext == ItemDisplayContext.GUI){
+                    poseStack.mulPose(Axis.XP.rotationDegrees(35));
+                    poseStack.mulPose(Axis.YP.rotationDegrees(135));
+                    poseStack.scale(0.5f,0.5f,0.5f);
+                    poseStack.translate(-1.0f,0.0f,0.43f);
+                    poseStack.mulPose(Axis.YP.rotationDegrees(180));
+                    poseStack.scale(1.5f,1.5f,1.5f);
+                    poleWithCrossingStopLightVerticalModel.setupAnim(poleWithCrossingStopLightBE);
+                }
+                else if(displayContext == ItemDisplayContext.GROUND){
+                    poseStack.scale(0.35f,0.35f,0.35f);
+                    poseStack.translate(1.5f,1.0f,1.25f);
+                    poleWithCrossingStopLightVerticalModel.setupAnim(poleWithCrossingStopLightBE);
+                }
+            }
+            poleWithCrossingStopLightVerticalModel.renderToBuffer(poseStack,vc,packedLight,packedOverlay);
             poseStack.popPose();
         }
         else{

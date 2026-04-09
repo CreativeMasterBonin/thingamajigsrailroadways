@@ -9,7 +9,9 @@ import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.Mth;
 import net.rk.railroadways.entity.blockentity.custom.BritRailwayLightsBE;
+import net.rk.railroadways.util.Utilities;
 
 public class BritRRLightsModel extends Model{
     public static final ModelLayerLocation BRIT_LIGHTS_OFF_LOC =
@@ -23,7 +25,7 @@ public class BritRRLightsModel extends Model{
     public BritRRLightsModel(ModelPart root) {
         super(RenderType::entityCutout);
         this.main = root.getChild("pole");
-        this.lights = main.getChild("lights");
+        this.lights = root.getChild("lights");
         this.overlay = lights.getChild("overlay");
     }
 
@@ -35,7 +37,7 @@ public class BritRRLightsModel extends Model{
                 CubeListBuilder.create().texOffs(0, 28).addBox(-1.0F, -16.0F, -1.0F, 2.0F, 16.0F, 2.0F,
                         new CubeDeformation(0.0F)), PartPose.offset(0.0F, 24.0F, 0.0F));
 
-        PartDefinition lights = pole.addOrReplaceChild("lights",
+        PartDefinition lights = partdefinition.addOrReplaceChild("lights",
                 CubeListBuilder.create().texOffs(0, 0).addBox(-16.0F, -11.0F, -5.0F, 32.0F, 19.0F, 4.0F,
                         new CubeDeformation(0.0F)), PartPose.offset(0.0F, 16.0F, 0.0F));
 
@@ -47,10 +49,11 @@ public class BritRRLightsModel extends Model{
     }
 
     public void setupAnim(BritRailwayLightsBE brwlbe){
-        lights.yRot = brwlbe.yAngle;
-        lights.y = -8.0f;
-        main.y = 0.0f;
-        main.xRot = 3.14555111f;
+        lights.yRot = Utilities.degreesToRadians(brwlbe.yAngle + 180.0f);
+        overlay.yRot = lights.yRot;
+        main.xRot = 0.0f;
+        lights.zRot = Utilities.degreesToRadians(180);
+        overlay.zRot = Utilities.degreesToRadians(180);
     }
 
     public ModelPart getMain() {

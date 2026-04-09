@@ -175,7 +175,7 @@ public class TRRBlocks {
 
     public static final DeferredBlock<Block> BRITISH_RAILWAY_LIGHTS = register("british_railway_lights",
             () -> new BritRailwayLightsBlock(BlockBehaviour.Properties.of()
-                    .lightLevel(railwayCrossingEmission(15))));
+                    .lightLevel(railwayCrossingEmission(3))));
 
     public static final DeferredBlock<Block> BRITISH_RAILWAY_ALARM = register("british_railway_alarm",
             () -> new BritCrossingAlarmBlock(BlockBehaviour.Properties.of()));
@@ -489,6 +489,11 @@ public class TRRBlocks {
 
     public static final DeferredBlock<Block> POLE_WITH_CROSSING_STOP_LIGHT = register("pole_with_crossing_stop_light",
             () -> new PoleWithCrossingStopLight(BlockBehaviour.Properties.of()/*.lightLevel(poweredEmission(3))*/));
+
+    public static final DeferredBlock<Block> CROSSING_COMPONENT_CONTROLLER = register("crossing_component_controller",
+            () -> new CrossingComponentController(BlockBehaviour.Properties.of()));
+
+
 
 
     //

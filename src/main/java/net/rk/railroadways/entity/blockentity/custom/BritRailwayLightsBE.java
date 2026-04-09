@@ -6,6 +6,8 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
@@ -19,6 +21,11 @@ public class BritRailwayLightsBE extends BlockEntity{
     public float yAngle = 0.0f;
     public int ticks;
     public int delayTicks = 60;
+    public boolean onLeftFlash = false;
+    public int flasherDelay = 10;
+    public int flasherDelayTicks = 0;
+
+    public boolean noisyRelay = false;
 
     public String offLoc = "thingamajigsrailroadways:textures/entity/brit_off.png";
     public String amberLoc = "thingamajigsrailroadways:textures/entity/brit_amber.png";
@@ -76,6 +83,21 @@ public class BritRailwayLightsBE extends BlockEntity{
 
     public static void serverTick(Level slvl, BlockPos sbp, BlockState sbs, BritRailwayLightsBE brlbe){
         ++brlbe.ticks;
+        brlbe.flasherDelayTicks++;
+        if(brlbe.flasherDelayTicks >= 32767){
+            brlbe.flasherDelayTicks = 0;
+        }
+        if(brlbe.flasherDelay <= 0){
+            brlbe.flasherDelay = 1;
+        }
+        if(brlbe.flasherDelayTicks % brlbe.flasherDelay == 0){
+            brlbe.onLeftFlash = !brlbe.onLeftFlash;
+            if(brlbe.noisyRelay && brlbe.lightsState == BritRailwayLightsState.ON){
+                slvl.playSound(null,brlbe.getBlockPos(),
+                        SoundEvents.NOTE_BLOCK_HAT.value(), SoundSource.BLOCKS,
+                        0.05f,0.01f);
+            }
+        }
         // hard reset tick counter
         if(brlbe.ticks >= brlbe.delayTicks){
             if(slvl.getBlockState(sbp).is(TRRBlocks.BRITISH_RAILWAY_LIGHTS)){
@@ -111,10 +133,15 @@ public class BritRailwayLightsBE extends BlockEntity{
     }
 
     public static void clientTick(Level lvl, BlockPos bp, BlockState bs, BritRailwayLightsBE brlbe){
-        ++brlbe.ticks;
-        // hard reset tick counter
-        if(brlbe.ticks >= brlbe.delayTicks){
-            brlbe.ticks = 0;
+        brlbe.flasherDelayTicks++;
+        if(brlbe.flasherDelayTicks >= 32767){
+            brlbe.flasherDelayTicks = 0;
+        }
+        if(brlbe.flasherDelay <= 0){
+            brlbe.flasherDelay = 1;
+        }
+        if(brlbe.flasherDelayTicks % brlbe.flasherDelay == 0){
+            brlbe.onLeftFlash = !brlbe.onLeftFlash;
         }
     }
 
@@ -123,11 +150,19 @@ public class BritRailwayLightsBE extends BlockEntity{
         super.saveAdditional(pTag, slp);
         pTag.putString("brit_light_state",lightsState.name());
         pTag.putFloat("y_angle",yAngle);
+        pTag.putBoolean("noisy_relay",noisyRelay);
+        pTag.putInt("flasher_delay",flasherDelay);
     }
 
     @Override
     protected void loadAdditional(CompoundTag pTag, HolderLookup.Provider lp) {
         lightsState = BritRailwayLightsBE.BritRailwayLightsState.valueOf(pTag.getString("brit_light_state"));
         yAngle = pTag.getFloat("y_angle");
+        if(pTag.contains("noisy_relay")){
+            noisyRelay = pTag.getBoolean("noisy_relay");
+        }
+        if(pTag.contains("flasher_delay")){
+            flasherDelay = pTag.getInt("flasher_delay");
+        }
     }
 }
