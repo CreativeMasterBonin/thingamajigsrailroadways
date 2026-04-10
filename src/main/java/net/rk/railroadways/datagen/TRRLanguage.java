@@ -46,6 +46,8 @@ public class TRRLanguage extends LanguageProvider {
         this.add(TRRBlocks.POLE_CAP.get(),"Pole Cap");
         this.add(TRRBlocks.VERTICAL_POLE_REDSTONE_RR.get(),"Vertical Redstone Pole (Crossing Variant)");
         this.add(TRRBlocks.POLE_WITH_CROSSING_STOP_LIGHT.get(),"Pole With Lighted Letters (Red Stop Variant)");
+        this.add(TRRBlocks.ELECTRONIC_BELL_TYPE_6.get(),"Railroad Crossing E-Bell (Type 6)");
+        this.add(TRRBlocks.CROSSING_COMPONENT_CONTROLLER.get(),"Railroad Crossing Component Controller");
 
 
         this.add("editbox.hint.dynamic_sign_crossbuck","Enter texture resource path");

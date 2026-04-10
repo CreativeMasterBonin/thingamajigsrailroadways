@@ -3,6 +3,7 @@ package net.rk.railroadways.entity.blockentity.custom;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtUtils;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
@@ -10,10 +11,13 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.rk.railroadways.block.TRRBlocks;
 import net.rk.railroadways.block.custom.RailroadCrossingArmBlock;
 import net.rk.railroadways.entity.blockentity.TRRBlockEntity;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.Optional;
 
 public class RailroadCrossingBE extends BlockEntity{
     BlockPos bp;
@@ -23,6 +27,11 @@ public class RailroadCrossingBE extends BlockEntity{
     public float yAngle = 0.0f;
     public float armLength = 1.0f;
     public float armGateOffsetZ = 1.0f;
+
+    // linking variables
+    public boolean linkedToController = false;
+    public boolean externalPower = false;
+    public BlockPos linkedPosition = BlockPos.ZERO;
 
     public int ticks;
     public RailroadCrossingArmState railroadCrossingArmState = RailroadCrossingArmState.UP;
@@ -75,7 +84,28 @@ public class RailroadCrossingBE extends BlockEntity{
     }
 
     public static void serverTick(Level slvl, BlockPos sbp, BlockState sbs, RailroadCrossingBE rrcbe){
-        ++rrcbe.ticks;
+        if(rrcbe.linkedToController){
+            if(slvl.getBlockEntity(rrcbe.linkedPosition) == null){
+                rrcbe.linkedToController = false;
+                rrcbe.linkedPosition = BlockPos.ZERO;
+                rrcbe.updateBlock();
+                return;
+            }
+
+            if(rrcbe.externalPower){
+                if(!sbs.getValue(BlockStateProperties.POWERED)){
+                    slvl.setBlock(sbp,sbs.setValue(BlockStateProperties.POWERED,true),3);
+                }
+            }
+            else{
+                if(sbs.getValue(BlockStateProperties.POWERED)){
+                    slvl.setBlock(sbp,sbs.setValue(BlockStateProperties.POWERED,false),3);
+                }
+            }
+        }
+        else{
+            ++rrcbe.ticks;
+        }
         if(slvl.getBlockState(sbp).getBlock() == TRRBlocks.RAILROAD_CROSSING_ARM.get()){
             if(slvl.getBlockState(sbp).getValue(RailroadCrossingArmBlock.POWERED) == true){
                 if(rrcbe.armAngle > rrcbe.endArmAngle){
@@ -130,6 +160,8 @@ public class RailroadCrossingBE extends BlockEntity{
         pTag.putFloat("y_angle",yAngle);
         pTag.putFloat("arm_length",armLength);
         pTag.putFloat("arm_gate_offset_z",armGateOffsetZ);
+        pTag.putBoolean("linked_to_controller",linkedToController);
+        pTag.put("linked_position",NbtUtils.writeBlockPos(linkedPosition));
     }
 
     @Override
@@ -141,5 +173,12 @@ public class RailroadCrossingBE extends BlockEntity{
         yAngle = pTag.getFloat("y_angle");
         armLength = pTag.getFloat("arm_length");
         armGateOffsetZ = pTag.getFloat("arm_gate_offset_z");
+        if(pTag.contains("linked_to_controller")){
+            linkedToController = pTag.getBoolean("linked_to_controller");
+        }
+        if(pTag.contains("linked_position")){
+            Optional<BlockPos> savedPairPos = NbtUtils.readBlockPos(pTag,"linked_position");
+            savedPairPos.ifPresent(blockPos -> linkedPosition = blockPos);
+        }
     }
 }

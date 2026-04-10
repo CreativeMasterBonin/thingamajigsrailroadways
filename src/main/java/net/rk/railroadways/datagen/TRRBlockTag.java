@@ -38,6 +38,7 @@ public class TRRBlockTag extends BlockTagsProvider{
                 .add(TRRBlocks.POLE_CAP.get())
                 .add(TRRBlocks.CLICKY_MECHANICAL_BELL.get())
                 .add(TRRBlocks.ELECTRONIC_BELL_TYPE_5.get())
+                .add(TRRBlocks.ELECTRONIC_BELL_TYPE_6.get())
         ;
 
         this.tag(VERTICAL_REDSTONE_BLOCKS)
@@ -77,6 +78,7 @@ public class TRRBlockTag extends BlockTagsProvider{
                 .add(TRRBlocks.POLE_CAP.get())
                 .add(TRRBlocks.CLICKY_MECHANICAL_BELL.get())
                 .add(TRRBlocks.ELECTRONIC_BELL_TYPE_5.get())
+                .add(TRRBlocks.ELECTRONIC_BELL_TYPE_6.get())
         ;
 
         this.tag(TRRTag.VERTICAL_REDSTONE_COMPATIBLE)

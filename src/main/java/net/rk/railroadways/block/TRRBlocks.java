@@ -3,7 +3,9 @@ package net.rk.railroadways.block;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.vehicle.AbstractMinecart;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
@@ -21,11 +23,13 @@ import net.minecraft.world.phys.shapes.BooleanOp;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import net.minecraft.world.ticks.TickPriority;
 import net.neoforged.neoforge.registries.DeferredBlock;
 import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import net.rk.railroadways.Thingamajigsrailroadways;
 import net.rk.railroadways.block.custom.*;
+import net.rk.railroadways.datagen.TRRBlockTag;
 import net.rk.railroadways.item.TRRItems;
 import net.rk.railroadways.util.TRRSound;
 
@@ -493,6 +497,50 @@ public class TRRBlocks {
     public static final DeferredBlock<Block> CROSSING_COMPONENT_CONTROLLER = register("crossing_component_controller",
             () -> new CrossingComponentController(BlockBehaviour.Properties.of()));
 
+    public static final DeferredBlock<Block> ELECTRONIC_BELL_TYPE_6 = register("railroad_crossing_ebell_type_six",
+            () -> new BaseRailroadCrossingBell(BlockBehaviour.Properties.of(),true){
+                @Override
+                public boolean attemptPlaySound(Level lp, BlockPos bp) {
+                    if (!lp.isClientSide){
+                        lp.playSeededSound(null,bp.getX(),bp.getY(),bp.getZ(),
+                                TRRSound.EBELL_SIX.get(), SoundSource.BLOCKS,0.3f,1.0f,lp.random.nextLong());
+                        return true;
+                    }
+                    else {
+                        return false;
+                    }
+                }
+
+                @Override
+                protected VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
+                    return Stream.of(
+                            Block.box(6, 0, 6, 10, 1, 10),
+                            Block.box(5.5, 6, 5.5, 10.5, 12, 10.5),
+                            Block.box(4, 12, 4, 12, 14, 12),
+                            Block.box(7, 1, 7, 9, 6, 9)
+                    ).reduce((v1, v2) -> Shapes.join(v1, v2, BooleanOp.OR)).get();
+                }
+
+                // this bell needs some more customization
+                @Override
+                public void tick(BlockState bs, ServerLevel slvl, BlockPos bp, RandomSource rs) {
+                    if(!slvl.isClientSide){
+                        if(bs.getValue(POWERED)){
+                            boolean allverticalredstoneblocks = slvl.getBlockState(bp.below()).is(TRRBlockTag.VERTICAL_REDSTONE_BLOCKS);
+                            boolean isCant = slvl.getBlockState(bp.below()).is(TRRBlockTag.RR_CANTILEVERS);
+
+                            boolean both = allverticalredstoneblocks || isCant;
+
+                            if(!both){
+                                slvl.setBlock(bp,bs.setValue(POWERED,false),3);
+                                return;
+                            }
+                            attemptPlaySound(slvl,bp);
+                            slvl.scheduleTick(bp,bs.getBlock(),20,TickPriority.VERY_LOW);
+                        }
+                    }
+                }
+            });
 
 
 

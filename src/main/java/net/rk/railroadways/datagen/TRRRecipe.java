@@ -254,6 +254,11 @@ public class TRRRecipe extends RecipeProvider{
                 .requires(Ingredient.of(Items.IRON_BLOCK))
                 .unlockedBy("has_thingy",has(TRRBlocks.VERTICAL_POLE_REDSTONE_RR.asItem()))
                 .save(rc);
+
+        stonecutterAny(TRRBlocks.ELECTRONIC_BELL_TYPE_6.asItem(),
+                Ingredient.of(TRRBlocks.ELECTRONIC_BELL_TYPE_2.asItem()),
+                TRRBlocks.ELECTRONIC_BELL_TYPE_6.asItem(),1)
+                .save(rc);
     }
 
     public static RecipeBuilder stonecutterAny(Item requiredItem, Ingredient inputItem, Item result, int amt) {

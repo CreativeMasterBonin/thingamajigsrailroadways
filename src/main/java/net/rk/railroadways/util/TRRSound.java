@@ -50,6 +50,10 @@ public class TRRSound{
             () -> SoundEvent.createVariableRangeEvent(
                     ResourceLocation.fromNamespaceAndPath(Thingamajigsrailroadways.MODID,"ebell_five")));
 
+    public static final Supplier<SoundEvent> EBELL_SIX = SOUND_EVENTS.register("ebell_six",
+            () -> SoundEvent.createVariableRangeEvent(
+                    ResourceLocation.fromNamespaceAndPath(Thingamajigsrailroadways.MODID,"ebell_six")));
+
 
     public static void register(IEventBus eventBus){SOUND_EVENTS.register(eventBus);}
 }

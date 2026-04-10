@@ -16,6 +16,7 @@ import net.rk.railroadways.entity.blockentity.TRRBlockEntity;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -75,10 +76,9 @@ public class CrossingComponentControllerBE extends BlockEntity{
         tag.putBoolean("universal_alternating_flash",universalAlternatingFlash);
         int index = 0;
         for(BlockPos pos : pairedPositions){
-            if(this.getLevel().getBlockEntity(pos) != null){
-                tag.put("paired_pos_" + index,NbtUtils.writeBlockPos(pos));
-            }
+            tag.put("paired_pos_" + index,NbtUtils.writeBlockPos(pos));
             index++;
+            //System.out.println("Saving: " + pos.toShortString());
         }
     }
 
@@ -91,26 +91,25 @@ public class CrossingComponentControllerBE extends BlockEntity{
             be.universalAlternatingFlash = !be.universalAlternatingFlash;
         }
         try{
-            for(BlockPos pos : be.pairedPositions){
-                if(be.pairedPositions.contains(pos) && be.getLevel().getBlockEntity(pos) == null){
+            for (BlockPos pos : be.pairedPositions) {
+                if (be.pairedPositions.contains(pos) && be.getLevel().getBlockEntity(pos) == null) {
                     be.pairedPositions.remove(pos);
                     be.updateBlock();
                     return;
                 }
-                if(slvl.getBlockEntity(pos) != null){
-                    if(slvl.getBlockEntity(pos) instanceof RailroadCrossingArmWithLights lightedArm){
-                        if(lightedArm.flasherTickDelay != be.universalFlashInterval){
+                if (slvl.getBlockEntity(pos) != null) {
+                    if (slvl.getBlockEntity(pos) instanceof RailroadCrossingArmWithLights lightedArm) {
+                        if (lightedArm.flasherTickDelay != be.universalFlashInterval) {
                             lightedArm.flasherTickDelay = be.universalFlashInterval;
                             lightedArm.updateBlock();
                         }
                         lightedArm.ticks = be.universalTicks;
                         lightedArm.alternateFlashCycle = be.universalAlternatingFlash;
 
-                        if(sbs.getValue(BlockStateProperties.POWERED)){
+                        if (sbs.getValue(BlockStateProperties.POWERED)) {
                             lightedArm.externalPower = true;
                             lightedArm.updateBlock();
-                        }
-                        else{
+                        } else {
                             lightedArm.externalPower = false;
                             lightedArm.updateBlock();
                         }
@@ -134,19 +133,12 @@ public class CrossingComponentControllerBE extends BlockEntity{
         if(tag.contains("universal_alternating_flash")){
             universalAlternatingFlash = tag.getBoolean("universal_alternating_flash");
         }
+        this.pairedPositions.clear();
         for(String key : tag.getAllKeys().stream().filter(key ->
                 key.startsWith("paired_pos_")).collect(Collectors.toSet())){
             Optional<BlockPos> savedPairPos = NbtUtils.readBlockPos(tag,key);
-            if(savedPairPos.isPresent()){
-                if(this.getLevel().getBlockEntity(savedPairPos.get()) != null){
-                    if(this.pairedPositions.contains(savedPairPos)){
-                        continue;
-                    }
-                    else{
-                        this.pairedPositions.add(savedPairPos.get());
-                    }
-                }
-            }
+            savedPairPos.ifPresent(blockPos -> this.pairedPositions.add(blockPos));
+            //System.out.println("Loading: " + savedPairPos.get().toShortString());
         }
     }
 

@@ -16,6 +16,7 @@ import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
 import net.rk.railroadways.block.TRRBlocks;
 import net.rk.railroadways.entity.blockentity.TRRBlockEntity;
 import net.rk.railroadways.entity.blockentity.model.*;
+import net.rk.railroadways.item.TRRItems;
 import net.rk.railroadways.menu.TRRMenu;
 import net.rk.railroadways.render.*;
 import net.rk.railroadways.screen.*;
@@ -83,12 +84,12 @@ public class TRRClient{
 
     public void addCreative(BuildCreativeModeTabContentsEvent event) {
         if(event.getTabKey() == Thingamajigsrailroadways.TRR_TAB.getKey()){
-            event.accept(TRRBlocks.POLE_WITH_CROSSING_STOP_LIGHT.asItem());
-            //event.accept(TRRItems.COMPONENT_LINKER.asItem());
+            event.accept(TRRItems.COMPONENT_LINKER.asItem());
             event.accept(TRRBlocks.PURPLE_RAIL.asItem());
             event.accept(TRRBlocks.PURPLE_POWERED_RAIL.asItem());
             event.accept(TRRBlocks.PURPLE_DETECTOR_RAIL.asItem());
             event.accept(TRRBlocks.PURPLE_ACTIVATOR_RAIL.asItem());
+            event.accept(TRRBlocks.CROSSING_COMPONENT_CONTROLLER.asItem());
             event.accept(TRRBlocks.VERTICAL_POLE_REDSTONE_RR.asItem());
             event.accept(TRRBlocks.POLE_CAP.asItem());
             event.accept(TRRBlocks.RR_LADDER_POLE.asItem());
@@ -103,6 +104,7 @@ public class TRRClient{
             event.accept(TRRBlocks.RAILROAD_CROSSING_ARM_LIGHTED.asItem());
             event.accept(TRRBlocks.CROSSBUCK.asItem());
             event.accept(TRRBlocks.CROSSBUCK_WITH_LADDER.asItem());
+            event.accept(TRRBlocks.POLE_WITH_CROSSING_STOP_LIGHT.asItem());
             event.accept(TRRBlocks.RAILROAD_CROSSING_LIGHTS.asItem());
             event.accept(TRRBlocks.BIG_RAILROAD_CROSSING_LIGHTS.asItem());
             event.accept(TRRBlocks.BRITISH_RAILWAY_LIGHTS.asItem());

@@ -3,6 +3,7 @@ package net.rk.railroadways.entity.blockentity.custom;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtUtils;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
@@ -11,10 +12,13 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.rk.railroadways.block.TRRBlocks;
 import net.rk.railroadways.block.custom.BritRailwayLightsBlock;
 import net.rk.railroadways.entity.blockentity.TRRBlockEntity;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.Optional;
 
 public class BritRailwayLightsBE extends BlockEntity{
     BlockPos bp;
@@ -31,6 +35,11 @@ public class BritRailwayLightsBE extends BlockEntity{
     public String amberLoc = "thingamajigsrailroadways:textures/entity/brit_amber.png";
     public String on0 = "thingamajigsrailroadways:textures/entity/brit_on_0.png";
     public String on1 = "thingamajigsrailroadways:textures/entity/brit_on_1.png";
+
+    // linking variables
+    public boolean linkedToController = false;
+    public boolean externalPower = false;
+    public BlockPos linkedPosition = BlockPos.ZERO;
 
     public enum BritRailwayLightsState {
         OFF,
@@ -82,22 +91,44 @@ public class BritRailwayLightsBE extends BlockEntity{
     }
 
     public static void serverTick(Level slvl, BlockPos sbp, BlockState sbs, BritRailwayLightsBE brlbe){
-        ++brlbe.ticks;
-        brlbe.flasherDelayTicks++;
-        if(brlbe.flasherDelayTicks >= 32767){
-            brlbe.flasherDelayTicks = 0;
-        }
-        if(brlbe.flasherDelay <= 0){
-            brlbe.flasherDelay = 1;
-        }
-        if(brlbe.flasherDelayTicks % brlbe.flasherDelay == 0){
-            brlbe.onLeftFlash = !brlbe.onLeftFlash;
-            if(brlbe.noisyRelay && brlbe.lightsState == BritRailwayLightsState.ON){
-                slvl.playSound(null,brlbe.getBlockPos(),
-                        SoundEvents.NOTE_BLOCK_HAT.value(), SoundSource.BLOCKS,
-                        0.05f,0.01f);
+        if(brlbe.linkedToController){
+            if(slvl.getBlockEntity(brlbe.linkedPosition) == null){
+                brlbe.linkedToController = false;
+                brlbe.linkedPosition = BlockPos.ZERO;
+                brlbe.updateBlock();
+                return;
+            }
+
+            if(brlbe.externalPower){
+                if(!sbs.getValue(BlockStateProperties.POWERED)){
+                    slvl.setBlock(sbp,sbs.setValue(BlockStateProperties.POWERED,true),3);
+                }
+            }
+            else{
+                if(sbs.getValue(BlockStateProperties.POWERED)){
+                    slvl.setBlock(sbp,sbs.setValue(BlockStateProperties.POWERED,false),3);
+                }
             }
         }
+        else{
+            ++brlbe.ticks;
+            brlbe.flasherDelayTicks++;
+            if(brlbe.flasherDelayTicks >= 32767){
+                brlbe.flasherDelayTicks = 0;
+            }
+            if(brlbe.flasherDelay <= 0){
+                brlbe.flasherDelay = 1;
+            }
+            if(brlbe.flasherDelayTicks % brlbe.flasherDelay == 0){
+                brlbe.onLeftFlash = !brlbe.onLeftFlash;
+                if(brlbe.noisyRelay && brlbe.lightsState == BritRailwayLightsState.ON){
+                    slvl.playSound(null,brlbe.getBlockPos(),
+                            SoundEvents.NOTE_BLOCK_HAT.value(), SoundSource.BLOCKS,
+                            0.05f,0.01f);
+                }
+            }
+        }
+
         // hard reset tick counter
         if(brlbe.ticks >= brlbe.delayTicks){
             if(slvl.getBlockState(sbp).is(TRRBlocks.BRITISH_RAILWAY_LIGHTS)){
@@ -128,20 +159,24 @@ public class BritRailwayLightsBE extends BlockEntity{
                     }
                 }
             }
-            brlbe.ticks = 0;
+            if(!brlbe.linkedToController){
+                brlbe.ticks = 0;
+            }
         }
     }
 
     public static void clientTick(Level lvl, BlockPos bp, BlockState bs, BritRailwayLightsBE brlbe){
-        brlbe.flasherDelayTicks++;
-        if(brlbe.flasherDelayTicks >= 32767){
-            brlbe.flasherDelayTicks = 0;
-        }
-        if(brlbe.flasherDelay <= 0){
-            brlbe.flasherDelay = 1;
-        }
-        if(brlbe.flasherDelayTicks % brlbe.flasherDelay == 0){
-            brlbe.onLeftFlash = !brlbe.onLeftFlash;
+        if(!brlbe.linkedToController){
+            brlbe.flasherDelayTicks++;
+            if(brlbe.flasherDelayTicks >= 32767){
+                brlbe.flasherDelayTicks = 0;
+            }
+            if(brlbe.flasherDelay <= 0){
+                brlbe.flasherDelay = 1;
+            }
+            if(brlbe.flasherDelayTicks % brlbe.flasherDelay == 0){
+                brlbe.onLeftFlash = !brlbe.onLeftFlash;
+            }
         }
     }
 
@@ -152,6 +187,8 @@ public class BritRailwayLightsBE extends BlockEntity{
         pTag.putFloat("y_angle",yAngle);
         pTag.putBoolean("noisy_relay",noisyRelay);
         pTag.putInt("flasher_delay",flasherDelay);
+        pTag.putBoolean("linked_to_controller",linkedToController);
+        pTag.put("linked_position",NbtUtils.writeBlockPos(linkedPosition));
     }
 
     @Override
@@ -163,6 +200,13 @@ public class BritRailwayLightsBE extends BlockEntity{
         }
         if(pTag.contains("flasher_delay")){
             flasherDelay = pTag.getInt("flasher_delay");
+        }
+        if(pTag.contains("linked_to_controller")){
+            linkedToController = pTag.getBoolean("linked_to_controller");
+        }
+        if(pTag.contains("linked_position")){
+            Optional<BlockPos> savedPairPos = NbtUtils.readBlockPos(pTag,"linked_position");
+            savedPairPos.ifPresent(blockPos -> linkedPosition = blockPos);
         }
     }
 }

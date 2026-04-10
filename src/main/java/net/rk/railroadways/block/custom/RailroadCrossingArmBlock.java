@@ -39,6 +39,7 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraft.world.ticks.TickPriority;
 import net.rk.railroadways.block.TRRBlocks;
 import net.rk.railroadways.entity.blockentity.TRRBlockEntity;
+import net.rk.railroadways.entity.blockentity.custom.RailroadCrossingArmWithLights;
 import net.rk.railroadways.entity.blockentity.custom.RailroadCrossingBE;
 import net.rk.railroadways.menu.RailroadCrossingArmMenu;
 import org.jetbrains.annotations.Nullable;
@@ -145,6 +146,10 @@ public class RailroadCrossingArmBlock extends BaseEntityBlock{
                     lvl.scheduleTick(bp,this,4);
                 }
                 else{
+                    if(lvl.getBlockEntity(bp) instanceof RailroadCrossingBE be){
+                        if(be.linkedToController)
+                            return;
+                    }
                     lvl.setBlock(bp,bs.cycle(POWERED), 2);
                 }
             }
@@ -155,6 +160,12 @@ public class RailroadCrossingArmBlock extends BaseEntityBlock{
     public void tick(BlockState bs, ServerLevel sl, BlockPos bp, RandomSource rs){
         Block blk = sl.getBlockState(bp.above()).getBlock();
         boolean flag2 = sl.hasNeighborSignal(bp);
+        if(sl.getBlockEntity(bp) instanceof RailroadCrossingBE be){
+            if(be.linkedToController){
+                sl.scheduleTick(bp.above(),blk,20,TickPriority.VERY_LOW);
+                return;
+            }
+        }
 
         if(flag2){
             sl.setBlock(bp,bs.setValue(POWERED,true),2);

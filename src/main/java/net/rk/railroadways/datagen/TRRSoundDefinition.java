@@ -99,5 +99,14 @@ public class TRRSoundDefinition extends SoundDefinitionsProvider {
                         .stream(false)
                         .preload(true)
         ).subtitle("thingamajigsrailroadways.subtitle.yodeler_beeps"));
+
+        this.add(TRRSound.EBELL_SIX, SoundDefinition.definition().with(
+                sound("thingamajigsrailroadways:block/ebell_six")
+                        .volume(1.0f)
+                        .pitch(1.0f)
+                        .attenuationDistance(14)
+                        .stream(false)
+                        .preload(true)
+        ).subtitle("thingamajigsrailroadways.subtitle.ebell_ring"));
     }
 }
