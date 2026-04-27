@@ -30,7 +30,7 @@ public class TRRItemModel extends ItemModelProvider{
         fromModelMod(TRRBlocks.CLICKY_MECHANICAL_BELL.get(),"block/clicky_mechanical_bell");
         fromModelMod(TRRBlocks.ELECTRONIC_BELL_TYPE_5.get(),"block/railroad_crossing_ebell_type_five");
         generatedItem(TRRItems.COMPONENT_LINKER.get().asItem(),"component_linker");
-        fromModelMod(TRRBlocks.CROSSING_COMPONENT_CONTROLLER.get(),"block/crossing_component_controller");
+        fromModelMod(TRRBlocks.CROSSING_COMPONENT_CONTROLLER.get(),"block/crossing_component_controller_off");
         fromModelMod(TRRBlocks.ELECTRONIC_BELL_TYPE_6.get(),"block/railroad_crossing_bell_type_six");
     }
 

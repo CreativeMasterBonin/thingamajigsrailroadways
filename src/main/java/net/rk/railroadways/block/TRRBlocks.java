@@ -498,12 +498,12 @@ public class TRRBlocks {
             () -> new CrossingComponentController(BlockBehaviour.Properties.of()));
 
     public static final DeferredBlock<Block> ELECTRONIC_BELL_TYPE_6 = register("railroad_crossing_ebell_type_six",
-            () -> new BaseRailroadCrossingBell(BlockBehaviour.Properties.of(),true){
+            () -> new RotatingBaseRailroadCrossingBell(BlockBehaviour.Properties.of(),true){
                 @Override
                 public boolean attemptPlaySound(Level lp, BlockPos bp) {
                     if (!lp.isClientSide){
                         lp.playSeededSound(null,bp.getX(),bp.getY(),bp.getZ(),
-                                TRRSound.EBELL_SIX.get(), SoundSource.BLOCKS,0.3f,1.0f,lp.random.nextLong());
+                                TRRSound.EBELL_SIX.get(), SoundSource.BLOCKS,0.4f,1.0f,lp.random.nextLong());
                         return true;
                     }
                     else {
@@ -511,14 +511,57 @@ public class TRRBlocks {
                     }
                 }
 
+                public static final VoxelShape NORTH = Stream.of(
+                        Block.box(6, 0, 6, 10, 2, 10),
+                        Block.box(6, 14, 6, 10, 16, 10),
+                        Block.box(7, 0, 10, 9, 16, 11),
+                        Block.box(7, 2, 7, 9, 9, 9),
+                        Block.box(7, 9, 7, 9, 9.75, 9)
+                ).reduce((v1, v2) -> Shapes.join(v1, v2, BooleanOp.OR)).get();
+
+                public static final VoxelShape EAST = Stream.of(
+                        Block.box(6, 0, 6, 10, 2, 10),
+                        Block.box(6, 14, 6, 10, 16, 10),
+                        Block.box(5, 0, 7, 6, 16, 9),
+                        Block.box(7, 2, 7, 9, 9, 9),
+                        Block.box(7, 9, 7, 9, 9.75, 9)
+                ).reduce((v1, v2) -> Shapes.join(v1, v2, BooleanOp.OR)).get();
+
+                public static final VoxelShape SOUTH = Stream.of(
+                        Block.box(6, 0, 6, 10, 2, 10),
+                        Block.box(6, 14, 6, 10, 16, 10),
+                        Block.box(7, 0, 5, 9, 16, 6),
+                        Block.box(7, 2, 7, 9, 9, 9),
+                        Block.box(7, 9, 7, 9, 9.75, 9)
+                ).reduce((v1, v2) -> Shapes.join(v1, v2, BooleanOp.OR)).get();
+
+                public static final VoxelShape WEST = Stream.of(
+                        Block.box(6, 0, 6, 10, 2, 10),
+                        Block.box(6, 14, 6, 10, 16, 10),
+                        Block.box(10, 0, 7, 11, 16, 9),
+                        Block.box(7, 2, 7, 9, 9, 9),
+                        Block.box(7, 9, 7, 9, 9.75, 9)
+                ).reduce((v1, v2) -> Shapes.join(v1, v2, BooleanOp.OR)).get();
+
                 @Override
-                protected VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
-                    return Stream.of(
-                            Block.box(6, 0, 6, 10, 1, 10),
-                            Block.box(5.5, 6, 5.5, 10.5, 12, 10.5),
-                            Block.box(4, 12, 4, 12, 14, 12),
-                            Block.box(7, 1, 7, 9, 6, 9)
-                    ).reduce((v1, v2) -> Shapes.join(v1, v2, BooleanOp.OR)).get();
+                public VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
+                    switch(state.getValue(FACING)){
+                        case NORTH -> {
+                            return NORTH;
+                        }
+                        case SOUTH -> {
+                            return SOUTH;
+                        }
+                        case EAST -> {
+                            return EAST;
+                        }
+                        case WEST -> {
+                            return WEST;
+                        }
+                        default -> {
+                            return Shapes.block();
+                        }
+                    }
                 }
 
                 // this bell needs some more customization
@@ -536,13 +579,11 @@ public class TRRBlocks {
                                 return;
                             }
                             attemptPlaySound(slvl,bp);
-                            slvl.scheduleTick(bp,bs.getBlock(),20,TickPriority.VERY_LOW);
+                            slvl.scheduleTick(bp,bs.getBlock(),14,TickPriority.VERY_LOW);
                         }
                     }
                 }
             });
-
-
 
     //
     private static DeferredBlock<Block> register(String name, Supplier<Block> block) {

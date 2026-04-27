@@ -8,6 +8,8 @@ import net.minecraft.nbt.NbtUtils;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
@@ -16,7 +18,6 @@ import net.rk.railroadways.entity.blockentity.TRRBlockEntity;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -29,7 +30,7 @@ public class CrossingComponentControllerBE extends BlockEntity{
 
     public boolean pairingMode = false;
 
-    public ArrayList<BlockPos> pairedPositions = new ArrayList<>(hardLimitPairs);
+    public ArrayList<BlockPos> pairedPositions = new ArrayList<>(0);
 
     public CrossingComponentControllerBE(BlockPos pos, BlockState blockState) {
         super(TRRBlockEntity.CROSSING_COMPONENT_CONTROLLER_BE.get(), pos, blockState);
@@ -43,11 +44,35 @@ public class CrossingComponentControllerBE extends BlockEntity{
         }
     }
 
-    public void removePosition(BlockPos blockPos){
+    public void removePosition(BlockPos blockPos,boolean silent){
         if(pairedPositions.contains(blockPos)){
-            pairedPositions.clear();
-            this.setChanged();
-            this.updateBlock();
+            for(int positionIndex = 0; positionIndex < pairedPositions.size() - 1; positionIndex++){
+                boolean xIsOk = pairedPositions.get(positionIndex).getX() == blockPos.getX();
+                boolean yIsOk = pairedPositions.get(positionIndex).getY() == blockPos.getY();
+                boolean zIsOk = pairedPositions.get(positionIndex).getZ() == blockPos.getZ();
+
+                System.out.println(blockPos.toShortString() + " comparing to " + pairedPositions.get(positionIndex).toShortString() + " is result " + (xIsOk && yIsOk && zIsOk));
+
+                if(xIsOk && yIsOk && zIsOk){
+                    pairedPositions.remove(positionIndex);
+                    // silent removal for invalidation checks
+                    if(!silent){
+                        // notification for this block pos changed
+                        this.getLevel().playSound(null,this.getBlockPos(),
+                                SoundEvents.SCULK_CLICKING,SoundSource.BLOCKS,
+                                1.0f,1.25f);
+                        // notification for block pos changed
+                        this.getLevel().playSound(null,blockPos,
+                                SoundEvents.SCULK_CLICKING,SoundSource.BLOCKS,
+                                1.0f,1.25f);
+                    }
+                    this.updateBlock();
+                    break;
+                }
+            }
+        }
+        else{
+            System.out.println("Problem removing pos: " + blockPos + "... is it supposed to be a mismatch?");
         }
     }
 
@@ -75,10 +100,10 @@ public class CrossingComponentControllerBE extends BlockEntity{
         tag.putInt("universal_flash_interval",universalFlashInterval);
         tag.putBoolean("universal_alternating_flash",universalAlternatingFlash);
         int index = 0;
-        for(BlockPos pos : pairedPositions){
-            tag.put("paired_pos_" + index,NbtUtils.writeBlockPos(pos));
+
+        for(BlockPos pos : this.pairedPositions){
+            tag.put("paired_pos_" + index, NbtUtils.writeBlockPos(pos));
             index++;
-            //System.out.println("Saving: " + pos.toShortString());
         }
     }
 
@@ -92,26 +117,69 @@ public class CrossingComponentControllerBE extends BlockEntity{
         }
         try{
             for (BlockPos pos : be.pairedPositions) {
-                if (be.pairedPositions.contains(pos) && be.getLevel().getBlockEntity(pos) == null) {
-                    be.pairedPositions.remove(pos);
-                    be.updateBlock();
-                    return;
-                }
-                if (slvl.getBlockEntity(pos) != null) {
-                    if (slvl.getBlockEntity(pos) instanceof RailroadCrossingArmWithLights lightedArm) {
-                        if (lightedArm.flasherTickDelay != be.universalFlashInterval) {
-                            lightedArm.flasherTickDelay = be.universalFlashInterval;
-                            lightedArm.updateBlock();
-                        }
-                        lightedArm.ticks = be.universalTicks;
-                        lightedArm.alternateFlashCycle = be.universalAlternatingFlash;
+                if(slvl.isLoaded(pos)){ // no erroneous chunk loading
+                    if (slvl.getBlockEntity(pos) != null) {
+                        if (slvl.getBlockEntity(pos) instanceof RailroadCrossingArmWithLights lightedArm) {
+                            if(lightedArm.linkedToController){
+                                if (lightedArm.flasherTickDelay != be.universalFlashInterval) {
+                                    lightedArm.flasherTickDelay = be.universalFlashInterval;
+                                    lightedArm.updateBlock();
+                                }
+                                lightedArm.ticks = be.universalTicks;
+                                lightedArm.alternateFlashCycle = be.universalAlternatingFlash;
 
-                        if (sbs.getValue(BlockStateProperties.POWERED)) {
-                            lightedArm.externalPower = true;
-                            lightedArm.updateBlock();
-                        } else {
-                            lightedArm.externalPower = false;
-                            lightedArm.updateBlock();
+                                if (sbs.getValue(BlockStateProperties.POWERED)) {
+                                    lightedArm.externalPower = true;
+                                    lightedArm.updateBlock();
+                                } else {
+                                    lightedArm.externalPower = false;
+                                    lightedArm.updateBlock();
+                                }
+                            }
+                            else{
+                                be.pairedPositions.remove(pos);
+                                be.setChanged();
+                                break;
+                            }
+                        }
+                        else if (slvl.getBlockEntity(pos) instanceof RailroadCrossingBE gate) {
+                            if(gate.linkedToController){
+                                gate.ticks = be.universalTicks;
+
+                                if (sbs.getValue(BlockStateProperties.POWERED)) {
+                                    gate.externalPower = true;
+                                    gate.updateBlock();
+                                }
+                                else {
+                                    gate.externalPower = false;
+                                    gate.updateBlock();
+                                }
+                            }
+                            else{
+                                be.pairedPositions.remove(pos);
+                                be.setChanged();
+                                break;
+                            }
+                        }
+                        else if(slvl.getBlockEntity(pos) instanceof BritRailwayLightsBE britLights){
+                            if(britLights.linkedToController){
+                                britLights.ticks = be.universalTicks;
+                                britLights.onLeftFlash = be.universalAlternatingFlash;
+
+                                if (sbs.getValue(BlockStateProperties.POWERED)) {
+                                    britLights.externalPower = true;
+                                    britLights.updateBlock();
+                                }
+                                else {
+                                    britLights.externalPower = false;
+                                    britLights.updateBlock();
+                                }
+                            }
+                            else{
+                                be.pairedPositions.remove(pos);
+                                be.setChanged();
+                                break;
+                            }
                         }
                     }
                 }
@@ -133,12 +201,13 @@ public class CrossingComponentControllerBE extends BlockEntity{
         if(tag.contains("universal_alternating_flash")){
             universalAlternatingFlash = tag.getBoolean("universal_alternating_flash");
         }
-        this.pairedPositions.clear();
+        this.pairedPositions.clear(); // we do not want any duplicate positions when loading data from disk
         for(String key : tag.getAllKeys().stream().filter(key ->
                 key.startsWith("paired_pos_")).collect(Collectors.toSet())){
             Optional<BlockPos> savedPairPos = NbtUtils.readBlockPos(tag,key);
-            savedPairPos.ifPresent(blockPos -> this.pairedPositions.add(blockPos));
-            //System.out.println("Loading: " + savedPairPos.get().toShortString());
+            savedPairPos.ifPresent(blockPos -> {
+                this.pairedPositions.add(blockPos);
+            });
         }
     }
 

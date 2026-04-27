@@ -98,7 +98,7 @@ public class BritCrossingAlarmBlock extends Block{
                     slvl.setBlock(bp,bs.setValue(POWERED,false),3);
                     return;
                 }
-                slvl.playSound(null,bp, TRRSound.YODELER.get(), SoundSource.BLOCKS,1.25F,1.0F);
+                slvl.playSound(null,bp, TRRSound.YODELER.get(), SoundSource.BLOCKS,0.98F,1.0F);
                 slvl.scheduleTick(bp,bs.getBlock(),britTickSpeed, TickPriority.LOW);
             }
         }

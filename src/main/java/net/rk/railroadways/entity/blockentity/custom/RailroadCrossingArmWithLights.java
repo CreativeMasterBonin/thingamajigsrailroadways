@@ -54,6 +54,18 @@ public class RailroadCrossingArmWithLights extends BlockEntity {
         return alternateFlashCycle;
     }
 
+    public void pairToLinkedPos(BlockPos attachedPos){
+        linkedToController = true;
+        linkedPosition = attachedPos;
+        updateBlock();
+    }
+
+    public void unpair(){
+        linkedToController = false;
+        linkedPosition = BlockPos.ZERO;
+        updateBlock();
+    }
+
     @Nullable
     @Override
     public Packet<ClientGamePacketListener> getUpdatePacket() {
@@ -192,7 +204,6 @@ public class RailroadCrossingArmWithLights extends BlockEntity {
         flasherTickDelay = pTag.getInt("flasher_tick_delay");
         if(flasherTickDelay <= 0){
             flasherTickDelay = 15;
-            updateBlock();
         }
         if(pTag.contains("linked_to_controller")){
             linkedToController = pTag.getBoolean("linked_to_controller");

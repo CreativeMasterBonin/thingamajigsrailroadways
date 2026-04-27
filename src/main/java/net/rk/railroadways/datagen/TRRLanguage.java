@@ -4,6 +4,7 @@ import net.minecraft.data.PackOutput;
 import net.neoforged.neoforge.common.data.LanguageProvider;
 import net.rk.railroadways.Thingamajigsrailroadways;
 import net.rk.railroadways.block.TRRBlocks;
+import net.rk.railroadways.item.TRRItems;
 
 public class TRRLanguage extends LanguageProvider {
     public TRRLanguage(PackOutput output, String locale) {
@@ -48,6 +49,7 @@ public class TRRLanguage extends LanguageProvider {
         this.add(TRRBlocks.POLE_WITH_CROSSING_STOP_LIGHT.get(),"Pole With Lighted Letters (Red Stop Variant)");
         this.add(TRRBlocks.ELECTRONIC_BELL_TYPE_6.get(),"Railroad Crossing E-Bell (Type 6)");
         this.add(TRRBlocks.CROSSING_COMPONENT_CONTROLLER.get(),"Railroad Crossing Component Controller");
+        this.add(TRRItems.COMPONENT_LINKER.asItem(),"Crossing Component Linker");
 
 
         this.add("editbox.hint.dynamic_sign_crossbuck","Enter texture resource path");
@@ -56,6 +58,21 @@ public class TRRLanguage extends LanguageProvider {
         this.add("pole_with_crossing_stop_light.hint.shift_mode_off","SHIFT( ): No Value Doubling");
         this.add("pole_with_crossing_stop_light.hint.shift_mode_on","SHIFT(X): Values Doubled");
         this.add("pole_with_crossing_stop_light.info.rotation_and_flash_interval","Rotation: %s | Interval: %s");
+        this.add("item.crossing_component_linker.desc","Shift-right click a controller to link it, then shift-right click any component to pair it");
+        this.add("item.crossing_component_linker.additional_info","Shift-right clicking linked components removes it from the linked controller");
+        this.add("item.crossing_component_linker.linked_to_pos","Linked to: %s");
+        this.add("item.crossing_component_linker.successful_link","Linked controller to linker");
+        this.add("item.crossing_component_linker.successful_pair","Paired %s to %s");
+        this.add("item.crossing_component_linker.successful_unpair","Unpaired %s from %s");
+        this.add("item.crossing_component_linker.unsuccessful_pair_invalid","Target cannot be paired");
+        this.add("item.crossing_component_linker.unsuccessful_pair_linked_controller_invalid","Missing component controller");
+        this.add("item.crossing_component_linker.unsuccessful_pair_need_controller","Link a controller first");
+        this.add("item.crossing_component_linker.unpaired_linker","Unpaired linker from controller");
+        this.add("item.crossing_component_linker.too_far","Too far from linked controller");
+        this.add("item.crossing_component_linker.controller_linked_positions","Controller Linked Positions");
+        this.add("item.crossing_component_linker.max_amount_components_reached","Maximum Components Reached");
+        this.add("block.crossing_component_controller.desc","Use a linker to pair components to the controller, will activate all paired components when powered");
+        this.add("block.crossing_component_controller.additional_info","Invalid pairs will be removed from the memory of the controller automatically, break block and components for forced deletion");
 
         this.add("sign_type.aust_alt", "Australian Alt");
         this.add("sign_type.aust", "Australian");

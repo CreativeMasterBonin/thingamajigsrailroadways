@@ -1,10 +1,15 @@
 package net.rk.railroadways.block.custom;
 
 import com.mojang.serialization.MapCodec;
+import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
@@ -21,20 +26,49 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.level.material.MapColor;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.Shapes;
+import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraft.world.ticks.TickPriority;
 import net.rk.railroadways.datagen.TRRBlockTag;
 import net.rk.railroadways.entity.blockentity.TRRBlockEntity;
 import net.rk.railroadways.entity.blockentity.custom.CrossingComponentControllerBE;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.List;
+
 public class CrossingComponentController extends BaseEntityBlock {
     public static final MapCodec<CrossingComponentController> CODEC = simpleCodec(CrossingComponentController::new);
     public static final DirectionProperty FACING = HorizontalDirectionalBlock.FACING;
     public static final BooleanProperty POWERED = BlockStateProperties.POWERED;
 
+    public static final VoxelShape NORTHSOUTH = Block.box(1, 0, 3, 15, 16, 13);
+    public static final VoxelShape EASTWEST = Block.box(3, 0, 1, 13, 16, 15);
+
     public CrossingComponentController(Properties properties) {
         super(properties.strength(1.15f,15f).mapColor(MapColor.COLOR_GRAY).noOcclusion());
         this.registerDefaultState(this.defaultBlockState().setValue(FACING, Direction.NORTH).setValue(POWERED, false));
+    }
+
+    @Override
+    public void appendHoverText(ItemStack stack, Item.TooltipContext context, List<Component> tooltipComponents, TooltipFlag tooltipFlag) {
+        tooltipComponents.add(Component.translatable("block.crossing_component_controller.desc").withStyle(ChatFormatting.GRAY));
+        tooltipComponents.add(Component.translatable("block.crossing_component_controller.additional_info").withStyle(ChatFormatting.GOLD));
+    }
+
+    @Override
+    public VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
+        switch(state.getValue(FACING)){
+            case NORTH,SOUTH -> {
+                return NORTHSOUTH;
+            }
+            case EAST,WEST -> {
+                return EASTWEST;
+            }
+            default -> {
+                return Shapes.block();
+            }
+        }
     }
 
     @Override

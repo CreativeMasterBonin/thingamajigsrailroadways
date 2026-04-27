@@ -54,6 +54,18 @@ public class BritRailwayLightsBE extends BlockEntity{
         this.bp = pos;
     }
 
+    public void pairToLinkedPos(BlockPos attachedPos){
+        linkedToController = true;
+        linkedPosition = attachedPos;
+        updateBlock();
+    }
+
+    public void unpair(){
+        linkedToController = false;
+        linkedPosition = BlockPos.ZERO;
+        updateBlock();
+    }
+
     @Nullable
     @Override
     public Packet<ClientGamePacketListener> getUpdatePacket() {
@@ -178,6 +190,9 @@ public class BritRailwayLightsBE extends BlockEntity{
                 brlbe.onLeftFlash = !brlbe.onLeftFlash;
             }
         }
+        else{
+
+        }
     }
 
     @Override
@@ -189,6 +204,7 @@ public class BritRailwayLightsBE extends BlockEntity{
         pTag.putInt("flasher_delay",flasherDelay);
         pTag.putBoolean("linked_to_controller",linkedToController);
         pTag.put("linked_position",NbtUtils.writeBlockPos(linkedPosition));
+        pTag.putBoolean("on_left_flash",onLeftFlash);
     }
 
     @Override
@@ -207,6 +223,9 @@ public class BritRailwayLightsBE extends BlockEntity{
         if(pTag.contains("linked_position")){
             Optional<BlockPos> savedPairPos = NbtUtils.readBlockPos(pTag,"linked_position");
             savedPairPos.ifPresent(blockPos -> linkedPosition = blockPos);
+        }
+        if(pTag.contains("on_left_flash")){
+            onLeftFlash = pTag.getBoolean("on_left_flash");
         }
     }
 }

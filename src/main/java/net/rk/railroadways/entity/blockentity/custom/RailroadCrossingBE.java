@@ -47,6 +47,18 @@ public class RailroadCrossingBE extends BlockEntity{
         bp = pos;
     }
 
+    public void pairToLinkedPos(BlockPos attachedPos){
+        linkedToController = true;
+        linkedPosition = attachedPos;
+        updateBlock();
+    }
+
+    public void unpair(){
+        linkedToController = false;
+        linkedPosition = BlockPos.ZERO;
+        updateBlock();
+    }
+
     @Nullable
     @Override
     public Packet<ClientGamePacketListener> getUpdatePacket() {
