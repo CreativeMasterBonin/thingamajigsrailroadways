@@ -112,7 +112,7 @@ public class BritCrossingAlarmBlock extends Block{
 
     public boolean attemptPlaySound(Level lp, BlockPos bp) {
         if (!lp.isClientSide) {
-            lp.playSound(null,bp, TRRSound.YODELER.get(), SoundSource.BLOCKS,1.25F,1.0F);
+            lp.playSound(null,bp, TRRSound.YODELER.get(), SoundSource.BLOCKS,0.35F,1.0F);
             return true;
         }
         else {

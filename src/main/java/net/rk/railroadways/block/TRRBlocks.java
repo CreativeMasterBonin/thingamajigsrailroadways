@@ -196,7 +196,6 @@ public class TRRBlocks {
                 @Override
                 public boolean attemptPlaySound(Level lp, BlockPos bp) {
                     if (!lp.isClientSide){
-                        //lp.playSound(null,bp, TRRSound.EBELL_THREE.get(),SoundSource.BLOCKS, 0.25F, 1.0F);
                         lp.playSeededSound(null,bp.getX(),bp.getY(),bp.getZ(),
                                 TRRSound.EBELL_THREE.get(),SoundSource.BLOCKS,0.25f,1.0f,lp.random.nextLong());
                         return true;
@@ -217,13 +216,12 @@ public class TRRBlocks {
             });
 
     public static final DeferredBlock<Block> ELECTRONIC_BELL_TYPE_4 = register("railroad_crossing_ebell_type_four",
-            () -> new RotatingBaseRailroadCrossingBell(BlockBehaviour.Properties.of(),10){
+            () -> new RotatingBaseRailroadCrossingBell(BlockBehaviour.Properties.of(),12){
                 @Override
                 public boolean attemptPlaySound(Level lp, BlockPos bp) {
                     if (!lp.isClientSide){
-                        //lp.playSound(null,bp, TRRSound.EBELL_FOUR.get(),SoundSource.BLOCKS, 0.25F, 1.0F);
                         lp.playSeededSound(null,bp.getX(),bp.getY(),bp.getZ(),
-                                TRRSound.EBELL_FOUR.get(),SoundSource.BLOCKS,0.25f,1.0f,lp.random.nextLong());
+                                TRRSound.EBELL_FOUR.get(),SoundSource.BLOCKS,0.5f,1.0f,lp.random.nextLong());
                         return true;
                     }
                     else {
@@ -441,7 +439,7 @@ public class TRRBlocks {
                 @Override
                 public boolean attemptPlaySound(Level lp, BlockPos bp) {
                     if (!lp.isClientSide){
-                        lp.playSound(null, bp, TRRSound.CLICKY_MECHANICAL_BELL.get(), SoundSource.BLOCKS, 0.95F, 1.0F);
+                        lp.playSound(null, bp, TRRSound.CLICKY_MECHANICAL_BELL.get(), SoundSource.BLOCKS, 1.25F, 1.0F);
                         return true;
                     }
                     else {
@@ -584,6 +582,9 @@ public class TRRBlocks {
                     }
                 }
             });
+
+    public static final DeferredBlock<Block> MULTIPURPOSE_SIGN = register("multipurpose_sign",
+            () -> new MultipurposeSignBlock(BlockBehaviour.Properties.of()));
 
     //
     private static DeferredBlock<Block> register(String name, Supplier<Block> block) {

@@ -31,9 +31,11 @@ public class TRRItemTag extends ItemTagsProvider{
         ;
         this.tag(ItemTags.VANISHING_ENCHANTABLE)
                 .add(TRRItems.COMPONENT_LINKER.asItem())
+                .add(TRRItems.COMPONENT_BREAKER.asItem())
         ;
         this.tag(Tags.Items.TOOLS)
                 .add(TRRItems.COMPONENT_LINKER.asItem())
+                .add(TRRItems.COMPONENT_BREAKER.asItem())
         ;
     }
 }

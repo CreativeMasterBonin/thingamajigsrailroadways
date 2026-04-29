@@ -12,4 +12,7 @@ public class TRRItems{
 
     public static final DeferredItem<Item> COMPONENT_LINKER = ITEMS.register("component_linker",
             () -> new ComponentLinker(new Item.Properties()));
+
+    public static final DeferredItem<Item> COMPONENT_BREAKER = ITEMS.register("component_breaker",
+            () -> new ComponentBreaker(new Item.Properties()));
 }

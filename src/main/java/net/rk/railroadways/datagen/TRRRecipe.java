@@ -245,6 +245,14 @@ public class TRRRecipe extends RecipeProvider{
                 .unlockedBy("has_thingy",has(TRRTag.RAILROAD_COMPONENT_ITEMS)).group("railroad_crossing_modification_tools")
                 .save(rc);
 
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, TRRItems.COMPONENT_BREAKER.asItem(),1)
+                .requires(Ingredient.of(TRRTag.RAILROAD_COMPONENT_ITEMS))
+                .requires(Ingredient.of(Items.CALIBRATED_SCULK_SENSOR))
+                .requires(Ingredient.of(Items.REDSTONE_TORCH))
+                .requires(Ingredient.of(Items.STICKY_PISTON))
+                .unlockedBy("has_thingy",has(TRRTag.RAILROAD_COMPONENT_ITEMS)).group("railroad_crossing_modification_tools")
+                .save(rc);
+
         ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC,TRRBlocks.CROSSING_COMPONENT_CONTROLLER.asItem(),1)
                 .requires(Ingredient.of(TRRBlocks.VERTICAL_POLE_REDSTONE_RR.asItem()))
                 .requires(Ingredient.of(Items.COMPARATOR))
@@ -258,6 +266,14 @@ public class TRRRecipe extends RecipeProvider{
         stonecutterAny(TRRBlocks.ELECTRONIC_BELL_TYPE_6.asItem(),
                 Ingredient.of(TRRBlocks.ELECTRONIC_BELL_TYPE_2.asItem()),
                 TRRBlocks.ELECTRONIC_BELL_TYPE_6.asItem(),1)
+                .save(rc);
+
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC,TRRBlocks.MULTIPURPOSE_SIGN.asItem(),1)
+                .requires(Ingredient.of(TRRBlocks.VERTICAL_POLE_REDSTONE_RR.asItem()))
+                .requires(Ingredient.of(ItemTags.SIGNS))
+                .requires(Ingredient.of(Items.IRON_INGOT))
+                .requires(Ingredient.of(Items.NAME_TAG))
+                .unlockedBy("has_thingy",has(TRRBlocks.VERTICAL_POLE_REDSTONE_RR.asItem()))
                 .save(rc);
     }
 

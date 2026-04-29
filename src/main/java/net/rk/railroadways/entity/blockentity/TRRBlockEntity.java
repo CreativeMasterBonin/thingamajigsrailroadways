@@ -68,6 +68,11 @@ public class TRRBlockEntity{
                     BlockEntityType.Builder.of(CrossingComponentControllerBE::new,TRRBlocks.CROSSING_COMPONENT_CONTROLLER.get())
                             .build(null));
 
+    public static final Supplier<BlockEntityType<MultipurposeSignBE>> MULTIPURPOSE_SIGN_BE = BLOCK_ENTITIES.register(
+            "multipurpose_sign_be",() ->
+                    BlockEntityType.Builder.of(MultipurposeSignBE::new,TRRBlocks.MULTIPURPOSE_SIGN.get())
+                            .build(null));
+
     public static void register(IEventBus eventBus){
         BLOCK_ENTITIES.register(eventBus);
     }

@@ -5,7 +5,7 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.event.config.ModConfigEvent;
 import net.neoforged.neoforge.common.ModConfigSpec;
 
-@EventBusSubscriber(modid = Thingamajigsrailroadways.MODID, bus = EventBusSubscriber.Bus.MOD)
+@EventBusSubscriber(modid = Thingamajigsrailroadways.MODID)
 public class TRRConfig {
     private static final ModConfigSpec.Builder BUILDER = new ModConfigSpec.Builder();
 

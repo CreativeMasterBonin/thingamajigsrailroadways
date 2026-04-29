@@ -41,6 +41,7 @@ public class TRRClient{
         BlockEntityRenderers.register(TRRBlockEntity.RR_CANTILEVER_LIGHTS_BE.get(),RRCantLightsBERenderer::new);
         BlockEntityRenderers.register(TRRBlockEntity.RAILROAD_CROSSING_ARM_LIGHTED_BE.get(),RailroadCrossingArmWithLightsRenderer::new);
         BlockEntityRenderers.register(TRRBlockEntity.POLE_WITH_CROSSING_STOP_LIGHT_BE.get(),PoleWithCrossingStopLightBERenderer::new);
+        BlockEntityRenderers.register(TRRBlockEntity.MULTIPURPOSE_SIGN_BE.get(),MultipurposeSignBERenderer::new);
     }
 
     public void layerSetup(EntityRenderersEvent.RegisterLayerDefinitions event){
@@ -56,6 +57,7 @@ public class TRRClient{
         event.registerLayerDefinition(RRLightsBigModel.DEFAULT_TEXTURE,RRLightsBigModel::createBodyLayer);
         event.registerLayerDefinition(PoleWithCrossingStopLightVerticalModel.VERTICAL_STOP_LAYER,PoleWithCrossingStopLightVerticalModel::createBodyLayer);
         event.registerLayerDefinition(PoleWithCrossingStopLightHorizontalModel.HORIZONTAL_STOP_LAYER,PoleWithCrossingStopLightHorizontalModel::createBodyLayer);
+        event.registerLayerDefinition(MultipurposeSignModel.DEFAULT_MULTIPURPOSE_TEXTURE,MultipurposeSignModel::createBodyLayer);
     }
 
     public void setupMenuTypes(RegisterMenuScreensEvent event){
@@ -68,6 +70,7 @@ public class TRRClient{
         event.register(TRRMenu.RR_CANT_LIGHTS_MENU.get(),RRCantLightsScreen::new);
         event.register(TRRMenu.RAILROAD_CROSSING_LIGHTS_MENU.get(),RailroadCrossingArmLightedScreen::new);
         event.register(TRRMenu.POLE_WITH_CROSSING_STOP_LIGHT_MENU.get(),PoleWithCrossingStopLightScreen::new);
+        event.register(TRRMenu.MULTIPURPOSE_SIGN_MENU.get(),MultipurposeSignScreen::new);
     }
 
     public void clientExtensions(RegisterClientExtensionsEvent event) {
@@ -79,12 +82,14 @@ public class TRRClient{
         },TRRBlocks.BRITISH_RAILWAY_LIGHTS.asItem(),TRRBlocks.DUAL_RAILWAY_LIGHTS.asItem(),TRRBlocks.CROSSBUCK.asItem(),
                 TRRBlocks.RAILROAD_CROSSING_ARM_LIGHTED.asItem(),TRRBlocks.RAILROAD_CROSSING_ARM.asItem(),TRRBlocks.BIG_RAILROAD_CROSSING_CANTILEVER_LIGHTS.asItem(),
                 TRRBlocks.RAILROAD_CROSSING_CANTILEVER_LIGHTS.asItem(),TRRBlocks.RAILROAD_CROSSING_LIGHTS.asItem(),TRRBlocks.TRI_RAILWAY_LIGHTS.asItem(),
-                TRRBlocks.CROSSBUCK_WITH_LADDER.asItem(),TRRBlocks.BIG_RAILROAD_CROSSING_LIGHTS.asItem(),TRRBlocks.POLE_WITH_CROSSING_STOP_LIGHT.asItem());
+                TRRBlocks.CROSSBUCK_WITH_LADDER.asItem(),TRRBlocks.BIG_RAILROAD_CROSSING_LIGHTS.asItem(),TRRBlocks.POLE_WITH_CROSSING_STOP_LIGHT.asItem(),
+                TRRBlocks.MULTIPURPOSE_SIGN.asItem());
     }
 
     public void addCreative(BuildCreativeModeTabContentsEvent event) {
         if(event.getTabKey() == Thingamajigsrailroadways.TRR_TAB.getKey()){
             event.accept(TRRItems.COMPONENT_LINKER.asItem());
+            event.accept(TRRItems.COMPONENT_BREAKER.asItem());
             event.accept(TRRBlocks.PURPLE_RAIL.asItem());
             event.accept(TRRBlocks.PURPLE_POWERED_RAIL.asItem());
             event.accept(TRRBlocks.PURPLE_DETECTOR_RAIL.asItem());
@@ -104,6 +109,7 @@ public class TRRClient{
             event.accept(TRRBlocks.RAILROAD_CROSSING_ARM_LIGHTED.asItem());
             event.accept(TRRBlocks.CROSSBUCK.asItem());
             event.accept(TRRBlocks.CROSSBUCK_WITH_LADDER.asItem());
+            event.accept(TRRBlocks.MULTIPURPOSE_SIGN.asItem());
             event.accept(TRRBlocks.POLE_WITH_CROSSING_STOP_LIGHT.asItem());
             event.accept(TRRBlocks.RAILROAD_CROSSING_LIGHTS.asItem());
             event.accept(TRRBlocks.BIG_RAILROAD_CROSSING_LIGHTS.asItem());

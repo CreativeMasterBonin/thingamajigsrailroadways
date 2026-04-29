@@ -164,7 +164,15 @@ public class CrossingComponentControllerBE extends BlockEntity{
                         else if(slvl.getBlockEntity(pos) instanceof BritRailwayLightsBE britLights){
                             if(britLights.linkedToController){
                                 britLights.ticks = be.universalTicks;
-                                britLights.onLeftFlash = be.universalAlternatingFlash;
+                                if(britLights.lightsState == BritRailwayLightsBE.BritRailwayLightsState.ON){
+                                    britLights.onLeftFlash = be.universalAlternatingFlash;
+                                } else if(britLights.lightsState == BritRailwayLightsBE.BritRailwayLightsState.OFF && sbs.getValue(BlockStateProperties.POWERED)){
+                                    britLights.lightsState = BritRailwayLightsBE.BritRailwayLightsState.AMBER;
+                                } else if (britLights.lightsState == BritRailwayLightsBE.BritRailwayLightsState.AMBER && sbs.getValue(BlockStateProperties.POWERED)) {
+                                    if(britLights.ticks % Math.clamp(britLights.flasherDelayTicks,100,200) == 0){
+                                        britLights.lightsState = BritRailwayLightsBE.BritRailwayLightsState.ON;
+                                    }
+                                }
 
                                 if (sbs.getValue(BlockStateProperties.POWERED)) {
                                     britLights.externalPower = true;

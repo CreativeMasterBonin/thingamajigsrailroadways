@@ -53,5 +53,11 @@ public class TRRHandler {
                 PoleWithCrossingStopLightPayload.TYPE,
                 PoleWithCrossingStopLightPayload.STREAM_CODEC,
                 PoleWithCrossingStopLightPacket.get()::handle);
+
+        regex_reg.playToServer(
+                MultipurposeSignTypeUpdatePayload.TYPE,
+                MultipurposeSignTypeUpdatePayload.STREAM_CODEC,
+                MultipurposeSignTypeUpdatePacket.get()::handle
+        );
     }
 }

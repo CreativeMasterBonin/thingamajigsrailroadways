@@ -50,8 +50,12 @@ public class TRRLanguage extends LanguageProvider {
         this.add(TRRBlocks.ELECTRONIC_BELL_TYPE_6.get(),"Railroad Crossing E-Bell (Type 6)");
         this.add(TRRBlocks.CROSSING_COMPONENT_CONTROLLER.get(),"Railroad Crossing Component Controller");
         this.add(TRRItems.COMPONENT_LINKER.asItem(),"Crossing Component Linker");
+        this.add(TRRItems.COMPONENT_BREAKER.asItem(),"Crossing Component Breaker");
+        this.add(TRRBlocks.MULTIPURPOSE_SIGN.get(),"Multipurpose Sign");
 
 
+        this.add("menu.railroadways.multipurpose_sign.title","Multipurpose Sign");
+        this.add("container.railroadways.multipurpose_sign.sign_type","Sign Type: ");
         this.add("editbox.hint.dynamic_sign_crossbuck","Enter texture resource path");
         this.add("checkbox.title.dynamic_sign_crossbuck","Custom Texture");
         this.add("pole_with_crossing_stop_light.hint.toggle_shift_to_esc","Toggle Shift To Esc");
@@ -73,6 +77,7 @@ public class TRRLanguage extends LanguageProvider {
         this.add("item.crossing_component_linker.max_amount_components_reached","Maximum Components Reached");
         this.add("block.crossing_component_controller.desc","Use a linker to pair components to the controller, will activate all paired components when powered");
         this.add("block.crossing_component_controller.additional_info","Invalid pairs will be removed from the memory of the controller automatically, break block and components for forced deletion");
+        this.add("item.crossing_component_breaker.desc","Right click any component to remove all pairs and links");
 
         this.add("sign_type.aust_alt", "Australian Alt");
         this.add("sign_type.aust", "Australian");
@@ -157,5 +162,9 @@ public class TRRLanguage extends LanguageProvider {
         this.add("block.thingamajigsrailroadways.railroad_crossing_cantilever_lights.desc", "Supports redstone on top surface, and is controlled by redstone on top. Lights can be rotated individually, as well as the base rotation. Cantilever matches direction placement.");
         this.add("block.thingamajigsrailroadways.pole_cap.desc","Tops off those poles nicely, and spreads redstone power around itself when the block below it is powered with vertical redstone power");
         this.add(TRRTag.CANTILEVER_HELD_ITEMS,"Cantilever Held Items");
+
+        // custom multipurpose sign types
+        this.add("multipurpose_sign_type.placeholder.name","Placeholder");
+        this.add("multipurpose_sign_type.atc.name","Another Train Coming");
     }
 }

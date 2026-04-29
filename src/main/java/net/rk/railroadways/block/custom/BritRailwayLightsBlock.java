@@ -77,6 +77,12 @@ public class BritRailwayLightsBlock extends BaseEntityBlock{
 
             boolean allrrbellsabove = lvl.getBlockState(bp.above()).is(TRRBlockTag.RAILROAD_CROSSING_BELLS);
 
+            if(lvl.getBlockEntity(bp) instanceof BritRailwayLightsBE britLights){
+                if(britLights.linkedToController){
+                    return;
+                }
+            }
+
             if(allrrbellsabove){
                 if(allverticalredstoneblocks){
                     if(lvl.getBlockState(bp.below()).getValue(POWERED) == true){

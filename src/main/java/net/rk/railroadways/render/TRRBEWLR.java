@@ -10,6 +10,7 @@ import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderDispatcher;
+import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.component.DataComponents;
@@ -37,6 +38,7 @@ public class TRRBEWLR extends BlockEntityWithoutLevelRenderer{
     public RailroadCrossingLightsBE railroadCrossingLightsBE;
     public TriRailwayLightsBE triRailwayLightsBE;
     public PoleWithCrossingStopLightBE poleWithCrossingStopLightBE;
+    public MultipurposeSignBE multipurposeSignBE;
 
     public BritRRLightsModel britRRLightsModel;
     public DualLightsModel dualLightsModel;
@@ -50,6 +52,7 @@ public class TRRBEWLR extends BlockEntityWithoutLevelRenderer{
     public RRLightsModel rrLightsModel;
     public TriLightsModel triLightsModel;
     public PoleWithCrossingStopLightVerticalModel poleWithCrossingStopLightVerticalModel;
+    public MultipurposeSignModel multipurposeSignModel;
 
     private static final BlockPos ZERO = new BlockPos(0,0,0);
 
@@ -64,6 +67,7 @@ public class TRRBEWLR extends BlockEntityWithoutLevelRenderer{
         this.railroadCrossingLightsBE = new RailroadCrossingLightsBE(ZERO,TRRBlocks.RAILROAD_CROSSING_LIGHTS.get().defaultBlockState());
         this.triRailwayLightsBE = new TriRailwayLightsBE(ZERO,TRRBlocks.TRI_RAILWAY_LIGHTS.get().defaultBlockState());
         this.poleWithCrossingStopLightBE = new PoleWithCrossingStopLightBE(ZERO,TRRBlocks.POLE_WITH_CROSSING_STOP_LIGHT.get().defaultBlockState());
+        this.multipurposeSignBE = new MultipurposeSignBE(ZERO,TRRBlocks.MULTIPURPOSE_SIGN.get().defaultBlockState());
 
         this.britRRLightsModel = new BritRRLightsModel(set.bakeLayer(BritRRLightsModel.BRIT_LIGHTS_OFF_LOC));
         this.dualLightsModel = new DualLightsModel(set.bakeLayer(DualLightsModel.DUAL_TEXTURE_LOC));
@@ -77,6 +81,7 @@ public class TRRBEWLR extends BlockEntityWithoutLevelRenderer{
         this.rrLightsModel = new RRLightsModel(set.bakeLayer(RRLightsModel.LIGHTS_TEXTURE_LOCATION));
         this.triLightsModel = new TriLightsModel(set.bakeLayer(TriLightsModel.TRI_TEXTURE_LOC));
         this.poleWithCrossingStopLightVerticalModel = new PoleWithCrossingStopLightVerticalModel(set.bakeLayer(PoleWithCrossingStopLightVerticalModel.VERTICAL_STOP_LAYER));
+        this.multipurposeSignModel = new MultipurposeSignModel(set.bakeLayer(MultipurposeSignModel.DEFAULT_MULTIPURPOSE_TEXTURE));
     }
 
     @Override
@@ -94,6 +99,7 @@ public class TRRBEWLR extends BlockEntityWithoutLevelRenderer{
         this.rrLightsModel = new RRLightsModel(set.bakeLayer(RRLightsModel.LIGHTS_TEXTURE_LOCATION));
         this.triLightsModel = new TriLightsModel(set.bakeLayer(TriLightsModel.TRI_TEXTURE_LOC));
         this.poleWithCrossingStopLightVerticalModel = new PoleWithCrossingStopLightVerticalModel(set.bakeLayer(PoleWithCrossingStopLightVerticalModel.VERTICAL_STOP_LAYER));
+        this.multipurposeSignModel = new MultipurposeSignModel(set.bakeLayer(MultipurposeSignModel.DEFAULT_MULTIPURPOSE_TEXTURE));
     }
 
     @Override
@@ -103,6 +109,12 @@ public class TRRBEWLR extends BlockEntityWithoutLevelRenderer{
             britRailwayLightsBE.ticks += 1;
             if(britRailwayLightsBE.ticks >= 60){
                 britRailwayLightsBE.ticks = 0;
+            }
+        }
+        if(multipurposeSignBE != null){
+            multipurposeSignBE.ticks += 1;
+            if(multipurposeSignBE.ticks >= 60){
+                multipurposeSignBE.ticks = 0;
             }
         }
         if(stack.is(TRRBlocks.BRITISH_RAILWAY_LIGHTS.asItem())){
@@ -223,6 +235,148 @@ public class TRRBEWLR extends BlockEntityWithoutLevelRenderer{
             }
             dualLightsModel.setupAnim(dualRailwayLightsBE);
             dualLightsModel.renderToBuffer(poseStack,vc,packedLight,packedOverlay);
+            poseStack.popPose();
+        }
+        else if(stack.is(TRRBlocks.MULTIPURPOSE_SIGN.asItem())){
+            poseStack.pushPose();
+            vc = buffer.getBuffer(RenderType.entityCutout(ResourceLocation.parse("thingamajigsrailroadways:textures/entity/multipurpose_sign_variants/multipurpose_sign.png")));
+            multipurposeSignModel.setupAnim(multipurposeSignBE);
+
+            String offTexture = "thingamajigsrailroadways:textures/entity/multipurpose_sign_variants/multipurpose_sign.png";
+            String onTexture = "thingamajigsrailroadways:textures/entity/multipurpose_sign_variants/multipurpose_sign.png";
+            String altOnTexture = "thingamajigsrailroadways:textures/entity/multipurpose_sign_variants/multipurpose_sign.png";
+            int interval = 20;
+            boolean usesAlternatingTextures = false;
+            boolean loadedCustomTextures = false;
+
+            if(stack.has(DataComponents.BLOCK_ENTITY_DATA)){
+                CompoundTag tag = stack.get(DataComponents.BLOCK_ENTITY_DATA).copyTag();
+                if(tag != null){
+                    if(tag.get("off_texture") != null){
+                        offTexture = tag.get("off_texture").getAsString();
+                        loadedCustomTextures = true;
+                    }
+                    if(tag.get("on_texture") != null){
+                        onTexture = tag.get("on_texture").getAsString();
+                        loadedCustomTextures = true;
+                    }
+                    if(tag.get("alt_on_texture") != null){
+                        altOnTexture = tag.get("alt_on_texture").getAsString();
+                        loadedCustomTextures = true;
+                    }
+                    if(tag.get("alt_interval") != null){
+                        interval = tag.getInt("alt_interval");
+                    }
+                    if(tag.get("alternating_textures") != null){
+                        usesAlternatingTextures = tag.getBoolean("alternating_textures");
+                    }
+                }
+            }
+
+            if(usesAlternatingTextures){
+                float a2 = Mth.sin((float)(Util.getMillis() % 2000L) / 2000f * Mth.TWO_PI);
+                if(a2 < 0.0){
+                    if(loadedCustomTextures){
+                        vc = buffer.getBuffer(RenderType.entityCutout(ResourceLocation.parse(onTexture + Utilities.imgFileEnding)));
+                    }
+                    else{
+                        vc = buffer.getBuffer(RenderType.entityCutout(ResourceLocation.parse(onTexture)));
+                    }
+                }
+                else{
+                    if(loadedCustomTextures){
+                        vc = buffer.getBuffer(RenderType.entityCutout(ResourceLocation.parse(altOnTexture + Utilities.imgFileEnding)));
+                    }
+                    else{
+                        vc = buffer.getBuffer(RenderType.entityCutout(ResourceLocation.parse(altOnTexture)));
+                    }
+                }
+            }
+            else{
+                if(loadedCustomTextures){
+                    vc = buffer.getBuffer(RenderType.entityCutout(ResourceLocation.parse(onTexture + Utilities.imgFileEnding)));
+                }
+                else{
+                    vc = buffer.getBuffer(RenderType.entityCutout(ResourceLocation.parse(onTexture)));
+                }
+            }
+
+            multipurposeSignModel.getPole().visible = true;
+            multipurposeSignModel.getLcon().visible = false;
+            multipurposeSignModel.getRcon().visible = false;
+            multipurposeSignModel.getFcon().visible = false;
+            multipurposeSignModel.getBcon().visible = true;
+            multipurposeSignModel.getSign().y = 0.0f;
+            multipurposeSignModel.getGlowingpart().y = 16.0f;
+            multipurposeSignModel.getPole().yRot = Utilities.degreesToRadians(180);
+            multipurposeSignModel.getGlowingpart().xRot = Mth.PI;
+            multipurposeSignModel.getGlowingpart().zRot = Utilities.degreesToRadians(0);
+            multipurposeSignModel.getSign().visible = true;
+
+            if(displayContext == ItemDisplayContext.GUI){
+                poseStack.translate(0.5,-0.5,0);
+                multipurposeSignModel.getGlowingpart().xRot = Utilities.degreesToRadians(180);
+                multipurposeSignModel.getGlowingpart().yRot = Utilities.degreesToRadians(0);
+                multipurposeSignModel.getGlowingpart().zRot = Utilities.degreesToRadians(0);
+                multipurposeSignModel.getGlowingpart().render(poseStack,vc,Utilities.getLightLevel(2),packedOverlay);
+                multipurposeSignModel.renderToBuffer(poseStack,vc,Utilities.getLightLevel(2), OverlayTexture.NO_OVERLAY);
+            }
+            else if(displayContext == ItemDisplayContext.GROUND){
+                poseStack.scale(0.35f,0.35f,0.35f);
+                poseStack.translate(1.5,0.5,1.5);
+                multipurposeSignModel.getGlowingpart().yRot = Utilities.degreesToRadians(0);
+                multipurposeSignModel.getGlowingpart().render(poseStack,vc,Utilities.getLightLevel(2),packedOverlay);
+                multipurposeSignModel.renderToBuffer(poseStack,vc,Utilities.getLightLevel(2),OverlayTexture.NO_OVERLAY);
+            }
+            else if(displayContext == ItemDisplayContext.FIRST_PERSON_RIGHT_HAND){
+                poseStack.translate(1.3,-0.6,-0.35);
+                multipurposeSignModel.getGlowingpart().xRot = Utilities.degreesToRadians(180);
+                multipurposeSignModel.getGlowingpart().yRot = Utilities.degreesToRadians(-55);
+                multipurposeSignModel.getGlowingpart().zRot = Utilities.degreesToRadians(-7);
+                multipurposeSignModel.getGlowingpart().render(poseStack,vc,Utilities.getLightLevel(2),packedOverlay);
+                multipurposeSignModel.renderToBuffer(poseStack,vc,Utilities.getLightLevel(2),OverlayTexture.NO_OVERLAY);
+            }
+            else if(displayContext == ItemDisplayContext.FIRST_PERSON_LEFT_HAND){
+                poseStack.translate(-0.3,-0.6,-0.35);
+                multipurposeSignModel.getGlowingpart().xRot = Utilities.degreesToRadians(180);
+                multipurposeSignModel.getGlowingpart().yRot = Utilities.degreesToRadians(55);
+                multipurposeSignModel.getGlowingpart().zRot = Utilities.degreesToRadians(7);
+                multipurposeSignModel.getGlowingpart().render(poseStack,vc,Utilities.getLightLevel(2),packedOverlay);
+                multipurposeSignModel.renderToBuffer(poseStack,vc,Utilities.getLightLevel(2),OverlayTexture.NO_OVERLAY);
+            }
+            else if(displayContext == ItemDisplayContext.THIRD_PERSON_RIGHT_HAND){
+                poseStack.translate(0.5,0.27,0.5);
+                poseStack.scale(0.35f,0.35f,0.35f);
+                multipurposeSignModel.getGlowingpart().xRot = Utilities.degreesToRadians(180);
+                multipurposeSignModel.getGlowingpart().yRot = Utilities.degreesToRadians(-55);
+                multipurposeSignModel.getGlowingpart().zRot = Utilities.degreesToRadians(-7);
+                multipurposeSignModel.getGlowingpart().render(poseStack,vc,Utilities.getLightLevel(2),packedOverlay);
+                multipurposeSignModel.renderToBuffer(poseStack,vc,Utilities.getLightLevel(2),OverlayTexture.NO_OVERLAY);
+            }
+            else if(displayContext == ItemDisplayContext.THIRD_PERSON_LEFT_HAND){
+                poseStack.translate(0.5,0.27,0.5);
+                poseStack.scale(0.35f,0.35f,0.35f);
+                multipurposeSignModel.getGlowingpart().xRot = Utilities.degreesToRadians(180);
+                multipurposeSignModel.getGlowingpart().yRot = Utilities.degreesToRadians(55);
+                multipurposeSignModel.getGlowingpart().zRot = Utilities.degreesToRadians(7);
+                multipurposeSignModel.getGlowingpart().render(poseStack,vc,Utilities.getLightLevel(2),packedOverlay);
+                multipurposeSignModel.renderToBuffer(poseStack,vc,Utilities.getLightLevel(2),OverlayTexture.NO_OVERLAY);
+            }
+            else if(displayContext == ItemDisplayContext.FIXED){
+                poseStack.translate(0.5,0.05,0.6);
+                poseStack.scale(0.5f,0.5f,0.5f);
+                multipurposeSignModel.getPole().visible = false;
+                multipurposeSignModel.getGlowingpart().xRot = Utilities.degreesToRadians(180);
+                multipurposeSignModel.getGlowingpart().yRot = Utilities.degreesToRadians(180);
+                multipurposeSignModel.getGlowingpart().zRot = Utilities.degreesToRadians(0);
+                multipurposeSignModel.getGlowingpart().render(poseStack,vc,Utilities.getLightLevel(2),packedOverlay);
+                multipurposeSignModel.renderToBuffer(poseStack,vc,Utilities.getLightLevel(2),OverlayTexture.NO_OVERLAY);
+            }
+            else{
+                multipurposeSignModel.getGlowingpart().yRot = Utilities.degreesToRadians(0);
+                multipurposeSignModel.getGlowingpart().render(poseStack,vc,Utilities.getLightLevel(2),packedOverlay);
+                multipurposeSignModel.renderToBuffer(poseStack,vc,Utilities.getLightLevel(2),OverlayTexture.NO_OVERLAY);
+            }
             poseStack.popPose();
         }
         else if(stack.is(TRRBlocks.CROSSBUCK.asItem())){

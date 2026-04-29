@@ -35,4 +35,7 @@ public class Utilities{
             default -> 0;
         };
     }
+
+    public static final int whiteColor = 16777215;
+    public static final String imgFileEnding = ".png";
 }

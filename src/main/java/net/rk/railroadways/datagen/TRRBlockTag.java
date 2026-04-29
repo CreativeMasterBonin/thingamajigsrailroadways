@@ -55,6 +55,7 @@ public class TRRBlockTag extends BlockTagsProvider{
                 .add(TRRBlocks.VERTICAL_POLE_REDSTONE_RR.get())
                 .add(TRRBlocks.POLE_WITH_CROSSING_STOP_LIGHT.get())
                 .add(TRRBlocks.CROSSING_COMPONENT_CONTROLLER.get())
+                .add(TRRBlocks.MULTIPURPOSE_SIGN.get())
         ;
 
         this.tag(RR_CANTILEVERS)
@@ -95,6 +96,7 @@ public class TRRBlockTag extends BlockTagsProvider{
                 .add(TRRBlocks.VERTICAL_POLE_REDSTONE_RR.get())
                 .add(TRRBlocks.POLE_WITH_CROSSING_STOP_LIGHT.get())
                 .add(TRRBlocks.CROSSING_COMPONENT_CONTROLLER.get())
+                .add(TRRBlocks.MULTIPURPOSE_SIGN.get())
         ;
 
         this.tag(TRRTag.CANTILEVERS)
@@ -126,6 +128,7 @@ public class TRRBlockTag extends BlockTagsProvider{
                 .add(TRRBlocks.POLE_CAP.get())
                 .add(TRRBlocks.CROSSBUCK_WITH_LADDER.get())
                 .add(TRRBlocks.VERTICAL_POLE_REDSTONE_RR.get())
+                .add(TRRBlocks.MULTIPURPOSE_SIGN.get())
         ;
 
         this.tag(BlockTags.IMPERMEABLE)
@@ -142,6 +145,7 @@ public class TRRBlockTag extends BlockTagsProvider{
                 .add(TRRBlocks.POLE_CAP.get())
                 .add(TRRBlocks.CROSSBUCK_WITH_LADDER.get())
                 .add(TRRBlocks.VERTICAL_POLE_REDSTONE_RR.get())
+                .add(TRRBlocks.MULTIPURPOSE_SIGN.get())
         ;
 
         this.tag(BlockTags.WALL_POST_OVERRIDE)
@@ -157,6 +161,7 @@ public class TRRBlockTag extends BlockTagsProvider{
                 .add(TRRBlocks.POLE_CAP.get())
                 .add(TRRBlocks.CROSSBUCK_WITH_LADDER.get())
                 .add(TRRBlocks.VERTICAL_POLE_REDSTONE_RR.get())
+                .add(TRRBlocks.MULTIPURPOSE_SIGN.get())
         ;
 
         this.tag(BlockTags.PREVENT_MOB_SPAWNING_INSIDE)
@@ -178,6 +183,7 @@ public class TRRBlockTag extends BlockTagsProvider{
                 .add(TRRBlocks.POLE_CAP.get())
                 .add(TRRBlocks.CROSSBUCK_WITH_LADDER.get())
                 .add(TRRBlocks.VERTICAL_POLE_REDSTONE_RR.get())
+                .add(TRRBlocks.MULTIPURPOSE_SIGN.get())
         ;
 
         this.tag(BlockTags.INVALID_SPAWN_INSIDE)
@@ -199,6 +205,7 @@ public class TRRBlockTag extends BlockTagsProvider{
                 .add(TRRBlocks.POLE_CAP.get())
                 .add(TRRBlocks.CROSSBUCK_WITH_LADDER.get())
                 .add(TRRBlocks.VERTICAL_POLE_REDSTONE_RR.get())
+                .add(TRRBlocks.MULTIPURPOSE_SIGN.get())
         ;
 
         this.tag(Tags.Blocks.RELOCATION_NOT_SUPPORTED)
@@ -216,6 +223,7 @@ public class TRRBlockTag extends BlockTagsProvider{
                 .add(TRRBlocks.POLE_CAP.get())
                 .add(TRRBlocks.CROSSBUCK_WITH_LADDER.get())
                 .add(TRRBlocks.VERTICAL_POLE_REDSTONE_RR.get())
+                .add(TRRBlocks.MULTIPURPOSE_SIGN.get())
         ;
 
         this.tag(BlockTags.DRAGON_TRANSPARENT)
@@ -233,6 +241,7 @@ public class TRRBlockTag extends BlockTagsProvider{
                 .add(TRRBlocks.POLE_CAP.get())
                 .add(TRRBlocks.CROSSBUCK_WITH_LADDER.get())
                 .add(TRRBlocks.VERTICAL_POLE_REDSTONE_RR.get())
+                .add(TRRBlocks.MULTIPURPOSE_SIGN.get())
         ;
 
         this.tag(BlockTags.WITHER_IMMUNE)
@@ -250,6 +259,7 @@ public class TRRBlockTag extends BlockTagsProvider{
                 .add(TRRBlocks.POLE_CAP.get())
                 .add(TRRBlocks.CROSSBUCK_WITH_LADDER.get())
                 .add(TRRBlocks.VERTICAL_POLE_REDSTONE_RR.get())
+                .add(TRRBlocks.MULTIPURPOSE_SIGN.get())
         ;
 
         this.tag(BlockTags.RAILS)
@@ -280,6 +290,7 @@ public class TRRBlockTag extends BlockTagsProvider{
                 .add(TRRBlocks.RAILROAD_CROSSING_LIGHTS.get())
                 .add(TRRBlocks.BIG_RAILROAD_CROSSING_LIGHTS.get())
                 .add(TRRBlocks.VERTICAL_POLE_REDSTONE_RR.get())
+                .add(TRRBlocks.MULTIPURPOSE_SIGN.get())
         ;
     }
 

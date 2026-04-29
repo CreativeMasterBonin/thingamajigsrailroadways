@@ -48,5 +48,10 @@ public class TRRMenu{
             MENU_TYPES.register("pole_with_crossing_stop_light_menu", () ->
                     IMenuTypeExtension.create(PoleWithCrossingStopLightMenu::new));
 
+    public static final DeferredHolder<MenuType<?>,MenuType<MultipurposeSignMenu>> MULTIPURPOSE_SIGN_MENU =
+            MENU_TYPES.register("multipurpose_sign_menu", () ->
+                    IMenuTypeExtension.create(MultipurposeSignMenu::new));
+
+
     public static void register(IEventBus eventBus){MENU_TYPES.register(eventBus);}
 }
