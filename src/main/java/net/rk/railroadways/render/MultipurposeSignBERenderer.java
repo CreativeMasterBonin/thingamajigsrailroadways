@@ -3,11 +3,13 @@ package net.rk.railroadways.render;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.logging.LogUtils;
+import com.mojang.math.Axis;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.Mth;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.rk.railroadways.block.custom.MultipurposeSignBlock;
@@ -45,6 +47,8 @@ public class MultipurposeSignBERenderer implements BlockEntityRenderer<Multipurp
         signModel.getBcon().visible = multipurposeSign.getBlockState().getValue(MultipurposeSignBlock.SOUTH);
         signModel.getLcon().visible = multipurposeSign.getBlockState().getValue(MultipurposeSignBlock.EAST);
         signModel.getRcon().visible = multipurposeSign.getBlockState().getValue(MultipurposeSignBlock.WEST);
+
+        signModel.getSign().xRot = Mth.PI + Utilities.degreesToRadians(multipurposeSign.zAngle);
         this.signModel.setupAnim(multipurposeSign);
 
         try{
@@ -71,13 +75,13 @@ public class MultipurposeSignBERenderer implements BlockEntityRenderer<Multipurp
                 else{
                     vc = multiBufferSource.getBuffer(RenderType.entityCutout(ResourceLocation.parse(strOn)));
                 }
-                this.signModel.sign.render(poseStack,vc,Utilities.getLightLevel(2),packedOverlay);
                 this.signModel.getPole().render(poseStack,vc,packedLight,packedOverlay);
+                this.signModel.sign.render(poseStack,vc,Utilities.getLightLevel(2),packedOverlay);
             }
             else{
                 vc = multiBufferSource.getBuffer(RenderType.entityCutout(ResourceLocation.parse(str)));
-                this.signModel.sign.render(poseStack,vc,packedLight,packedOverlay);
                 this.signModel.getPole().render(poseStack,vc,packedLight,packedOverlay);
+                this.signModel.sign.render(poseStack,vc,packedLight,packedOverlay);
             }
         }
         catch (Exception e){

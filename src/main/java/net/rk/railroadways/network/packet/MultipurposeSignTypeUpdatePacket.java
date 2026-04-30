@@ -14,6 +14,11 @@ public class MultipurposeSignTypeUpdatePacket {
     public static MultipurposeSignTypeUpdatePacket get(){return INSTANCE;}
 
     public void handle(final MultipurposeSignTypeUpdatePayload payload, final IPayloadContext context){
+        if(payload == null){
+            LogUtils.getLogger().error("MultipurposeSignTypeUpdatePayload was null! REPORT THIS TO MOD AUTHOR!");
+            return;
+        }
+
         Player ply = context.player();
         Level lvl = ply.level();
         if(ply == null){
@@ -29,7 +34,7 @@ public class MultipurposeSignTypeUpdatePacket {
         MultipurposeSignBE dsbe = (MultipurposeSignBE)lvl.getBlockEntity(payload.bp());
 
         if(dsbe == null){
-            LogUtils.getLogger().warn("Multipurpose Sign BE at: " + payload.bp() + " is null! This is not normal!");
+            LogUtils.getLogger().warn("Multipurpose Sign BE at: {} is null! This is not normal!", payload.bp());
             return;
         }
 
@@ -39,7 +44,9 @@ public class MultipurposeSignTypeUpdatePacket {
             dsbe.updateBlock();
         }
         else{
+            dsbe.alternatingTextures = payload.alternatingTextures();
             dsbe.yAngle = payload.rotation();
+            dsbe.zAngle = payload.zrot();
             dsbe.updateBlock();
         }
         return;

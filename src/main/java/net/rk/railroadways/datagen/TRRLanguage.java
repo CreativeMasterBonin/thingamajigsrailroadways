@@ -53,7 +53,13 @@ public class TRRLanguage extends LanguageProvider {
         this.add(TRRItems.COMPONENT_BREAKER.asItem(),"Crossing Component Breaker");
         this.add(TRRBlocks.MULTIPURPOSE_SIGN.get(),"Multipurpose Sign");
 
-
+        this.add("button.railroadways.alternating_textures.tooltip", "Must have two unique textures defined");
+        this.add("button.thingamajigsrailroadways.dec_z_rot", "<- Z Rotation");
+        this.add("button.thingamajigsrailroadways.inc_z_rot", "Z Rotation ->");
+        this.add("title.railroadways.x_rotation","X Rotation");
+        this.add("title.railroadways.y_rotation","Y Rotation");
+        this.add("title.railroadways.z_rotation","Z Rotation");
+        this.add("checkbox.title.enable_alternating_textures","Alternate Textures");
         this.add("menu.railroadways.multipurpose_sign.title","Multipurpose Sign");
         this.add("container.railroadways.multipurpose_sign.sign_type","Sign Type: ");
         this.add("editbox.hint.dynamic_sign_crossbuck","Enter texture resource path");
@@ -166,5 +172,7 @@ public class TRRLanguage extends LanguageProvider {
         // custom multipurpose sign types
         this.add("multipurpose_sign_type.placeholder.name","Placeholder");
         this.add("multipurpose_sign_type.atc.name","Another Train Coming");
+        this.add("multipurpose_sign_type.danger_atc.name","Danger! Another Train Coming");
+        this.add("multipurpose_sign_type.rxr_stop_look_listen.name","RXR Stop Look Listen");
     }
 }

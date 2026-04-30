@@ -1,6 +1,7 @@
 package net.rk.railroadways.menu;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.HolderGetter;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
@@ -24,21 +25,29 @@ public class MultipurposeSignMenu extends AbstractContainerMenu {
     public final DataSlot signTypeData = DataSlot.standalone();
     public static List<MultipurposeSignType> signTypes;
     public int indexSelected;
+    private final HolderGetter<MultipurposeSignType> multipurposeSignTypeGetter;
 
     public static final String translationKey = "menu.railroadways.multipurpose_sign.title";
 
     public MultipurposeSignMenu(@Nullable MenuType<?> menuType, int containerId) {
         super(menuType, containerId);
+        multipurposeSignTypeGetter = null;
     }
 
     public int getIndex(){
         return indexSelected;
     }
 
+    public List<MultipurposeSignType> getList(){
+        return signTypes;
+    }
+
     public MultipurposeSignMenu(int id, Inventory inv, FriendlyByteBuf extraData) {
         super(TRRMenu.MULTIPURPOSE_SIGN_MENU.get(),id);
         this.player = inv.player;
         this.level = player.level();
+        multipurposeSignTypeGetter = player.registryAccess().lookupOrThrow(TRRRegistries.MULTIPURPOSE_SIGN_TYPE);
+
         if(extraData != null) {
             BlockPos pos1 = extraData.readBlockPos();
             this.pos = pos1;

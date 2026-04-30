@@ -48,7 +48,15 @@ public class MultipurposeSignModel extends Model {
 
         PartDefinition fcon = pole.addOrReplaceChild("fcon", CubeListBuilder.create().texOffs(19, 4).addBox(-1.0F, -1.0F, -8.0F, 2.0F, 2.0F, 7.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 0.0F, 0.0F));
 
-        PartDefinition sign = partdefinition.addOrReplaceChild("sign", CubeListBuilder.create().texOffs(0, 18).addBox(-8.0F, -8.0F, -5.0F, 16.0F, 16.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 16.0F, 0.0F));
+        // old sign model part
+        //PartDefinition sign = partdefinition.addOrReplaceChild("sign", CubeListBuilder.create().texOffs(0, 18).addBox(-8.0F, -8.0F, -5.0F, 16.0F, 16.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 16.0F, 0.0F));
+
+        PartDefinition sign = partdefinition.addOrReplaceChild("sign", CubeListBuilder.create().texOffs(0, 18).addBox(-8.0F, -8.0F, -5.0F, 16.0F, 16.0F, 4.0F, new CubeDeformation(0.0F))
+                .texOffs(40, 21).addBox(-8.0F, -8.0F, -5.0F, 0.0F, 16.0F, 1.0F, new CubeDeformation(0.0F))
+                .texOffs(42, 21).addBox(8.0F, -8.0F, -5.0F, 0.0F, 16.0F, 1.0F, new CubeDeformation(0.0F))
+                .texOffs(7, 17).addBox(-8.0F, -8.0F, -5.0F, 16.0F, 0.0F, 1.0F, new CubeDeformation(0.0F))
+                .texOffs(7, 16).addBox(-8.0F, 8.0F, -5.0F, 16.0F, 0.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 16.0F, 0.0F));
+
 
         PartDefinition glowingpart = sign.addOrReplaceChild("glowingpart", CubeListBuilder.create().texOffs(4, 38).addBox(-8.0F, -8.0F, -4.0F, 16.0F, 16.0F, 0.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 0.0F, 0.0F));
 
@@ -85,7 +93,6 @@ public class MultipurposeSignModel extends Model {
 
     public void setupAnim(MultipurposeSignBE sign){
         this.sign.y = 16.0f;
-        this.sign.xRot = Mth.PI;
         this.sign.yRot = Utilities.degreesToRadians(sign.yAngle + 180);
     }
 

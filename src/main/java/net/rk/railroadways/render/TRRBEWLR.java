@@ -328,6 +328,15 @@ public class TRRBEWLR extends BlockEntityWithoutLevelRenderer{
                 multipurposeSignModel.getGlowingpart().render(poseStack,vc,Utilities.getLightLevel(2),packedOverlay);
                 multipurposeSignModel.renderToBuffer(poseStack,vc,Utilities.getLightLevel(2),OverlayTexture.NO_OVERLAY);
             }
+            else if(displayContext == ItemDisplayContext.HEAD){
+                float a = Mth.sin((float)(Util.getMillis() % 2000L) / 2000f * Mth.TWO_PI);
+                poseStack.translate(0.5,0.65,0.5);
+                poseStack.mulPose(Axis.YP.rotationDegrees((a * 20) + 180));
+                poseStack.scale(0.5f,0.5f,0.5f);
+                multipurposeSignModel.getGlowingpart().yRot = Utilities.degreesToRadians(0);
+                multipurposeSignModel.getGlowingpart().render(poseStack,vc,Utilities.getLightLevel(2),packedOverlay);
+                multipurposeSignModel.renderToBuffer(poseStack,vc,Utilities.getLightLevel(2),OverlayTexture.NO_OVERLAY);
+            }
             else if(displayContext == ItemDisplayContext.FIRST_PERSON_RIGHT_HAND){
                 poseStack.translate(1.3,-0.6,-0.35);
                 multipurposeSignModel.getGlowingpart().xRot = Utilities.degreesToRadians(180);

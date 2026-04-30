@@ -5,7 +5,6 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.NbtOps;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
@@ -25,11 +24,14 @@ public class MultipurposeSignBE extends BlockEntity{
     public int ticks = 0;
     // the rotation around the y-axis
     public float yAngle = 0;
+    // the rotation around the z-axis
+    public float zAngle = 0;
     // the multipurpose sign type id selected
     public int indexId = 0;
     // whether to be alternating textures
     public boolean alternatingTextures = false;
     // the ticks to wait till an alternate
+    // this is determined by the resource, not any settings nor the blockentity itself, a data-driven value
     public int alternatingInterval = 42;
     // whether on the alternate texture
     public boolean alternateTexture = false;
@@ -43,6 +45,7 @@ public class MultipurposeSignBE extends BlockEntity{
     // the list of registered multipurpose sign types
     public MultipurposeSignTypeHolderObject holderList;
 
+    // update the textures and interval of the sign (no caching of data)
     public void updateSign(){
         List<MultipurposeSignType> list = this.level.registryAccess().registryOrThrow(TRRRegistries.MULTIPURPOSE_SIGN_TYPE).stream().toList();
 
@@ -125,6 +128,7 @@ public class MultipurposeSignBE extends BlockEntity{
     public void saveAdditional(CompoundTag compoundTag, HolderLookup.Provider slp) {
         super.saveAdditional(compoundTag, slp);
         compoundTag.putFloat("y_angle",yAngle);
+        compoundTag.putFloat("z_angle",zAngle);
         compoundTag.putBoolean("alternating_textures",alternatingTextures);
 
         compoundTag.putString("off_texture",texture);
@@ -132,20 +136,26 @@ public class MultipurposeSignBE extends BlockEntity{
         compoundTag.putString("alt_on_texture",textureOnAlt);
         compoundTag.putInt("alt_interval",alternatingInterval);
 
-        if (!(this.holderList == null)) {
+        /*if (!(this.holderList == null)) {
             compoundTag.put("multipurpose_sign_types", MultipurposeSignTypeHolderObject.CODEC.encodeStart(slp.createSerializationContext(NbtOps.INSTANCE),this.holderList).getOrThrow());
         }
         else{
             holderList = MultipurposeSignTypeHolderObject.makeDefaultSign(this.level);
             compoundTag.put("multipurpose_sign_types", MultipurposeSignTypeHolderObject.CODEC.encodeStart(slp.createSerializationContext(NbtOps.INSTANCE),this.holderList).getOrThrow());
-        }
+        }*/
     }
 
     @Override
     public void loadAdditional(CompoundTag compoundTag, HolderLookup.Provider lp) {
-        yAngle = compoundTag.getFloat("y_angle");
-        alternatingTextures = compoundTag.getBoolean("alternating_textures");
-
+        if(compoundTag.contains("y_angle")){
+            yAngle = compoundTag.getFloat("y_angle");
+        }
+        if(compoundTag.contains("z_angle")){
+            zAngle = compoundTag.getFloat("z_angle");
+        }
+        if(compoundTag.contains("alternating_textures")){
+            alternatingTextures = compoundTag.getBoolean("alternating_textures");
+        }
         if(compoundTag.contains("off_texture")){
             texture = compoundTag.getString("off_texture");
         }
@@ -159,12 +169,12 @@ public class MultipurposeSignBE extends BlockEntity{
             alternatingInterval = Math.clamp(compoundTag.getInt("alt_interval"),2,1024);
         }
 
-        if (compoundTag.contains("multipurpose_sign_types")) {
+        /*if (compoundTag.contains("multipurpose_sign_types")) {
             MultipurposeSignTypeHolderObject.CODEC
                     .parse(lp.createSerializationContext(NbtOps.INSTANCE), compoundTag.get("multipurpose_sign_types"))
                     .resultOrPartial(str -> LogUtils.getLogger().error("Failed to parse multipurpose sign types: '{}'", str))
                     .ifPresent(str -> this.holderList = str);
-        }
+        }*/
     }
 
     public static void serverTick(Level slvl, BlockPos sbp, BlockState sbs, MultipurposeSignBE sign){

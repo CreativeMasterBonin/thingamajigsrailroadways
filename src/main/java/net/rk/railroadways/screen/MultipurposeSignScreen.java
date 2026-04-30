@@ -3,9 +3,11 @@ package net.rk.railroadways.screen;
 import com.mojang.blaze3d.platform.Lighting;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.logging.LogUtils;
+import net.minecraft.ChatFormatting;
 import net.minecraft.Util;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.blockentity.BeaconRenderer;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
@@ -20,9 +22,13 @@ import net.rk.railroadways.menu.MultipurposeSignMenu;
 import net.rk.railroadways.menu.RevertedButton;
 import net.rk.railroadways.network.record.MultipurposeSignTypeUpdatePayload;
 import net.rk.railroadways.registry.MultipurposeSignType;
+import net.rk.railroadways.screen.widget.ActionCheckbox;
 import net.rk.railroadways.util.Utilities;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
+import java.util.Optional;
 
 public class MultipurposeSignScreen extends AbstractContainerScreen<MultipurposeSignMenu>{
     public static final ResourceLocation BG_TEXTURE =
@@ -34,6 +40,10 @@ public class MultipurposeSignScreen extends AbstractContainerScreen<Multipurpose
     public RevertedButton decreaseRotation;
     public RevertedButton increaseRotation;
     public RevertedButton roundRotation;
+    private ActionCheckbox alternatingModeEnable;
+
+    public RevertedButton decreaseZRotation;
+    public RevertedButton increaseZRotation;
 
     public boolean scrolling = false;
     public float scrollOffs = 0;
@@ -65,6 +75,9 @@ public class MultipurposeSignScreen extends AbstractContainerScreen<Multipurpose
         addRenderableWidget(decreaseRotation);
         addRenderableWidget(increaseRotation);
         addRenderableWidget(roundRotation);
+        addRenderableWidget(alternatingModeEnable);
+        addRenderableWidget(decreaseZRotation);
+        addRenderableWidget(increaseZRotation);
     }
 
     @Override
@@ -88,8 +101,8 @@ public class MultipurposeSignScreen extends AbstractContainerScreen<Multipurpose
         RenderSystem.disableBlend();
 
         guiGraphics.pose().pushPose();
-        guiGraphics.pose().translate(this.leftPos + 132,this.topPos + 20, 0);
-        guiGraphics.pose().scale(64,36,0);
+        guiGraphics.pose().translate(this.leftPos + 128,this.topPos + 5.75, 0); // 'beacon' render with sign texture translate
+        guiGraphics.pose().scale(64,88,0); // 'beacon' render with sign texture scale
 
         // this is the part that renders the sign preview (very-hacky, but works)
         if(ResourceLocation.tryParse(this.menu.be.textureOn) == null){
@@ -116,7 +129,7 @@ public class MultipurposeSignScreen extends AbstractContainerScreen<Multipurpose
 
         int j2 = this.leftPos + listButtonStartX;
         int k2 = this.topPos + listButtonStartY;
-        List<MultipurposeSignType> list = this.menu.signTypes;
+        List<MultipurposeSignType> list = this.menu.getList(); // no caching of data required now
 
         // sign type preview 'buttons'
         label64:
@@ -186,16 +199,43 @@ public class MultipurposeSignScreen extends AbstractContainerScreen<Multipurpose
 
         String translationKey = this.menu.be.holderList.typesHolderObjectList().get(0).getSignType().translationKey();
 
-        guiGraphics.drawString(this.font,Component.translatable("container.railroadways.multipurpose_sign.sign_type")
-                        .append(Component.translatable(translationKey)),
-                this.titleLabelX + 9,this.titleLabelY + 98,
-                Utilities.whiteColor,true);
+        Component testComponent = Component.translatable(translationKey);
+        if(testComponent.getString().length() > 16){
+            guiGraphics.drawString(this.font,Component.translatable("container.railroadways.multipurpose_sign.sign_type")
+                            .append(Component.literal(testComponent.getString(16)).append("...")),
+                    this.titleLabelX + 9,this.titleLabelY + 98,
+                    Utilities.whiteColor,true);
+        }
+        else{
+            guiGraphics.drawString(this.font,Component.translatable("container.railroadways.multipurpose_sign.sign_type")
+                            .append(Component.translatable(translationKey)),
+                    this.titleLabelX + 9,this.titleLabelY + 98,
+                    Utilities.whiteColor,true);
+        }
 
-        guiGraphics.drawString(this.font,Component.translatable("argument.entity.options.y_rotation.description")
+        guiGraphics.drawString(this.font,Component.translatable("title.railroadways.y_rotation")
                         .append(Component.literal(": "))
                         .append(Component.literal(String.valueOf(this.menu.be.yAngle))),
                 this.titleLabelX,this.titleLabelY + 115,
                 Utilities.whiteColor,true);
+
+        guiGraphics.drawString(this.font,Component.translatable("title.railroadways.z_rotation")
+                        .append(Component.literal(": "))
+                        .append(Component.literal(String.valueOf(this.menu.be.zAngle))),
+                this.titleLabelX,this.titleLabelY + 125,
+                Utilities.whiteColor,true);
+
+        // tooltip to warn about the need for two textures for alternating textures toggle to do anything useful
+        if(alternatingModeEnable != null) {
+            if(mouseX >= alternatingModeEnable.getX() && mouseX <= alternatingModeEnable.getX() + alternatingModeEnable.getWidth()
+            && mouseY >= alternatingModeEnable.getY() && mouseY <= alternatingModeEnable.getY() + alternatingModeEnable.getHeight()){
+                // once the real mouse x and mouse y is ready, substitute a fake position to correct tooltip position
+                guiGraphics.renderTooltip(this.font,
+                        Component.translatable("button.railroadways.alternating_textures.tooltip")
+                                .withStyle(ChatFormatting.ITALIC).withStyle(ChatFormatting.GRAY),
+                        mouseX - 82,mouseY - 4);
+            }
+        }
     }
 
 
@@ -227,26 +267,30 @@ public class MultipurposeSignScreen extends AbstractContainerScreen<Multipurpose
         }
 
 
-        decreaseRotation = new RevertedButton(horzLeftButtonPos,topRowButtonY,64,16,
+        decreaseRotation = new RevertedButton(horzLeftButtonPos,topRowButtonY + 92,64,16,
                 Component.translatable("button.thingamajigsrailroadways.dec_gate_rot"),(handler) -> {
             PacketDistributor.sendToServer(new MultipurposeSignTypeUpdatePayload(
                     this.menu.pos,
                     this.menu.be.yAngle - 0.5f,
+                    this.menu.be.zAngle,
                     this.menu.be.indexId,
-                    false
+                    false,
+                    this.menu.be.alternatingTextures
             ));
             Minecraft.getInstance().getSoundManager().play(SimpleSoundInstance.forUI(SoundEvents.ITEM_PICKUP,lowPitch));
         }){};
 
         int horzRightButtonPos = decreaseRotation.getX() + decreaseRotation.getWidth() + spacingButtonWidth;
 
-        increaseRotation = new RevertedButton(horzRightButtonPos,topRowButtonY,64,16,
+        increaseRotation = new RevertedButton(horzRightButtonPos,topRowButtonY + 92,64,16,
                 Component.translatable("button.thingamajigsrailroadways.inc_gate_rot"),(handler) -> {
             PacketDistributor.sendToServer(new MultipurposeSignTypeUpdatePayload(
                     this.menu.pos,
                     this.menu.be.yAngle + 0.5f,
+                    this.menu.be.zAngle,
                     this.menu.be.indexId,
-                    false
+                    false,
+                    this.menu.be.alternatingTextures
             ));
             Minecraft.getInstance().getSoundManager().play(SimpleSoundInstance.forUI(SoundEvents.ITEM_PICKUP,normalPitch));
         }){};
@@ -256,10 +300,65 @@ public class MultipurposeSignScreen extends AbstractContainerScreen<Multipurpose
             PacketDistributor.sendToServer(new MultipurposeSignTypeUpdatePayload(
                     this.menu.pos,
                     Math.round(this.menu.be.yAngle),
+                    this.menu.be.zAngle,
                     this.menu.be.indexId,
-                    false
+                    false,
+                    this.menu.be.alternatingTextures
             ));
         });
+
+        alternatingModeEnable = new ActionCheckbox(decreaseRotation.getX() - 90,decreaseRotation.getY(),64,Component.translatable("checkbox.title.enable_alternating_textures")
+                .withStyle(ChatFormatting.WHITE),this.font,this.menu.be.alternatingTextures){
+            @Override
+            public void onClick(double mouseX, double mouseY, int button) {
+                this.onPress();
+                if(this.selected()){
+                    Minecraft.getInstance().getSoundManager().play(SimpleSoundInstance.forUI(SoundEvents.BAMBOO_WOOD_BUTTON_CLICK_ON,1.0f));
+                }
+                else{
+                    Minecraft.getInstance().getSoundManager().play(SimpleSoundInstance.forUI(SoundEvents.BAMBOO_WOOD_BUTTON_CLICK_OFF,1.0f));
+                }
+                PacketDistributor.sendToServer(new MultipurposeSignTypeUpdatePayload(
+                        menu.pos,
+                        menu.be.yAngle,
+                        menu.be.zAngle,
+                        menu.be.indexId,
+                        false,
+                        this.selected()
+                ));
+            }
+
+            @Override
+            public @NotNull Tooltip getTooltip() {
+                return Tooltip.create(Component.translatable("button.railroadways.alternating_textures.tooltip"),Component.translatable("button.railroadways.alternating_textures.tooltip"));
+            }
+        };
+
+        decreaseZRotation = new RevertedButton(decreaseRotation.getX(),decreaseRotation.getY() + 20,64,16,
+                Component.translatable("button.thingamajigsrailroadways.dec_z_rot"),(handler) -> {
+            PacketDistributor.sendToServer(new MultipurposeSignTypeUpdatePayload(
+                    this.menu.pos,
+                    this.menu.be.yAngle,
+                    this.menu.be.zAngle - 0.5f,
+                    this.menu.be.indexId,
+                    false,
+                    this.menu.be.alternatingTextures
+            ));
+            Minecraft.getInstance().getSoundManager().play(SimpleSoundInstance.forUI(SoundEvents.ITEM_PICKUP,lowPitch));
+        }){};
+
+        increaseZRotation = new RevertedButton(increaseRotation.getX(),increaseRotation.getY() + 20,64,16,
+                Component.translatable("button.thingamajigsrailroadways.inc_z_rot"),(handler) -> {
+            PacketDistributor.sendToServer(new MultipurposeSignTypeUpdatePayload(
+                    this.menu.pos,
+                    this.menu.be.yAngle,
+                    this.menu.be.zAngle + 0.5f,
+                    this.menu.be.indexId,
+                    false,
+                    this.menu.be.alternatingTextures
+            ));
+            Minecraft.getInstance().getSoundManager().play(SimpleSoundInstance.forUI(SoundEvents.ITEM_PICKUP,normalPitch));
+        }){};
     }
 
 
@@ -283,9 +382,10 @@ public class MultipurposeSignScreen extends AbstractContainerScreen<Multipurpose
                     PacketDistributor.sendToServer(new MultipurposeSignTypeUpdatePayload(
                             this.menu.pos,
                             this.menu.be.yAngle,
+                            this.menu.be.zAngle,
                             buttonIndex,
-                            true
-
+                            true,
+                            this.menu.be.alternatingTextures
                     ));
                     return true;
                 }
