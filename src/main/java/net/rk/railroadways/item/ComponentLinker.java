@@ -18,10 +18,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.rk.railroadways.Thingamajigsrailroadways;
 import net.rk.railroadways.block.custom.CrossingComponentController;
 import net.rk.railroadways.datagen.TRRTag;
-import net.rk.railroadways.entity.blockentity.custom.BritRailwayLightsBE;
-import net.rk.railroadways.entity.blockentity.custom.CrossingComponentControllerBE;
-import net.rk.railroadways.entity.blockentity.custom.RailroadCrossingArmWithLights;
-import net.rk.railroadways.entity.blockentity.custom.RailroadCrossingBE;
+import net.rk.railroadways.entity.blockentity.custom.*;
 
 import java.util.List;
 import java.util.Objects;
@@ -106,7 +103,7 @@ public class ComponentLinker extends Item{
                         DataComponentMap map = DataComponentMap.builder().set(Thingamajigsrailroadways.SELECTED_POSITION,controller.getBlockPos()).build();
                         linker.applyComponents(map);
                         player.displayClientMessage(Component.translatable("item.crossing_component_linker.successful_link",controller.getBlockPos().toShortString()),true);
-                        player.playSound(SoundEvents.NOTE_BLOCK_BANJO.value(),0.5f,1.0f);
+                        player.playSound(SoundEvents.NOTE_BLOCK_BANJO.value(),0.7f,1.0f);
                         return InteractionResult.CONSUME;
                     }
                     else{ // link block entities to the controller linked to the linker item
@@ -119,7 +116,7 @@ public class ComponentLinker extends Item{
                                         if (!lightedGate.linkedToController) {
                                             be.pairedPositions.add(blockPos);
                                             lightedGate.pairToLinkedPos(linker.getComponents().get(Thingamajigsrailroadways.SELECTED_POSITION.asOptional().get()));
-                                            player.playSound(SoundEvents.NOTE_BLOCK_BELL.value(),0.5f,1.0f);
+                                            player.playSound(SoundEvents.NOTE_BLOCK_BELL.value(),0.7f,1.0f);
                                             // pass the lightedGate.getBlockPos() then be.getBlockPos()
                                             player.displayClientMessage(Component.translatable("item.crossing_component_linker.successful_pair", lightedGate.getBlockPos().toShortString(), be.getBlockPos().toShortString()), true);
                                         } else {
@@ -133,7 +130,7 @@ public class ComponentLinker extends Item{
                                         if (!gate.linkedToController) {
                                             be.pairedPositions.add(blockPos);
                                             gate.pairToLinkedPos(linker.getComponents().get(Thingamajigsrailroadways.SELECTED_POSITION.asOptional().get()));
-                                            player.playSound(SoundEvents.NOTE_BLOCK_BELL.value(),0.5f,1.0f);
+                                            player.playSound(SoundEvents.NOTE_BLOCK_BELL.value(),0.7f,1.0f);
                                             player.displayClientMessage(Component.translatable("item.crossing_component_linker.successful_pair", gate.getBlockPos().toShortString(), be.getBlockPos().toShortString()), true);
                                         } else {
                                             gate.unpair();
@@ -146,7 +143,7 @@ public class ComponentLinker extends Item{
                                         if (!britLights.linkedToController) {
                                             be.pairedPositions.add(blockPos);
                                             britLights.pairToLinkedPos(linker.getComponents().get(Thingamajigsrailroadways.SELECTED_POSITION.asOptional().get()));
-                                            player.playSound(SoundEvents.NOTE_BLOCK_BELL.value(),0.5f,1.0f);
+                                            player.playSound(SoundEvents.NOTE_BLOCK_BELL.value(),0.7f,1.0f);
                                             player.displayClientMessage(Component.translatable("item.crossing_component_linker.successful_pair", britLights.getBlockPos().toShortString(), be.getBlockPos().toShortString()), true);
                                         } else {
                                             britLights.unpair();
@@ -155,9 +152,22 @@ public class ComponentLinker extends Item{
                                         }
                                         return InteractionResult.CONSUME;
                                     }
+                                    case EnhancedDirectionalCrossingLightBE enhancedDirectionalLights -> {
+                                        if (!enhancedDirectionalLights.linkedToController) {
+                                            be.pairedPositions.add(blockPos);
+                                            enhancedDirectionalLights.pairToLinkedPos(linker.getComponents().get(Thingamajigsrailroadways.SELECTED_POSITION.asOptional().get()));
+                                            player.playSound(SoundEvents.NOTE_BLOCK_BELL.value(),0.7f,1.0f);
+                                            player.displayClientMessage(Component.translatable("item.crossing_component_linker.successful_pair", enhancedDirectionalLights.getBlockPos().toShortString(), be.getBlockPos().toShortString()), true);
+                                        } else {
+                                            enhancedDirectionalLights.unpair();
+                                            be.removePosition(enhancedDirectionalLights.getBlockPos(), false);
+                                            player.displayClientMessage(Component.translatable("item.crossing_component_linker.successful_unpair", enhancedDirectionalLights.getBlockPos().toShortString(), be.getBlockPos().toShortString()), true);
+                                        }
+                                        return InteractionResult.CONSUME;
+                                    }
                                     default ->{
                                         player.displayClientMessage(Component.translatable("item.crossing_component_linker.unsuccessful_pair_invalid"), true);
-                                        player.playSound(SoundEvents.NOTE_BLOCK_COW_BELL.value(),0.5f,1.0f);
+                                        player.playSound(SoundEvents.NOTE_BLOCK_COW_BELL.value(),0.7f,1.0f);
                                         return InteractionResult.CONSUME;
                                     }
                                 }

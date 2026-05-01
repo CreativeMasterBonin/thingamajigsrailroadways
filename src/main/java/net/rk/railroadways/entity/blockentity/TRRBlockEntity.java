@@ -73,6 +73,11 @@ public class TRRBlockEntity{
                     BlockEntityType.Builder.of(MultipurposeSignBE::new,TRRBlocks.MULTIPURPOSE_SIGN.get())
                             .build(null));
 
+    public static final Supplier<BlockEntityType<EnhancedDirectionalCrossingLightBE>> ENHANCED_DIRECTIONAL_CROSSING_LIGHT_BE = BLOCK_ENTITIES.register(
+            "enhanced_directional_crossing_light_be",() ->
+                    BlockEntityType.Builder.of(EnhancedDirectionalCrossingLightBE::new,TRRBlocks.ENHANCED_DIRECTIONAL_CROSSING_LIGHT.get())
+                            .build(null));
+
     public static void register(IEventBus eventBus){
         BLOCK_ENTITIES.register(eventBus);
     }

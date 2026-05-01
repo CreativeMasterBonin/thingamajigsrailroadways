@@ -13,10 +13,7 @@ import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.rk.railroadways.entity.blockentity.custom.BritRailwayLightsBE;
-import net.rk.railroadways.entity.blockentity.custom.CrossingComponentControllerBE;
-import net.rk.railroadways.entity.blockentity.custom.RailroadCrossingArmWithLights;
-import net.rk.railroadways.entity.blockentity.custom.RailroadCrossingBE;
+import net.rk.railroadways.entity.blockentity.custom.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,6 +49,11 @@ public class ComponentBreaker extends Item {
             else if(be instanceof BritRailwayLightsBE britLights){
                 britLights.ticks = 0;
                 britLights.unpair();
+                level.playSound(player,pos,SoundEvents.LODESTONE_COMPASS_LOCK, SoundSource.BLOCKS,0.9f,1.1f);
+            }
+            else if(be instanceof EnhancedDirectionalCrossingLightBE enhancedDirectionalLights){
+                enhancedDirectionalLights.ticks = 0;
+                enhancedDirectionalLights.unpair();
                 level.playSound(player,pos,SoundEvents.LODESTONE_COMPASS_LOCK, SoundSource.BLOCKS,0.9f,1.1f);
             }
             else if(be instanceof CrossingComponentControllerBE controller){

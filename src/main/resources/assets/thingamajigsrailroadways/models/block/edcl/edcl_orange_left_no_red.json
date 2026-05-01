@@ -1,0 +1,20 @@
+{
+	"credit": "CreativeMasterBonin",
+    "loader": "neoforge:composite",
+    "children": {
+        "base": {
+            "parent": "thingamajigsrailroadways:block/edcl_base"
+        },
+        "red_lights": {
+            "parent": "thingamajigsrailroadways:block/red_lights_off"
+        },
+		"orange_lights": {
+            "parent": "thingamajigsrailroadways:block/orange_lights_left"
+        }
+    },
+    "visibility": {
+        "base": true,
+		"red_lights": true,
+		"orange_lights": true
+    }
+}

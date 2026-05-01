@@ -2,6 +2,7 @@ package net.rk.railroadways.entity.blockentity.custom;
 
 import com.mojang.logging.LogUtils;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtUtils;
@@ -10,6 +11,7 @@ import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.util.Mth;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
@@ -51,7 +53,7 @@ public class CrossingComponentControllerBE extends BlockEntity{
                 boolean yIsOk = pairedPositions.get(positionIndex).getY() == blockPos.getY();
                 boolean zIsOk = pairedPositions.get(positionIndex).getZ() == blockPos.getZ();
 
-                System.out.println(blockPos.toShortString() + " comparing to " + pairedPositions.get(positionIndex).toShortString() + " is result " + (xIsOk && yIsOk && zIsOk));
+                //System.out.println(blockPos.toShortString() + " comparing to " + pairedPositions.get(positionIndex).toShortString() + " is result " + (xIsOk && yIsOk && zIsOk));
 
                 if(xIsOk && yIsOk && zIsOk){
                     pairedPositions.remove(positionIndex);
@@ -72,7 +74,7 @@ public class CrossingComponentControllerBE extends BlockEntity{
             }
         }
         else{
-            System.out.println("Problem removing pos: " + blockPos + "... is it supposed to be a mismatch?");
+            LogUtils.getLogger().warn("Problem removing pos: {}... is it supposed to be a mismatch?", blockPos);
         }
     }
 
@@ -108,93 +110,162 @@ public class CrossingComponentControllerBE extends BlockEntity{
     }
 
     public static void serverTick(Level slvl, BlockPos sbp, BlockState sbs, CrossingComponentControllerBE be){
-        be.universalTicks++;
-        if(be.universalTicks >= 32767){
-            be.universalTicks = 0;
-        }
-        if(be.universalTicks % be.universalFlashInterval == 0){
-            be.universalAlternatingFlash = !be.universalAlternatingFlash;
-        }
         try{
-            for (BlockPos pos : be.pairedPositions) {
-                if(slvl.isLoaded(pos)){ // no erroneous chunk loading
-                    if (slvl.getBlockEntity(pos) != null) {
-                        if (slvl.getBlockEntity(pos) instanceof RailroadCrossingArmWithLights lightedArm) {
-                            if(lightedArm.linkedToController){
-                                if (lightedArm.flasherTickDelay != be.universalFlashInterval) {
-                                    lightedArm.flasherTickDelay = be.universalFlashInterval;
-                                    lightedArm.updateBlock();
-                                }
-                                lightedArm.ticks = be.universalTicks;
-                                lightedArm.alternateFlashCycle = be.universalAlternatingFlash;
-
-                                if (sbs.getValue(BlockStateProperties.POWERED)) {
-                                    lightedArm.externalPower = true;
-                                    lightedArm.updateBlock();
-                                } else {
-                                    lightedArm.externalPower = false;
-                                    lightedArm.updateBlock();
-                                }
+            if(!slvl.isLoaded(sbp)){
+                return;
+            }else{
+                if(be.pairedPositions.isEmpty()){
+                    return;
+                }
+            }
+            for(BlockPos pos : be.pairedPositions){
+                if(!slvl.isLoaded(pos)){
+                    continue;
+                }
+                else{
+                    if (slvl.getBlockEntity(pos) instanceof RailroadCrossingArmWithLights lightedArm) {
+                        if(lightedArm.linkedToController){
+                            if (lightedArm.flasherTickDelay != be.universalFlashInterval) {
+                                lightedArm.flasherTickDelay = be.universalFlashInterval;
+                                lightedArm.updateBlock();
                             }
-                            else{
-                                be.pairedPositions.remove(pos);
-                                be.setChanged();
-                                break;
+                            lightedArm.ticks = be.universalTicks;
+                            lightedArm.alternateFlashCycle = be.universalAlternatingFlash;
+
+                            if (sbs.getValue(BlockStateProperties.POWERED)) {
+                                lightedArm.externalPower = true;
+                                lightedArm.updateBlock();
+                            } else {
+                                lightedArm.externalPower = false;
+                                lightedArm.updateBlock();
                             }
                         }
-                        else if (slvl.getBlockEntity(pos) instanceof RailroadCrossingBE gate) {
-                            if(gate.linkedToController){
-                                gate.ticks = be.universalTicks;
+                        else{
+                            be.pairedPositions.remove(pos);
+                            be.setChanged();
+                        }
+                    }
+                    else if (slvl.getBlockEntity(pos) instanceof RailroadCrossingBE gate) {
+                        if(gate.linkedToController){
+                            gate.ticks = be.universalTicks;
 
-                                if (sbs.getValue(BlockStateProperties.POWERED)) {
-                                    gate.externalPower = true;
-                                    gate.updateBlock();
-                                }
-                                else {
-                                    gate.externalPower = false;
-                                    gate.updateBlock();
-                                }
+                            if (sbs.getValue(BlockStateProperties.POWERED)) {
+                                gate.externalPower = true;
+                                gate.updateBlock();
                             }
-                            else{
-                                be.pairedPositions.remove(pos);
-                                be.setChanged();
-                                break;
+                            else {
+                                gate.externalPower = false;
+                                gate.updateBlock();
                             }
                         }
-                        else if(slvl.getBlockEntity(pos) instanceof BritRailwayLightsBE britLights){
-                            if(britLights.linkedToController){
-                                britLights.ticks = be.universalTicks;
-                                if(britLights.lightsState == BritRailwayLightsBE.BritRailwayLightsState.ON){
-                                    britLights.onLeftFlash = be.universalAlternatingFlash;
-                                } else if(britLights.lightsState == BritRailwayLightsBE.BritRailwayLightsState.OFF && sbs.getValue(BlockStateProperties.POWERED)){
-                                    britLights.lightsState = BritRailwayLightsBE.BritRailwayLightsState.AMBER;
-                                } else if (britLights.lightsState == BritRailwayLightsBE.BritRailwayLightsState.AMBER && sbs.getValue(BlockStateProperties.POWERED)) {
-                                    if(britLights.ticks % Math.clamp(britLights.flasherDelayTicks,100,200) == 0){
-                                        britLights.lightsState = BritRailwayLightsBE.BritRailwayLightsState.ON;
-                                    }
-                                }
-
-                                if (sbs.getValue(BlockStateProperties.POWERED)) {
-                                    britLights.externalPower = true;
-                                    britLights.updateBlock();
-                                }
-                                else {
-                                    britLights.externalPower = false;
-                                    britLights.updateBlock();
+                        else{
+                            be.pairedPositions.remove(pos);
+                            be.setChanged();
+                        }
+                    }
+                    else if(slvl.getBlockEntity(pos) instanceof BritRailwayLightsBE britLights){
+                        if(britLights.linkedToController){
+                            britLights.ticks = be.universalTicks;
+                            if(britLights.lightsState == BritRailwayLightsBE.BritRailwayLightsState.ON){
+                                britLights.onLeftFlash = be.universalAlternatingFlash;
+                            } else if(britLights.lightsState == BritRailwayLightsBE.BritRailwayLightsState.OFF && sbs.getValue(BlockStateProperties.POWERED)){
+                                britLights.lightsState = BritRailwayLightsBE.BritRailwayLightsState.AMBER;
+                            } else if (britLights.lightsState == BritRailwayLightsBE.BritRailwayLightsState.AMBER && sbs.getValue(BlockStateProperties.POWERED)) {
+                                if(britLights.ticks % Math.clamp(britLights.flasherDelayTicks,100,200) == 0){
+                                    britLights.lightsState = BritRailwayLightsBE.BritRailwayLightsState.ON;
                                 }
                             }
-                            else{
-                                be.pairedPositions.remove(pos);
-                                be.setChanged();
-                                break;
+
+                            if (sbs.getValue(BlockStateProperties.POWERED)) {
+                                britLights.externalPower = true;
+                                britLights.updateBlock();
+                            }
+                            else {
+                                britLights.externalPower = false;
+                                britLights.updateBlock();
                             }
                         }
+                        else{
+                            be.pairedPositions.remove(pos);
+                            be.setChanged();
+                        }
+                    }
+                    else if (slvl.getBlockEntity(pos) instanceof EnhancedDirectionalCrossingLightBE lights) {
+                        if(lights.linkedToController){
+                            lights.ticks = be.universalTicks;
+
+                            if (sbs.getValue(BlockStateProperties.POWERED)) {
+                                lights.externalPower = true;
+                                lights.updateBlock();
+                            }
+                            else {
+                                lights.externalPower = false;
+                                lights.updateBlock();
+                            }
+                        }
+                        else{
+                            be.pairedPositions.remove(pos);
+                            be.setChanged();
+                        }
+
+                        boolean north = slvl.getControlInputSignal(sbp.north(),Direction.NORTH,false) > 0 && lights.checksNorthSouthTrack;
+                        boolean south = slvl.getControlInputSignal(sbp.south(),Direction.SOUTH,false) > 0 && lights.checksNorthSouthTrack;
+                        boolean east = slvl.getControlInputSignal(sbp.east(),Direction.EAST,false) > 0 && !lights.checksNorthSouthTrack;
+                        boolean west = slvl.getControlInputSignal(sbp.west(),Direction.WEST,false) > 0 && !lights.checksNorthSouthTrack;
+
+                        if(lights.orangeLightsShowDirectionOfTravel){
+                            if(north){
+                                if(lights.swapNSEWcheck){
+                                    lights.orangeLightState = EnhancedDirectionalCrossingLightBE.DirectionalLightStates.LEFT;
+                                }
+                                else{
+                                    lights.orangeLightState = EnhancedDirectionalCrossingLightBE.DirectionalLightStates.RIGHT;
+                                }
+                            }
+                            else if(south){
+                                if(lights.swapNSEWcheck){
+                                    lights.orangeLightState = EnhancedDirectionalCrossingLightBE.DirectionalLightStates.RIGHT;
+                                }
+                                else{
+                                    lights.orangeLightState = EnhancedDirectionalCrossingLightBE.DirectionalLightStates.LEFT;
+                                }
+                            }
+                            else if(east){
+                                if(lights.swapNSEWcheck){
+                                    lights.orangeLightState = EnhancedDirectionalCrossingLightBE.DirectionalLightStates.LEFT;
+                                }
+                                else{
+                                    lights.orangeLightState = EnhancedDirectionalCrossingLightBE.DirectionalLightStates.RIGHT;
+                                }
+                            }
+                            else if(west){
+                                if(lights.swapNSEWcheck){
+                                    lights.orangeLightState = EnhancedDirectionalCrossingLightBE.DirectionalLightStates.RIGHT;
+                                }
+                                else{
+                                    lights.orangeLightState = EnhancedDirectionalCrossingLightBE.DirectionalLightStates.LEFT;
+                                }
+                            }
+                        }
+                        else{
+                            if(lights.orangeLightState != EnhancedDirectionalCrossingLightBE.DirectionalLightStates.CENTER){
+                                lights.orangeLightState = EnhancedDirectionalCrossingLightBE.DirectionalLightStates.CENTER;
+                            }
+                        }
+                        lights.updateBlock();
                     }
                 }
             }
         }
         catch (Exception e){
             LogUtils.getLogger().error(e.getLocalizedMessage());
+        }
+        be.universalTicks++;
+        if(be.universalTicks >= 32767){
+            be.universalTicks = 0;
+        }
+        if(be.universalTicks % be.universalFlashInterval == 0){
+            be.universalAlternatingFlash = !be.universalAlternatingFlash;
         }
     }
 

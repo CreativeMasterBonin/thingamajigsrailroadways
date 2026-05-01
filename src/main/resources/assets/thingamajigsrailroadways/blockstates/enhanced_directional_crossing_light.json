@@ -1,0 +1,98 @@
+{
+  "variants": {
+    "orange_light_state=off,powered=true,red_light_state=none":[
+        {"model":"thingamajigsrailroadways:block/edcl/edcl_all_none"}
+    ],
+    "orange_light_state=center,powered=false,red_light_state=off":[
+        {"model":"thingamajigsrailroadways:block/edcl/edcl_all_off"}
+    ],
+    "orange_light_state=none,powered=false,red_light_state=off":[
+        {"model":"thingamajigsrailroadways:block/edcl/edcl_all_none"}
+    ],
+    "orange_light_state=none,powered=false,red_light_state=on":[
+        {"model":"thingamajigsrailroadways:block/edcl/edcl_all_none"}
+    ],
+    "orange_light_state=left,powered=false,red_light_state=on":[
+        {"model":"thingamajigsrailroadways:block/edcl/edcl_all_off"}
+    ],
+    "orange_light_state=center,powered=true,red_light_state=none": [
+        {"model":"thingamajigsrailroadways:block/edcl/edcl_all_none"}
+    ],
+
+
+    "red_light_state=on,orange_light_state=center,powered=true":[
+        {"model":"thingamajigsrailroadways:block/edcl/edcl_orange_center"}
+    ],
+    "red_light_state=on,orange_light_state=left,powered=true":[
+        {"model":"thingamajigsrailroadways:block/edcl/edcl_orange_left"}
+    ],
+    "red_light_state=on,orange_light_state=right,powered=true":[
+        {"model":"thingamajigsrailroadways:block/edcl/edcl_orange_right"}
+    ],
+    "red_light_state=on,orange_light_state=off,powered=true":[
+        {"model":"thingamajigsrailroadways:block/edcl/edcl_red_no_orange"}
+    ],
+    "red_light_state=off,orange_light_state=off,powered=false":[
+        {"model":"thingamajigsrailroadways:block/edcl/edcl_all_off"}
+    ],
+    "red_light_state=off,orange_light_state=off,powered=true":[
+        {"model":"thingamajigsrailroadways:block/edcl/edcl_all_off"}
+    ],
+    "red_light_state=off,orange_light_state=center,powered=true":[
+        {"model":"thingamajigsrailroadways:block/edcl/edcl_orange_center_no_red"}
+    ],
+    "red_light_state=off,orange_light_state=left,powered=true":[
+        {"model":"thingamajigsrailroadways:block/edcl/edcl_orange_left_no_red"}
+    ],
+    "red_light_state=off,orange_light_state=right,powered=true":[
+        {"model":"thingamajigsrailroadways:block/edcl/edcl_orange_right_no_red"}
+    ],
+
+    
+    "orange_light_state=left,powered=false,red_light_state=off": [
+        {"model":"thingamajigsrailroadways:block/edcl/edcl_all_off"}
+    ],
+    "orange_light_state=left,powered=false,red_light_state=none":[
+        {"model":"thingamajigsrailroadways:block/edcl/edcl_all_none"}
+    ],
+    "orange_light_state=right,powered=false,red_light_state=none": [
+        {"model":"thingamajigsrailroadways:block/edcl/edcl_all_none"}
+    ],
+    "orange_light_state=off,powered=false,red_light_state=none": [
+        {"model":"thingamajigsrailroadways:block/edcl/edcl_all_none"}
+    ],
+    "orange_light_state=none,powered=true,red_light_state=none": [
+        {"model":"thingamajigsrailroadways:block/edcl/edcl_all_none"}
+    ],
+    "orange_light_state=none,powered=true,red_light_state=off": [
+        {"model":"thingamajigsrailroadways:block/edcl/edcl_all_none"}
+    ],
+    "orange_light_state=none,powered=false,red_light_state=none": [
+        {"model":"thingamajigsrailroadways:block/edcl/edcl_all_none"}
+    ],
+    "orange_light_state=right,powered=true,red_light_state=none": [
+        {"model":"thingamajigsrailroadways:block/edcl/edcl_all_none"}
+    ],
+    "orange_light_state=center,powered=false,red_light_state=on": [
+        {"model":"thingamajigsrailroadways:block/edcl/edcl_all_off"}
+    ],
+    "orange_light_state=left,powered=true,red_light_state=none": [
+        {"model":"thingamajigsrailroadways:block/edcl/edcl_all_none"}
+    ],
+    "orange_light_state=center,powered=false,red_light_state=none": [
+        {"model":"thingamajigsrailroadways:block/edcl/edcl_all_off"}
+    ],
+    "orange_light_state=off,powered=false,red_light_state=on": [
+        {"model":"thingamajigsrailroadways:block/edcl/edcl_all_off"}
+    ],
+    "orange_light_state=none,powered=true,red_light_state=on": [
+        {"model":"thingamajigsrailroadways:block/edcl/edcl_all_none"}
+    ],
+    "orange_light_state=right,powered=false,red_light_state=on": [
+        {"model":"thingamajigsrailroadways:block/edcl/edcl_all_off"}
+    ],
+    "orange_light_state=right,powered=false,red_light_state=off": [
+        {"model":"thingamajigsrailroadways:block/edcl/edcl_all_off"}
+    ]
+  }
+}

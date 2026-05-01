@@ -9,12 +9,11 @@ import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.Mth;
 import net.rk.railroadways.entity.blockentity.custom.MultipurposeSignBE;
 import net.rk.railroadways.util.Utilities;
 
 public class MultipurposeSignModel extends Model {
-    public static final ModelLayerLocation DEFAULT_MULTIPURPOSE_TEXTURE = new ModelLayerLocation(ResourceLocation.parse(""), "main");
+    public static final ModelLayerLocation DEFAULT_MULTIPURPOSE_TEXTURE = new ModelLayerLocation(ResourceLocation.parse("thingamajigsrailroadways:textures/entity/multipurpose_sign_variants/multipurpose_sign.png"), "main");
     private final ModelPart pole;
     private final ModelPart rcon;
     private final ModelPart lcon;

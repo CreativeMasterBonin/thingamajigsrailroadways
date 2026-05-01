@@ -1,0 +1,32 @@
+{
+	"format_version": "1.9.0",
+	"credit": "CreativeMasterBonin",
+	"textures": {
+		"0": "thingamajigsrailroadways:block/enhanced_directional_lights_red_off",
+		"particle": "thingamajigsrailroadways:block/enhanced_directional_lights_red_off"
+	},
+	"elements": [
+		{
+			"from": [-14, 10, 3],
+			"to": [2, 14, 5],
+			"rotation": {"angle": 0, "axis": "y", "origin": [-6, 12, 4]},
+			"faces": {
+				"north": {"uv": [0, 12, 16, 16], "texture": "#0"},
+				"east": {"uv": [0, 8, 2, 12], "texture": "#0"},
+				"up": {"uv": [0, 0, 16, 2], "texture": "#0"},
+				"down": {"uv": [0, 0, 16, 2], "texture": "#0"}
+			}
+		},
+		{
+			"from": [14, 10, 3],
+			"to": [30, 14, 5],
+			"rotation": {"angle": 0, "axis": "y", "origin": [22, 12, 4]},
+			"faces": {
+				"north": {"uv": [0, 4, 16, 8], "texture": "#0"},
+				"west": {"uv": [0, 0, 2, 4], "texture": "#0"},
+				"up": {"uv": [0, 10, 16, 12], "texture": "#0"},
+				"down": {"uv": [0, 8, 16, 10], "texture": "#0"}
+			}
+		}
+	]
+}

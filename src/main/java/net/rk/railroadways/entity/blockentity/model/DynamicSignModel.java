@@ -10,6 +10,7 @@ import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
 import net.rk.railroadways.entity.blockentity.custom.DynamicSignBE;
+import net.rk.railroadways.util.Utilities;
 
 public class DynamicSignModel extends Model{
     public static final ModelLayerLocation SIGN_TEXTURE_LOCATION = new ModelLayerLocation(
@@ -55,7 +56,7 @@ public class DynamicSignModel extends Model{
     }
 
     public void setupAnim(DynamicSignBE dsbe){
-        signholder.yRot = dsbe.yAngle;
+        signholder.yRot = Utilities.degreesToRadians(dsbe.yAngle);
         signholder.y = -8.0f;
         main.zRot = 0;
         main.xRot = 3.14555111f;

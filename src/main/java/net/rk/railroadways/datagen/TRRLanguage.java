@@ -52,7 +52,9 @@ public class TRRLanguage extends LanguageProvider {
         this.add(TRRItems.COMPONENT_LINKER.asItem(),"Crossing Component Linker");
         this.add(TRRItems.COMPONENT_BREAKER.asItem(),"Crossing Component Breaker");
         this.add(TRRBlocks.MULTIPURPOSE_SIGN.get(),"Multipurpose Sign");
+        this.add(TRRBlocks.ENHANCED_DIRECTIONAL_CROSSING_LIGHT.get(),"Enhanced Directional Crossing Light");
 
+        this.add("item.enhanced_directional_crossing_light.desc","Strobes two red lights with directional orange lights on lower half");
         this.add("button.railroadways.alternating_textures.tooltip", "Must have two unique textures defined");
         this.add("button.thingamajigsrailroadways.dec_z_rot", "<- Z Rotation");
         this.add("button.thingamajigsrailroadways.inc_z_rot", "Z Rotation ->");

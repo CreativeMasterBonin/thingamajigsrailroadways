@@ -53,6 +53,7 @@ public class TRRLoot extends VanillaBlockLoot{
         this.dropSelf(TRRBlocks.CROSSING_COMPONENT_CONTROLLER.get());
         this.dropSelf(TRRBlocks.ELECTRONIC_BELL_TYPE_6.get());
         this.dropSelf(TRRBlocks.MULTIPURPOSE_SIGN.get());
+        this.dropSelf(TRRBlocks.ENHANCED_DIRECTIONAL_CROSSING_LIGHT.get());
     }
 
     @Override

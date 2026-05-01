@@ -3,12 +3,15 @@ package net.rk.railroadways;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
+import net.minecraft.client.resources.model.ModelResourceLocation;
+import net.minecraft.resources.ResourceLocation;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
+import net.neoforged.neoforge.client.event.ModelEvent;
 import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
 import net.neoforged.neoforge.client.extensions.common.IClientItemExtensions;
 import net.neoforged.neoforge.client.extensions.common.RegisterClientExtensionsEvent;
@@ -42,6 +45,7 @@ public class TRRClient{
         BlockEntityRenderers.register(TRRBlockEntity.RAILROAD_CROSSING_ARM_LIGHTED_BE.get(),RailroadCrossingArmWithLightsRenderer::new);
         BlockEntityRenderers.register(TRRBlockEntity.POLE_WITH_CROSSING_STOP_LIGHT_BE.get(),PoleWithCrossingStopLightBERenderer::new);
         BlockEntityRenderers.register(TRRBlockEntity.MULTIPURPOSE_SIGN_BE.get(),MultipurposeSignBERenderer::new);
+        BlockEntityRenderers.register(TRRBlockEntity.ENHANCED_DIRECTIONAL_CROSSING_LIGHT_BE.get(),EnhancedDirectionalCrossingLightBERenderer::new);
     }
 
     public void layerSetup(EntityRenderersEvent.RegisterLayerDefinitions event){
@@ -83,7 +87,7 @@ public class TRRClient{
                 TRRBlocks.RAILROAD_CROSSING_ARM_LIGHTED.asItem(),TRRBlocks.RAILROAD_CROSSING_ARM.asItem(),TRRBlocks.BIG_RAILROAD_CROSSING_CANTILEVER_LIGHTS.asItem(),
                 TRRBlocks.RAILROAD_CROSSING_CANTILEVER_LIGHTS.asItem(),TRRBlocks.RAILROAD_CROSSING_LIGHTS.asItem(),TRRBlocks.TRI_RAILWAY_LIGHTS.asItem(),
                 TRRBlocks.CROSSBUCK_WITH_LADDER.asItem(),TRRBlocks.BIG_RAILROAD_CROSSING_LIGHTS.asItem(),TRRBlocks.POLE_WITH_CROSSING_STOP_LIGHT.asItem(),
-                TRRBlocks.MULTIPURPOSE_SIGN.asItem());
+                TRRBlocks.MULTIPURPOSE_SIGN.asItem(),TRRBlocks.ENHANCED_DIRECTIONAL_CROSSING_LIGHT.asItem());
     }
 
     public void addCreative(BuildCreativeModeTabContentsEvent event) {
@@ -112,6 +116,7 @@ public class TRRClient{
             event.accept(TRRBlocks.MULTIPURPOSE_SIGN.asItem());
             event.accept(TRRBlocks.POLE_WITH_CROSSING_STOP_LIGHT.asItem());
             event.accept(TRRBlocks.RAILROAD_CROSSING_LIGHTS.asItem());
+            event.accept(TRRBlocks.ENHANCED_DIRECTIONAL_CROSSING_LIGHT.asItem());
             event.accept(TRRBlocks.BIG_RAILROAD_CROSSING_LIGHTS.asItem());
             event.accept(TRRBlocks.BRITISH_RAILWAY_LIGHTS.asItem());
             event.accept(TRRBlocks.TRI_RAILWAY_LIGHTS.asItem());

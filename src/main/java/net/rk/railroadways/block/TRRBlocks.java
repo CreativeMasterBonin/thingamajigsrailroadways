@@ -586,6 +586,9 @@ public class TRRBlocks {
     public static final DeferredBlock<Block> MULTIPURPOSE_SIGN = register("multipurpose_sign",
             () -> new MultipurposeSignBlock(BlockBehaviour.Properties.of()));
 
+    public static final DeferredBlock<Block> ENHANCED_DIRECTIONAL_CROSSING_LIGHT = register("enhanced_directional_crossing_light",
+            () -> new EnhancedDirectionalCrossingLight(BlockBehaviour.Properties.of()));
+
     //
     private static DeferredBlock<Block> register(String name, Supplier<Block> block) {
         DeferredBlock<Block> blk = BLOCKS.register(name,block);

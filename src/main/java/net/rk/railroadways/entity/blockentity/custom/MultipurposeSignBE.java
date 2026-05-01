@@ -92,6 +92,7 @@ public class MultipurposeSignBE extends BlockEntity{
         super.onLoad();
         if(level != null){
             if(holderList == null){
+                // it is always null when loaded but this keeps it safe
                 holderList = MultipurposeSignTypeHolderObject.makeDefaultSign(level);
             }
         }

@@ -22,6 +22,7 @@ import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.client.model.data.ModelData;
 import net.rk.railroadways.block.TRRBlocks;
+import net.rk.railroadways.block.custom.EnhancedDirectionalCrossingLight;
 import net.rk.railroadways.block.custom.RotatingCrossbuckBlock;
 import net.rk.railroadways.entity.blockentity.custom.*;
 import net.rk.railroadways.entity.blockentity.model.*;
@@ -39,6 +40,7 @@ public class TRRBEWLR extends BlockEntityWithoutLevelRenderer{
     public TriRailwayLightsBE triRailwayLightsBE;
     public PoleWithCrossingStopLightBE poleWithCrossingStopLightBE;
     public MultipurposeSignBE multipurposeSignBE;
+    public EnhancedDirectionalCrossingLightBE enhancedDirectionalCrossingLightBE;
 
     public BritRRLightsModel britRRLightsModel;
     public DualLightsModel dualLightsModel;
@@ -53,7 +55,6 @@ public class TRRBEWLR extends BlockEntityWithoutLevelRenderer{
     public TriLightsModel triLightsModel;
     public PoleWithCrossingStopLightVerticalModel poleWithCrossingStopLightVerticalModel;
     public MultipurposeSignModel multipurposeSignModel;
-
     private static final BlockPos ZERO = new BlockPos(0,0,0);
 
     public TRRBEWLR(BlockEntityRenderDispatcher dispatcher, EntityModelSet set) {
@@ -68,6 +69,7 @@ public class TRRBEWLR extends BlockEntityWithoutLevelRenderer{
         this.triRailwayLightsBE = new TriRailwayLightsBE(ZERO,TRRBlocks.TRI_RAILWAY_LIGHTS.get().defaultBlockState());
         this.poleWithCrossingStopLightBE = new PoleWithCrossingStopLightBE(ZERO,TRRBlocks.POLE_WITH_CROSSING_STOP_LIGHT.get().defaultBlockState());
         this.multipurposeSignBE = new MultipurposeSignBE(ZERO,TRRBlocks.MULTIPURPOSE_SIGN.get().defaultBlockState());
+        this.enhancedDirectionalCrossingLightBE = new EnhancedDirectionalCrossingLightBE(ZERO,TRRBlocks.ENHANCED_DIRECTIONAL_CROSSING_LIGHT.get().defaultBlockState());
 
         this.britRRLightsModel = new BritRRLightsModel(set.bakeLayer(BritRRLightsModel.BRIT_LIGHTS_OFF_LOC));
         this.dualLightsModel = new DualLightsModel(set.bakeLayer(DualLightsModel.DUAL_TEXTURE_LOC));
@@ -235,6 +237,73 @@ public class TRRBEWLR extends BlockEntityWithoutLevelRenderer{
             }
             dualLightsModel.setupAnim(dualRailwayLightsBE);
             dualLightsModel.renderToBuffer(poseStack,vc,packedLight,packedOverlay);
+            poseStack.popPose();
+        }
+        else if(stack.is(TRRBlocks.ENHANCED_DIRECTIONAL_CROSSING_LIGHT.asItem())){
+            poseStack.pushPose();
+
+            poseStack.scale(0.35f,0.35f,0.35f);
+
+            boolean glowingEffect = false;
+
+            if(displayContext.firstPerson()){
+                glowingEffect = false;
+                poseStack.translate(0.95,1.0,0.0);
+                if(displayContext == ItemDisplayContext.FIRST_PERSON_RIGHT_HAND){
+                    poseStack.translate(1.0,0,0);
+                    poseStack.rotateAround(Axis.YP.rotationDegrees(135),0f,0f,0f);
+                    poseStack.translate(-1.2,-1.0,0.3);
+                }
+                else if(displayContext == ItemDisplayContext.FIRST_PERSON_LEFT_HAND){
+                    poseStack.translate(-1.0,0,0);
+                    poseStack.rotateAround(Axis.YP.rotationDegrees(-135),0f,0f,0f);
+                    poseStack.translate(0,-1.0,0);
+                }
+            }
+            else{
+                poseStack.translate(0.95,0.75,1.0);
+                if(displayContext == ItemDisplayContext.GROUND){
+                    poseStack.translate(0.25,0.5,0.25);
+                    poseStack.scale(0.35f,0.35f,0.35f);
+                    glowingEffect = false;
+                }
+                else if(displayContext == ItemDisplayContext.GUI){
+                    poseStack.rotateAround(Axis.YP.rotationDegrees(135),0.5f,0f,0.5f);
+                    poseStack.rotateAround(Axis.XP.rotationDegrees(10),0.5f,0f,0.5f);
+                    poseStack.rotateAround(Axis.ZP.rotationDegrees(5),0.5f,0f,0.5f);
+                    glowingEffect = false;
+                }
+                else if(displayContext == ItemDisplayContext.THIRD_PERSON_RIGHT_HAND){
+                    glowingEffect = false;
+                }
+                else if(displayContext == ItemDisplayContext.THIRD_PERSON_LEFT_HAND){
+                    glowingEffect = false;
+                }
+                else if(displayContext == ItemDisplayContext.FIXED){
+                    glowingEffect = false;
+                }
+                else if(displayContext == ItemDisplayContext.HEAD){
+                    poseStack.translate(0,2.0,0);
+                    glowingEffect = true;
+                }
+            }
+
+            Minecraft.getInstance().getBlockRenderer().renderSingleBlock(TRRBlocks.VERTICAL_POLE_REDSTONE_RR.get().defaultBlockState(),
+                    poseStack,buffer,packedLight,packedOverlay,ModelData.EMPTY,RenderType.SOLID);
+
+            if(glowingEffect){
+                Minecraft.getInstance().getBlockRenderer().renderSingleBlock(TRRBlocks.ENHANCED_DIRECTIONAL_CROSSING_LIGHT.get().defaultBlockState()
+                                .setValue(EnhancedDirectionalCrossingLight.redLightState,EnhancedDirectionalCrossingLight.RedLightStates.ON)
+                                .setValue(EnhancedDirectionalCrossingLight.orangeLightState, EnhancedDirectionalCrossingLight.OrangeLightStates.CENTER),poseStack,
+                        buffer,Utilities.getLightLevel(2),packedOverlay, ModelData.EMPTY, RenderType.CUTOUT);
+            }
+            else{
+                Minecraft.getInstance().getBlockRenderer().renderSingleBlock(enhancedDirectionalCrossingLightBE.getBlockState()
+                                .setValue(EnhancedDirectionalCrossingLight.redLightState,EnhancedDirectionalCrossingLight.RedLightStates.OFF)
+                                .setValue(EnhancedDirectionalCrossingLight.orangeLightState, EnhancedDirectionalCrossingLight.OrangeLightStates.OFF),poseStack,
+                        buffer,packedLight,packedOverlay, ModelData.EMPTY, RenderType.CUTOUT);
+            }
+
             poseStack.popPose();
         }
         else if(stack.is(TRRBlocks.MULTIPURPOSE_SIGN.asItem())){
