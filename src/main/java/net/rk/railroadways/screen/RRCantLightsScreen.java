@@ -139,7 +139,7 @@ public class RRCantLightsScreen extends AbstractContainerScreen<RRCantLightsMenu
         float normalPitch = 1.0f;
 
         float minValue = 0.00f;
-        float maxValue = 32.05f;
+        float maxValue = 359.05f;
 
         this.flrot = rrclbe.frontLeftAngle;
         this.frrot = rrclbe.frontRightAngle;
@@ -179,7 +179,7 @@ public class RRCantLightsScreen extends AbstractContainerScreen<RRCantLightsMenu
         }){};
 
         int precise = 1;
-        float step = 0.05f;
+        float step = 0.5f;
 
         frontLeftRot = new ExtendedSlider(horzLeftButtonPos,
                 topRowButtonY + decLightsRot.getHeight() + spacingButtonHeight,

@@ -7,6 +7,7 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.rk.railroadways.block.TRRBlocks;
@@ -14,6 +15,7 @@ import net.rk.railroadways.block.custom.RailroadCrossingLights;
 import net.rk.railroadways.entity.blockentity.custom.RailroadCrossingLightsBE;
 import net.rk.railroadways.entity.blockentity.model.RRLightsBigModel;
 import net.rk.railroadways.entity.blockentity.model.RRLightsModel;
+import net.rk.railroadways.util.Utilities;
 
 @SuppressWarnings("deprecated")
 public class RailroadCrossingLightsBERenderer implements BlockEntityRenderer<RailroadCrossingLightsBE> {
@@ -49,11 +51,22 @@ public class RailroadCrossingLightsBERenderer implements BlockEntityRenderer<Rai
 
         if(rrclbe.getBlockState().getValue(RailroadCrossingLights.POWERED)){
             if(rrclbe.getBlockState().is(TRRBlocks.BIG_RAILROAD_CROSSING_LIGHTS)){
-                if(rrclbe.getFlashState()){
-                    tempLoc = bigLightsOn0;
+                // hax to make it look right
+                if(rrclbe.linkedToController){
+                    if(rrclbe.getFlashState()){
+                        tempLoc = bigLightsOn1;
+                    }
+                    else{
+                        tempLoc = bigLightsOn0;
+                    }
                 }
                 else{
-                    tempLoc = bigLightsOn1;
+                    if(rrclbe.getFlashState()){
+                        tempLoc = bigLightsOn0;
+                    }
+                    else{
+                        tempLoc = bigLightsOn1;
+                    }
                 }
             }
             else{
@@ -68,12 +81,14 @@ public class RailroadCrossingLightsBERenderer implements BlockEntityRenderer<Rai
 
         VertexConsumer vc = multiBufferSource.getBuffer(RenderType.entityTranslucent(tempLoc));
         if(rrclbe.getBlockState().is(TRRBlocks.BIG_RAILROAD_CROSSING_LIGHTS)){
+            int lightLevel = rrclbe.getBlockState().getValue(BlockStateProperties.POWERED) ? Utilities.getLightLevel(2) : i;
             this.rrLightsBigModel.setupAnim(rrclbe);
-            this.rrLightsBigModel.renderToBuffer(poseStack,vc,i,i1);
+            this.rrLightsBigModel.renderToBuffer(poseStack,vc, lightLevel,i1);
         }
         else{
+            int lightLevel = rrclbe.getBlockState().getValue(BlockStateProperties.POWERED) ? Utilities.getLightLevel(2) : i;
             this.rrlightsmodel.setupAnim(rrclbe);
-            this.rrlightsmodel.renderToBuffer(poseStack,vc,i,i1);
+            this.rrlightsmodel.renderToBuffer(poseStack,vc,lightLevel,i1);
         }
 
         poseStack.popPose();

@@ -14,6 +14,7 @@ import net.rk.railroadways.block.custom.RailroadCrossingCantilever;
 import net.rk.railroadways.block.custom.RailroadCrossingCantileverLights;
 import net.rk.railroadways.entity.blockentity.custom.RailroadCrossingCantLightsBE;
 import net.rk.railroadways.entity.blockentity.custom.RailroadCrossingLightsBE;
+import net.rk.railroadways.util.Utilities;
 
 public class RRCantLightsModel extends Model{
     private final ModelPart main;
@@ -93,10 +94,10 @@ public class RRCantLightsModel extends Model{
     }
 
     public void setupAnim(RailroadCrossingCantLightsBE rclbe){
-        front_left.yRot = rclbe.frontLeftAngle;
-        front_right.yRot = rclbe.frontRightAngle;
-        back_left.yRot = rclbe.backLeftAngle;
-        back_right.yRot = rclbe.backRightAngle;
+        front_left.yRot = Utilities.degreesToRadians(rclbe.frontLeftAngle);
+        front_right.yRot = Utilities.degreesToRadians(rclbe.frontRightAngle);
+        back_left.yRot = Utilities.degreesToRadians(rclbe.backLeftAngle);
+        back_right.yRot = Utilities.degreesToRadians(rclbe.backRightAngle);
         main.y = 8.0f;
 
         if(rclbe.getBlockState().getValue(RailroadCrossingCantileverLights.FACING) == Direction.NORTH || rclbe.getBlockState().getValue(RailroadCrossingCantileverLights.FACING) == Direction.SOUTH){
@@ -108,7 +109,7 @@ public class RRCantLightsModel extends Model{
 
         main.xRot = 3.14555111f;
         lights_holder.y = 0.0f;
-        lights_holder.yRot = rclbe.yAngle;
+        lights_holder.yRot = Utilities.degreesToRadians(rclbe.yAngle);
         if(rclbe.showFrontLights){
             front_left.visible = true;
             front_right.visible = true;

@@ -25,10 +25,8 @@ import net.rk.railroadways.registry.MultipurposeSignType;
 import net.rk.railroadways.screen.widget.ActionCheckbox;
 import net.rk.railroadways.util.Utilities;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
-import java.util.Optional;
 
 public class MultipurposeSignScreen extends AbstractContainerScreen<MultipurposeSignMenu>{
     public static final ResourceLocation BG_TEXTURE =

@@ -10,6 +10,7 @@ import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
 import net.rk.railroadways.entity.blockentity.custom.RailroadCrossingLightsBE;
+import net.rk.railroadways.util.Utilities;
 
 public class RRLightsModel extends Model{
     public static final ModelLayerLocation LIGHTS_TEXTURE_LOCATION = new ModelLayerLocation(
@@ -83,14 +84,14 @@ public class RRLightsModel extends Model{
     }
 
     public void setupAnim(RailroadCrossingLightsBE rclbe){
-        front_left.yRot = rclbe.frontLeftAngle;
-        front_right.yRot = rclbe.frontRightAngle;
-        back_left.yRot = rclbe.backLeftAngle;
-        back_right.yRot = rclbe.backRightAngle;
+        front_left.yRot = Utilities.degreesToRadians(rclbe.frontLeftAngle);
+        front_right.yRot = Utilities.degreesToRadians(rclbe.frontRightAngle);
+        back_left.yRot = Utilities.degreesToRadians(rclbe.backLeftAngle);
+        back_right.yRot = Utilities.degreesToRadians(rclbe.backRightAngle);
         main.y = 0.0f;
         main.xRot = 3.14555111f;
         lights_holder.y = -8.0f;
-        lights_holder.yRot = rclbe.yAngle;
+        lights_holder.yRot = Utilities.degreesToRadians(rclbe.yAngle);
         if(rclbe.showFrontLights){
             front_left.visible = true;
             front_right.visible = true;

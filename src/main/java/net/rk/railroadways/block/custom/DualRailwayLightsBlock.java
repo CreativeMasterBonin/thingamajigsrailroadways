@@ -91,6 +91,12 @@ public class DualRailwayLightsBlock extends BaseEntityBlock{
 
             boolean allrrbellsabove = lvl.getBlockState(bp.above()).is(TRRBlockTag.RAILROAD_CROSSING_BELLS);
 
+            if(lvl.getBlockEntity(bp) instanceof DualRailwayLightsBE rrlights){
+                if(rrlights.linkedToController){
+                    return;
+                }
+            }
+
             // Bells and this block hate each other, so it's disabled.
             if(allrrbellsabove){
                 if(allverticalredstoneblocks){

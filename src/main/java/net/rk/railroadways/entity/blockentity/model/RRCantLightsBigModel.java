@@ -13,6 +13,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.rk.railroadways.block.custom.RailroadCrossingCantileverLights;
 import net.rk.railroadways.entity.blockentity.custom.RailroadCrossingCantLightsBE;
+import net.rk.railroadways.util.Utilities;
 
 public class RRCantLightsBigModel extends Model {
     public static final ModelLayerLocation DEFAULT_TEXTURE = new ModelLayerLocation(ResourceLocation.parse("thingamajigsrailroadways:textures/entity/big_cantilever_lights_off.png"),"main");
@@ -113,10 +114,10 @@ public class RRCantLightsBigModel extends Model {
     }
 
     public void setupAnim(RailroadCrossingCantLightsBE lights){
-        frontleftlight.yRot = lights.frontLeftAngle;
-        frontrightlight.yRot = lights.frontRightAngle;
-        backleftlight.yRot = lights.backLeftAngle;
-        backrightlight.yRot = lights.backRightAngle;
+        frontleftlight.yRot = Utilities.degreesToRadians(lights.frontLeftAngle);
+        frontrightlight.yRot = Utilities.degreesToRadians(lights.frontRightAngle);
+        backleftlight.yRot = Utilities.degreesToRadians(lights.backLeftAngle);
+        backrightlight.yRot = Utilities.degreesToRadians(lights.backRightAngle);
         main.y = 8.0f;
 
         if(lights.getBlockState().getValue(RailroadCrossingCantileverLights.FACING) == Direction.NORTH || lights.getBlockState().getValue(RailroadCrossingCantileverLights.FACING) == Direction.SOUTH){
@@ -128,7 +129,7 @@ public class RRCantLightsBigModel extends Model {
 
         main.xRot = Mth.PI;
         lights_holder.y = 0.0f;
-        lights_holder.yRot = lights.yAngle;
+        lights_holder.yRot = Utilities.degreesToRadians(lights.yAngle);
         if(lights.showFrontLights){
             frontleftlight.visible = true;
             frontrightlight.visible = true;

@@ -9,6 +9,7 @@ import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.rk.railroadways.entity.blockentity.TRRBlockEntity;
 import org.jetbrains.annotations.Nullable;
 
@@ -21,6 +22,23 @@ public class DualRailwayLightsBE extends BlockEntity{
     public String offLoc = "thingamajigsrailroadways:textures/entity/dual_off.png";
     public String whiteLoc = "thingamajigsrailroadways:textures/entity/dual_white.png";
     public String redLoc = "thingamajigsrailroadways:textures/entity/dual_red.png";
+
+    // linking variables
+    public boolean linkedToController = false;
+    public boolean externalPower = false;
+    public BlockPos linkedPosition = BlockPos.ZERO;
+
+    public void pairToLinkedPos(BlockPos attachedPos){
+        linkedToController = true;
+        linkedPosition = attachedPos;
+        updateBlock();
+    }
+
+    public void unpair(){
+        linkedToController = false;
+        linkedPosition = BlockPos.ZERO;
+        updateBlock();
+    }
 
     public DualRailwayLightsBE(BlockPos pos, BlockState blockState) {
         super(TRRBlockEntity.DUAL_RR_LIGHTS_BE.get(), pos, blockState);
@@ -64,6 +82,25 @@ public class DualRailwayLightsBE extends BlockEntity{
     }
 
     public static void serverTick(Level slvl, BlockPos sbp, BlockState sbs, DualRailwayLightsBE drlbe){
+        if(drlbe.linkedToController){
+            if(slvl.getBlockEntity(drlbe.linkedPosition) == null) {
+                drlbe.linkedToController = false;
+                drlbe.linkedPosition = BlockPos.ZERO;
+                drlbe.updateBlock();
+                return;
+            }
+            if(drlbe.externalPower){
+                if(!sbs.getValue(BlockStateProperties.POWERED)){
+                    slvl.setBlock(sbp,sbs.setValue(BlockStateProperties.POWERED,true),3);
+                }
+            }
+            else{
+                if(sbs.getValue(BlockStateProperties.POWERED)){
+                    slvl.setBlock(sbp,sbs.setValue(BlockStateProperties.POWERED,false),3);
+                }
+            }
+            return;
+        }
         ++drlbe.ticks;
         // hard reset tick counter
         if(drlbe.ticks >= drlbe.delayTicks){

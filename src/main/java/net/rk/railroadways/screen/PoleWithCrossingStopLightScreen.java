@@ -155,8 +155,6 @@ public class PoleWithCrossingStopLightScreen extends AbstractContainerScreen<Pol
         super.init();
         setupWidgets();
         addRenderableWidget(enableFlashingCheckBox);
-        //addRenderableWidget(flashingIntervalEdit);
-        //addRenderableWidget(fullyCustomRotationEdit);
         addRenderableWidget(horizontalCheckBox);
         addRenderableWidget(sendUpdateButton);
         addRenderableWidget(decreaseRotation);

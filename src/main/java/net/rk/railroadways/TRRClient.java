@@ -1,9 +1,12 @@
 package net.rk.railroadways;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.components.Button;
+import net.minecraft.client.gui.components.SpriteIconButton;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
 import net.minecraft.client.resources.model.ModelResourceLocation;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.IEventBus;
@@ -26,6 +29,28 @@ import net.rk.railroadways.screen.*;
 
 @Mod(value = Thingamajigsrailroadways.MODID,dist = {Dist.CLIENT})
 public class TRRClient{
+    public static SpriteIconButton edcOrangeOnly(int width, Button.OnPress onPress, boolean iconOnly) {
+        Component component = Component.translatable("button.thingamajigsrailroadways.text.orange_only");
+        return SpriteIconButton.builder(component, onPress, iconOnly)
+                .width(width)
+                .sprite(ResourceLocation.fromNamespaceAndPath(Thingamajigsrailroadways.MODID,"icon/edc_no_red"), 15, 13)
+                .build();
+    }
+    public static SpriteIconButton edcRedOnly(int width, Button.OnPress onPress, boolean iconOnly) {
+        Component component = Component.translatable("button.thingamajigsrailroadways.text.red_only");
+        return SpriteIconButton.builder(component, onPress, iconOnly)
+                .width(width)
+                .sprite(ResourceLocation.fromNamespaceAndPath(Thingamajigsrailroadways.MODID,"icon/edc_no_orange"), 15, 13)
+                .build();
+    }
+    public static SpriteIconButton edcAll(int width, Button.OnPress onPress, boolean iconOnly) {
+        Component component = Component.translatable("button.thingamajigsrailroadways.text.all");
+        return SpriteIconButton.builder(component, onPress, iconOnly)
+                .width(width)
+                .sprite(ResourceLocation.fromNamespaceAndPath(Thingamajigsrailroadways.MODID,"icon/edc_all"), 15, 13)
+                .build();
+    }
+
     public TRRClient(IEventBus eventBus, ModContainer container){
         eventBus.addListener(this::clientExtensions);
         eventBus.addListener(this::clientSetup);
@@ -75,6 +100,7 @@ public class TRRClient{
         event.register(TRRMenu.RAILROAD_CROSSING_LIGHTS_MENU.get(),RailroadCrossingArmLightedScreen::new);
         event.register(TRRMenu.POLE_WITH_CROSSING_STOP_LIGHT_MENU.get(),PoleWithCrossingStopLightScreen::new);
         event.register(TRRMenu.MULTIPURPOSE_SIGN_MENU.get(),MultipurposeSignScreen::new);
+        event.register(TRRMenu.EDC_LIGHT_MENU.get(),EnhancedDirectionalCrossingLightScreen::new);
     }
 
     public void clientExtensions(RegisterClientExtensionsEvent event) {

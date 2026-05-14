@@ -11,6 +11,7 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.rk.railroadways.entity.blockentity.custom.RailroadCrossingLightsBE;
+import net.rk.railroadways.util.Utilities;
 
 public class RRLightsBigModel extends Model{
     public static final ModelLayerLocation DEFAULT_TEXTURE = new ModelLayerLocation(ResourceLocation.parse("thingamajigsrailroadways:textures/entity/big_lights_off.png"), "main");
@@ -105,14 +106,14 @@ public class RRLightsBigModel extends Model{
     }
 
     public void setupAnim(RailroadCrossingLightsBE lights){
-        front_left.yRot = lights.frontLeftAngle;
-        front_right.yRot = lights.frontRightAngle;
-        back_left.yRot = lights.backLeftAngle;
-        back_right.yRot = lights.backRightAngle;
+        front_left.yRot = Utilities.degreesToRadians(lights.frontLeftAngle);
+        front_right.yRot = Utilities.degreesToRadians(lights.frontRightAngle);
+        back_left.yRot = Utilities.degreesToRadians(lights.backLeftAngle);
+        back_right.yRot = Utilities.degreesToRadians(lights.backRightAngle);
         main.y = 8.0f;
         main.xRot = Mth.PI;
         lights_holder.y = 0.0f;
-        lights_holder.yRot = lights.yAngle;
+        lights_holder.yRot = Utilities.degreesToRadians(lights.yAngle);
         if(lights.showFrontLights){
             front_left.visible = true;
             front_right.visible = true;

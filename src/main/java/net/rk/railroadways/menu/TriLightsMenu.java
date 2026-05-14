@@ -45,7 +45,7 @@ public class TriLightsMenu extends AbstractContainerMenu implements Supplier<Map
 
     @Override
     public boolean stillValid(Player player) {
-        return true;
+        return player.canInteractWithBlock(be.getBlockPos(),7);
     }
 
     @Override

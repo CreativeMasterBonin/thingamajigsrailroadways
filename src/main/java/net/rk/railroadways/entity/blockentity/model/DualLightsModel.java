@@ -10,6 +10,7 @@ import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
 import net.rk.railroadways.entity.blockentity.custom.DualRailwayLightsBE;
+import net.rk.railroadways.util.Utilities;
 
 public class DualLightsModel extends Model{
     public static final ModelLayerLocation DUAL_TEXTURE_LOC = new ModelLayerLocation(
@@ -51,7 +52,7 @@ public class DualLightsModel extends Model{
     }
 
     public void setupAnim(DualRailwayLightsBE drlbe){
-        lights.yRot = drlbe.yAngle;
+        lights.yRot = Utilities.degreesToRadians(drlbe.yAngle);
         main.zRot = 0;
         main.xRot = 3.14555111f;
         main.y = 0.0f;

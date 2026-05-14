@@ -43,7 +43,7 @@ public class RailroadCrossingLightsMenu extends AbstractContainerMenu implements
 
     @Override
     public boolean stillValid(Player player) {
-        return true;
+        return player.canInteractWithBlock(be.getBlockPos(),7);
     }
 
     @Override

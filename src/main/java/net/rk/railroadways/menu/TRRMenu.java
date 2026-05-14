@@ -52,6 +52,9 @@ public class TRRMenu{
             MENU_TYPES.register("multipurpose_sign_menu", () ->
                     IMenuTypeExtension.create(MultipurposeSignMenu::new));
 
+    public static final DeferredHolder<MenuType<?>,MenuType<EnhancedDirectionalCrossingLightMenu>> EDC_LIGHT_MENU =
+            MENU_TYPES.register("enhanced_directional_crossing_light_menu", () ->
+                    IMenuTypeExtension.create(EnhancedDirectionalCrossingLightMenu::new));
 
     public static void register(IEventBus eventBus){MENU_TYPES.register(eventBus);}
 }

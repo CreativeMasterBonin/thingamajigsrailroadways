@@ -44,7 +44,7 @@ public class DualLightsMenu extends AbstractContainerMenu implements Supplier<Ma
 
     @Override
     public boolean stillValid(Player player) {
-        return true;
+        return player.canInteractWithBlock(be.getBlockPos(),7);
     }
 
     @Override

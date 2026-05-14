@@ -46,20 +46,30 @@ public class ComponentBreaker extends Item {
                 gate.unpair();
                 level.playSound(player,pos,SoundEvents.LODESTONE_COMPASS_LOCK, SoundSource.BLOCKS,0.9f,1.1f);
             }
+            else if(be instanceof RailroadCrossingLightsBE crossingLights){
+                crossingLights.ticks = 0;
+                crossingLights.unpair();
+                level.playSound(player,pos,SoundEvents.LODESTONE_COMPASS_LOCK, SoundSource.BLOCKS,0.9f,1.0f);
+            }
+            else if(be instanceof RailroadCrossingCantLightsBE cantileverLights){
+                cantileverLights.ticks = 0;
+                cantileverLights.unpair();
+                level.playSound(player,pos,SoundEvents.LODESTONE_COMPASS_LOCK, SoundSource.BLOCKS,0.9f,1.0f);
+            }
             else if(be instanceof BritRailwayLightsBE britLights){
                 britLights.ticks = 0;
                 britLights.unpair();
-                level.playSound(player,pos,SoundEvents.LODESTONE_COMPASS_LOCK, SoundSource.BLOCKS,0.9f,1.1f);
+                level.playSound(player,pos,SoundEvents.LODESTONE_COMPASS_LOCK, SoundSource.BLOCKS,0.9f,1.2f);
             }
             else if(be instanceof EnhancedDirectionalCrossingLightBE enhancedDirectionalLights){
                 enhancedDirectionalLights.ticks = 0;
                 enhancedDirectionalLights.unpair();
-                level.playSound(player,pos,SoundEvents.LODESTONE_COMPASS_LOCK, SoundSource.BLOCKS,0.9f,1.1f);
+                level.playSound(player,pos,SoundEvents.LODESTONE_COMPASS_LOCK, SoundSource.BLOCKS,0.9f,1.3f);
             }
             else if(be instanceof CrossingComponentControllerBE controller){
                 controller.pairedPositions.clear();
                 controller.updateBlock();
-                level.playSound(player,pos,SoundEvents.LODESTONE_COMPASS_LOCK, SoundSource.BLOCKS,0.9f,1.1f);
+                level.playSound(player,pos,SoundEvents.LODESTONE_COMPASS_LOCK, SoundSource.BLOCKS,0.9f,0.95f);
             }
 
             return InteractionResult.CONSUME;

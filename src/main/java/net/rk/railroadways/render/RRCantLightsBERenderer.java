@@ -7,6 +7,7 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.rk.railroadways.block.TRRBlocks;
@@ -14,6 +15,7 @@ import net.rk.railroadways.block.custom.RailroadCrossingCantileverLights;
 import net.rk.railroadways.entity.blockentity.custom.RailroadCrossingCantLightsBE;
 import net.rk.railroadways.entity.blockentity.model.RRCantLightsBigModel;
 import net.rk.railroadways.entity.blockentity.model.RRCantLightsModel;
+import net.rk.railroadways.util.Utilities;
 
 public class RRCantLightsBERenderer implements BlockEntityRenderer<RailroadCrossingCantLightsBE>{
     public RRCantLightsModel model;
@@ -69,12 +71,14 @@ public class RRCantLightsBERenderer implements BlockEntityRenderer<RailroadCross
         VertexConsumer vc = multiBufferSource.getBuffer(RenderType.entityTranslucent(tempLoc));
 
         if(rrclbe.getBlockState().is(TRRBlocks.BIG_RAILROAD_CROSSING_CANTILEVER_LIGHTS)){
+            int lightLevel = rrclbe.getBlockState().getValue(BlockStateProperties.POWERED) ? Utilities.getLightLevel(2) : i;
             this.bigModel.setupAnim(rrclbe);
-            this.bigModel.renderToBuffer(poseStack,vc,i,i1);
+            this.bigModel.renderToBuffer(poseStack,vc,lightLevel,i1);
         }
         else {
+            int lightLevel = rrclbe.getBlockState().getValue(BlockStateProperties.POWERED) ? Utilities.getLightLevel(2) : i;
             this.model.setupAnim(rrclbe);
-            this.model.renderToBuffer(poseStack,vc,i,i1);
+            this.model.renderToBuffer(poseStack,vc,lightLevel,i1);
         }
 
         poseStack.popPose();

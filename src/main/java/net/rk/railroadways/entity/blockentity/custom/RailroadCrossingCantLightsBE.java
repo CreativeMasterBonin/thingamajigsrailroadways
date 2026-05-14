@@ -3,14 +3,18 @@ package net.rk.railroadways.entity.blockentity.custom;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtUtils;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.rk.railroadways.entity.blockentity.TRRBlockEntity;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.Optional;
 
 public class RailroadCrossingCantLightsBE extends BlockEntity{
     BlockPos bp;
@@ -29,6 +33,22 @@ public class RailroadCrossingCantLightsBE extends BlockEntity{
 
     public boolean alternateFlashCycle = false;
     public int flasherTickDelay = 15;
+
+    public boolean linkedToController = false;
+    public boolean externalPower = false;
+    public BlockPos linkedPosition = BlockPos.ZERO;
+
+    public void pairToLinkedPos(BlockPos attachedPos){
+        linkedToController = true;
+        linkedPosition = attachedPos;
+        updateBlock();
+    }
+
+    public void unpair(){
+        linkedToController = false;
+        linkedPosition = BlockPos.ZERO;
+        updateBlock();
+    }
 
     public boolean getFlashState(){
         return alternateFlashCycle;
@@ -86,6 +106,9 @@ public class RailroadCrossingCantLightsBE extends BlockEntity{
         pTag.putBoolean("show_front_lights",showFrontLights);
         pTag.putBoolean("show_back_lights",showBackLights);
         pTag.putInt("flasher_tick_delay",flasherTickDelay);
+        pTag.putBoolean("linked_to_controller",linkedToController);
+        pTag.put("linked_position", NbtUtils.writeBlockPos(linkedPosition));
+        pTag.putBoolean("on_alt_flash",alternateFlashCycle);
     }
 
     @Override
@@ -102,34 +125,71 @@ public class RailroadCrossingCantLightsBE extends BlockEntity{
             flasherTickDelay = 15;
             updateBlock();
         }
+        if(pTag.contains("linked_to_controller")){
+            linkedToController = pTag.getBoolean("linked_to_controller");
+        }
+        if(pTag.contains("linked_position")){
+            Optional<BlockPos> savedPairPos = NbtUtils.readBlockPos(pTag,"linked_position");
+            savedPairPos.ifPresent(blockPos -> linkedPosition = blockPos);
+        }
+        if(pTag.contains("on_alt_flash")){
+            alternateFlashCycle = pTag.getBoolean("on_alt_flash");
+        }
     }
 
     public static void serverTick(Level slvl, BlockPos sbp, BlockState sbs, RailroadCrossingCantLightsBE rclbe){
-        ++rclbe.ticks;
-        if(rclbe.ticks % rclbe.flasherTickDelay == 0){
-            rclbe.alternateFlashCycle = !rclbe.alternateFlashCycle;
+        if(rclbe.linkedToController){
+            if(slvl.getBlockEntity(rclbe.linkedPosition) == null) {
+                rclbe.linkedToController = false;
+                rclbe.linkedPosition = BlockPos.ZERO;
+                rclbe.updateBlock();
+                return;
+            }
+
+            if(rclbe.externalPower){
+                if(!sbs.getValue(BlockStateProperties.POWERED)){
+                    slvl.setBlock(sbp,sbs.setValue(BlockStateProperties.POWERED,true),3);
+                }
+            }
+            else{
+                if(sbs.getValue(BlockStateProperties.POWERED)){
+                    slvl.setBlock(sbp,sbs.setValue(BlockStateProperties.POWERED,false),3);
+                }
+            }
+            return;
         }
-        // hard reset tick counter
-        if(rclbe.ticks >= rclbe.maxTicksAllowed){
-            rclbe.ticks = 0;
+        else{
+            ++rclbe.ticks;
+            if(rclbe.ticks % rclbe.flasherTickDelay == 0){
+                rclbe.alternateFlashCycle = !rclbe.alternateFlashCycle;
+            }
+            // hard reset tick counter
+            if(rclbe.ticks >= rclbe.maxTicksAllowed){
+                rclbe.ticks = 0;
+            }
         }
     }
 
     public static void clientTick(Level lvl, BlockPos bp, BlockState bs, RailroadCrossingCantLightsBE rclbe){
-        ++rclbe.ticks;
-        if(rclbe.ticks % rclbe.flasherTickDelay == 0){
-            rclbe.alternateFlashCycle = !rclbe.alternateFlashCycle;
-        }
-        //
-        if(lvl.hasNearbyAlivePlayer(bp.getX(),bp.getY(),bp.getZ(),5)){
-            rclbe.hideOverride = false;
+        if(rclbe.linkedToController){
+            return;
         }
         else{
-            rclbe.hideOverride = true;
-        }
-        // hard reset tick counter
-        if(rclbe.ticks >= rclbe.maxTicksAllowed){
-            rclbe.ticks = 0;
+            ++rclbe.ticks;
+            if(rclbe.ticks % rclbe.flasherTickDelay == 0){
+                rclbe.alternateFlashCycle = !rclbe.alternateFlashCycle;
+            }
+            //
+            if(lvl.hasNearbyAlivePlayer(bp.getX(),bp.getY(),bp.getZ(),5)){
+                rclbe.hideOverride = false;
+            }
+            else{
+                rclbe.hideOverride = true;
+            }
+            // hard reset tick counter
+            if(rclbe.ticks >= rclbe.maxTicksAllowed){
+                rclbe.ticks = 0;
+            }
         }
     }
 }

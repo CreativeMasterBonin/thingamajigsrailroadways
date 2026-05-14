@@ -139,7 +139,7 @@ public class RailroadCrossingLightsScreen extends AbstractContainerScreen<Railro
         float normalPitch = 1.0f;
 
         float minValue = 0.00f;
-        float maxValue = 32.05f;
+        float maxValue = 359.05f;
 
         this.flrot = rrclbe.frontLeftAngle;
         this.frrot = rrclbe.frontRightAngle;
@@ -150,7 +150,7 @@ public class RailroadCrossingLightsScreen extends AbstractContainerScreen<Railro
                 Component.translatable("button.thingamajigsrailroadways.dec_gate_rot"),(handler) -> {
             PacketDistributor.sendToServer(new RailroadCrossingLightsPayload(
                     new BlockPos(x,y,z),
-                    rrclbe.yAngle - 0.1f,
+                    rrclbe.yAngle - 1.0f,
                     rrclbe.frontLeftAngle,
                     rrclbe.frontRightAngle,
                     rrclbe.backLeftAngle,
@@ -167,7 +167,7 @@ public class RailroadCrossingLightsScreen extends AbstractContainerScreen<Railro
                 Component.translatable("button.thingamajigsrailroadways.inc_gate_rot"),(handler) -> {
             PacketDistributor.sendToServer(new RailroadCrossingLightsPayload(
                     new BlockPos(x,y,z),
-                    rrclbe.yAngle + 0.1f,
+                    rrclbe.yAngle + 1.0f,
                     rrclbe.frontLeftAngle,
                     rrclbe.frontRightAngle,
                     rrclbe.backLeftAngle,
@@ -179,7 +179,7 @@ public class RailroadCrossingLightsScreen extends AbstractContainerScreen<Railro
         }){};
 
          int precise = 1;
-         float step = 0.05f;
+         float step = 0.5f;
 
         frontLeftRot = new ExtendedSlider(horzLeftButtonPos,
                 topRowButtonY + decLightsRot.getHeight() + spacingButtonHeight,

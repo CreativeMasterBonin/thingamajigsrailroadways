@@ -38,6 +38,7 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraft.world.ticks.TickPriority;
 import net.rk.railroadways.entity.blockentity.TRRBlockEntity;
 import net.rk.railroadways.entity.blockentity.custom.RailroadCrossingCantLightsBE;
+import net.rk.railroadways.entity.blockentity.custom.RailroadCrossingLightsBE;
 import net.rk.railroadways.menu.RRCantLightsMenu;
 import org.jetbrains.annotations.Nullable;
 
@@ -130,6 +131,12 @@ public class RailroadCrossingCantileverLights extends BaseEntityBlock{
 
     @Override
     protected void neighborChanged(BlockState state, Level level, BlockPos pos, Block neighborBlock, BlockPos neighborPos, boolean movedByPiston) {
+        if(level.getBlockEntity(pos) instanceof RailroadCrossingCantLightsBE cantlights){
+            if(cantlights.linkedToController){
+                return;
+            }
+        }
+
         if(level.hasNeighborSignal(pos)){
             level.setBlock(pos,state.setValue(POWERED,true),3);
         }

@@ -11,11 +11,11 @@ import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.util.Mth;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.rk.railroadways.block.TRRBlocks;
 import net.rk.railroadways.entity.blockentity.TRRBlockEntity;
 import org.jetbrains.annotations.Nullable;
 
@@ -111,6 +111,7 @@ public class CrossingComponentControllerBE extends BlockEntity{
 
     public static void serverTick(Level slvl, BlockPos sbp, BlockState sbs, CrossingComponentControllerBE be){
         try{
+            // do not do anything if unloaded
             if(!slvl.isLoaded(sbp)){
                 return;
             }else{
@@ -118,6 +119,14 @@ public class CrossingComponentControllerBE extends BlockEntity{
                     return;
                 }
             }
+            be.universalTicks++;
+            if(be.universalTicks >= 32767){
+                be.universalTicks = 0;
+            }
+            if(be.universalTicks % be.universalFlashInterval == 0){
+                be.universalAlternatingFlash = !be.universalAlternatingFlash;
+            }
+            // we are done with the ticks move to updating all connected 'nodes'
             for(BlockPos pos : be.pairedPositions){
                 if(!slvl.isLoaded(pos)){
                     continue;
@@ -157,6 +166,56 @@ public class CrossingComponentControllerBE extends BlockEntity{
                                 gate.externalPower = false;
                                 gate.updateBlock();
                             }
+                        }
+                        else{
+                            be.pairedPositions.remove(pos);
+                            be.setChanged();
+                        }
+                    }
+                    else if (slvl.getBlockEntity(pos) instanceof RailroadCrossingLightsBE crossingLights) {
+                        if(crossingLights.linkedToController){
+                            if (crossingLights.flasherTickDelay != be.universalFlashInterval) {
+                                crossingLights.flasherTickDelay = be.universalFlashInterval;
+                                crossingLights.updateBlock();
+                            }
+
+                            crossingLights.ticks = be.universalTicks;
+
+                            crossingLights.alternateFlashCycle = be.universalAlternatingFlash;
+
+                            if (sbs.getValue(BlockStateProperties.POWERED)) {
+                                crossingLights.externalPower = true;
+                                crossingLights.updateBlock();
+                            } else {
+                                crossingLights.externalPower = false;
+                                crossingLights.updateBlock();
+                            }
+                        }
+                        else{
+                            be.pairedPositions.remove(pos);
+                            be.setChanged();
+                        }
+                    }
+                    else if (slvl.getBlockEntity(pos) instanceof RailroadCrossingCantLightsBE cantileverLights) {
+                        if(cantileverLights.linkedToController){
+                            if (cantileverLights.flasherTickDelay != be.universalFlashInterval) {
+                                cantileverLights.flasherTickDelay = be.universalFlashInterval;
+                                cantileverLights.updateBlock();
+                            }
+                            cantileverLights.ticks = be.universalTicks;
+                            cantileverLights.alternateFlashCycle = be.universalAlternatingFlash;
+
+                            cantileverLights.externalPower = sbs.getValue(BlockStateProperties.POWERED);
+                            cantileverLights.updateBlock();
+                            //System.out.println(cantileverLights.getFlashState());
+
+                            /*if (sbs.getValue(BlockStateProperties.POWERED)) {
+                                cantileverLights.externalPower = true;
+                                cantileverLights.updateBlock();
+                            } else {
+                                cantileverLights.externalPower = false;
+                                cantileverLights.updateBlock();
+                            }*/
                         }
                         else{
                             be.pairedPositions.remove(pos);
@@ -217,55 +276,56 @@ public class CrossingComponentControllerBE extends BlockEntity{
                             if(north){
                                 if(lights.swapNSEWcheck){
                                     lights.orangeLightState = EnhancedDirectionalCrossingLightBE.DirectionalLightStates.LEFT;
+                                    lights.updateBlock();
                                 }
                                 else{
                                     lights.orangeLightState = EnhancedDirectionalCrossingLightBE.DirectionalLightStates.RIGHT;
+                                    lights.updateBlock();
                                 }
                             }
                             else if(south){
                                 if(lights.swapNSEWcheck){
                                     lights.orangeLightState = EnhancedDirectionalCrossingLightBE.DirectionalLightStates.RIGHT;
+                                    lights.updateBlock();
                                 }
                                 else{
                                     lights.orangeLightState = EnhancedDirectionalCrossingLightBE.DirectionalLightStates.LEFT;
+                                    lights.updateBlock();
                                 }
                             }
                             else if(east){
                                 if(lights.swapNSEWcheck){
                                     lights.orangeLightState = EnhancedDirectionalCrossingLightBE.DirectionalLightStates.LEFT;
+                                    lights.updateBlock();
                                 }
                                 else{
                                     lights.orangeLightState = EnhancedDirectionalCrossingLightBE.DirectionalLightStates.RIGHT;
+                                    lights.updateBlock();
                                 }
                             }
                             else if(west){
                                 if(lights.swapNSEWcheck){
                                     lights.orangeLightState = EnhancedDirectionalCrossingLightBE.DirectionalLightStates.RIGHT;
+                                    lights.updateBlock();
                                 }
                                 else{
                                     lights.orangeLightState = EnhancedDirectionalCrossingLightBE.DirectionalLightStates.LEFT;
+                                    lights.updateBlock();
                                 }
                             }
                         }
                         else{
                             if(lights.orangeLightState != EnhancedDirectionalCrossingLightBE.DirectionalLightStates.CENTER){
                                 lights.orangeLightState = EnhancedDirectionalCrossingLightBE.DirectionalLightStates.CENTER;
+                                lights.updateBlock();
                             }
                         }
-                        lights.updateBlock();
                     }
                 }
             }
         }
         catch (Exception e){
             LogUtils.getLogger().error(e.getLocalizedMessage());
-        }
-        be.universalTicks++;
-        if(be.universalTicks >= 32767){
-            be.universalTicks = 0;
-        }
-        if(be.universalTicks % be.universalFlashInterval == 0){
-            be.universalAlternatingFlash = !be.universalAlternatingFlash;
         }
     }
 

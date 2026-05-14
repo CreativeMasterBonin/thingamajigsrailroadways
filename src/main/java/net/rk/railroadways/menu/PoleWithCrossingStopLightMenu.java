@@ -27,6 +27,6 @@ public class PoleWithCrossingStopLightMenu extends AbstractContainerMenu {
 
     @Override
     public boolean stillValid(Player player) {
-        return true;
+        return player.canInteractWithBlock(be.getBlockPos(),7);
     }
 }

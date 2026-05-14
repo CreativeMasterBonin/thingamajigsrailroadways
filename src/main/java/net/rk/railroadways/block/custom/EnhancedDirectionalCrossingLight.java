@@ -1,14 +1,23 @@
 package net.rk.railroadways.block.custom;
 
+import com.mojang.logging.LogUtils;
 import com.mojang.serialization.MapCodec;
+import io.netty.buffer.Unpooled;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.RandomSource;
 import net.minecraft.util.StringRepresentable;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
@@ -27,6 +36,7 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.level.material.MapColor;
+import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
@@ -35,6 +45,7 @@ import net.rk.railroadways.block.TRRBlocks;
 import net.rk.railroadways.datagen.TRRBlockTag;
 import net.rk.railroadways.entity.blockentity.TRRBlockEntity;
 import net.rk.railroadways.entity.blockentity.custom.EnhancedDirectionalCrossingLightBE;
+import net.rk.railroadways.menu.EnhancedDirectionalCrossingLightMenu;
 import net.rk.railroadways.util.PoleShapes;
 import net.rk.railroadways.util.Utilities;
 import org.jetbrains.annotations.Nullable;
@@ -97,6 +108,32 @@ public class EnhancedDirectionalCrossingLight extends BaseEntityBlock {
     public void appendHoverText(ItemStack stack, Item.TooltipContext context, List<Component> tooltipComponents, TooltipFlag tooltipFlag) {
         tooltipComponents.add(Component.translatable("item.enhanced_directional_crossing_light.desc")
                 .withStyle(ChatFormatting.GRAY));
+    }
+
+    @Override
+    public InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hitResult) {
+        try{
+            if(player instanceof ServerPlayer){
+                player.openMenu(new MenuProvider(){
+                    @Override
+                    public Component getDisplayName() {
+                        return Component.translatable("menu.railroadways.enhanced_directional_crossing_light.title")
+                                .withStyle(ChatFormatting.WHITE);
+                    }
+                    @Override
+                    public AbstractContainerMenu createMenu(int id, Inventory inventory, Player player) {
+                        return new EnhancedDirectionalCrossingLightMenu(id, inventory,
+                                new FriendlyByteBuf(Unpooled.buffer()).writeBlockPos(pos));
+                    }
+                },pos);
+                return InteractionResult.sidedSuccess(level.isClientSide);
+            }
+        }
+        catch (Exception e){
+            LogUtils.getLogger().warn("Railroadways caught an exception with Multipurpose Sign: {}", e.getMessage());
+            return InteractionResult.FAIL;
+        }
+        return InteractionResult.PASS;
     }
 
     @Override

@@ -102,6 +102,7 @@ public class EnhancedDirectionalCrossingLightBE extends BlockEntity {
     public void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
         if(tag.contains("y_angle")){
             yAngle = tag.getFloat("y_angle");
+            yAngle = Math.clamp(yAngle,0,359); // prevent unwanted angles from being loaded
         }
         if(tag.contains("flasher_configuration")){
             flasherConfiguration = tag.getByte("flasher_configuration");
@@ -120,6 +121,7 @@ public class EnhancedDirectionalCrossingLightBE extends BlockEntity {
                 LogUtils.getLogger().error("DirectionalLightState was: {} but should have been any of: {}",tag.getString("direction_of_travel"),DirectionalLightStates.values());
                 LogUtils.getLogger().warn("Modified DirectionLightState to center mode since an error occurred");
                 orangeLightState = DirectionalLightStates.CENTER;
+                updateBlock();
             }
         }
         if(tag.contains("swap_signal_check")){
@@ -294,7 +296,6 @@ public class EnhancedDirectionalCrossingLightBE extends BlockEntity {
             if(lights.ticks >= 32767) {
                 lights.ticks = 0;
             }
-
             boolean north = false;
             boolean south = false;
             boolean east = false;

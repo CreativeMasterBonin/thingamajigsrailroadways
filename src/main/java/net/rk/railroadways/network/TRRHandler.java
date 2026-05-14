@@ -59,5 +59,11 @@ public class TRRHandler {
                 MultipurposeSignTypeUpdatePayload.STREAM_CODEC,
                 MultipurposeSignTypeUpdatePacket.get()::handle
         );
+
+        regex_reg.playToServer(
+                EDCLightsPayload.TYPE,
+                EDCLightsPayload.STREAM_CODEC,
+                EDCLightsPacket.get()::handle
+        );
     }
 }

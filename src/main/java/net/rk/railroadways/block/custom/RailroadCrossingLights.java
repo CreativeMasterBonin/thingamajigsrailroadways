@@ -40,6 +40,7 @@ import net.minecraft.world.ticks.TickPriority;
 import net.rk.railroadways.block.TRRBlocks;
 import net.rk.railroadways.datagen.TRRBlockTag;
 import net.rk.railroadways.entity.blockentity.TRRBlockEntity;
+import net.rk.railroadways.entity.blockentity.custom.BritRailwayLightsBE;
 import net.rk.railroadways.entity.blockentity.custom.RailroadCrossingLightsBE;
 import net.rk.railroadways.menu.RailroadCrossingLightsMenu;
 import net.rk.railroadways.util.PoleShapes;
@@ -85,6 +86,12 @@ public class RailroadCrossingLights extends BaseEntityBlock{
             boolean allrrbells = lvl.getBlockState(bp.below()).is(TRRBlockTag.RAILROAD_CROSSING_BELLS);
 
             boolean allrrbellsabove = lvl.getBlockState(bp.above()).is(TRRBlockTag.RAILROAD_CROSSING_BELLS);
+
+            if(lvl.getBlockEntity(bp) instanceof RailroadCrossingLightsBE rrlights){
+                if(rrlights.linkedToController){
+                    return;
+                }
+            }
 
             // Bells and this block hate each other, so it's disabled.
             if(allrrbellsabove){
