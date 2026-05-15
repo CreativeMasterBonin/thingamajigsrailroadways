@@ -165,6 +165,7 @@ public class TRRClient{
             event.accept(TRRBlocks.CROSSBUCK.asItem());
             event.accept(TRRBlocks.CROSSBUCK_WITH_LADDER.asItem());
             event.accept(TRRBlocks.MULTIPURPOSE_SIGN.asItem());
+            event.accept(TRRBlocks.WIGWAG.asItem());
             event.accept(TRRBlocks.POLE_WITH_CROSSING_STOP_LIGHT.asItem());
             event.accept(TRRBlocks.RAILROAD_CROSSING_LIGHTS.asItem());
             event.accept(TRRBlocks.ENHANCED_DIRECTIONAL_CROSSING_LIGHT.asItem());
