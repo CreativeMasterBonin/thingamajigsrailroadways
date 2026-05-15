@@ -110,6 +110,11 @@ public class DualRailwayLightsBE extends BlockEntity{
         if(drlbe.ticks >= 32767){
             drlbe.ticks = 0;
         }
+
+        if(drlbe.ticks % drlbe.flasherTickDelay == 0){
+            drlbe.alternateFlash = !drlbe.alternateFlash;
+            drlbe.updateBlock();
+        }
     }
 
     public static void clientTick(Level lvl, BlockPos bp, BlockState bs, DualRailwayLightsBE drlbe){

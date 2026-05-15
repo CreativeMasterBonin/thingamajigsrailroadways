@@ -22,7 +22,7 @@ public class TriRailwayLightsBERenderer implements BlockEntityRenderer<TriRailwa
     public void render(TriRailwayLightsBE brwlbe, float v, PoseStack poseStack, MultiBufferSource multiBufferSource, int i, int i1){
         String strloc = brwlbe.offLoc;
         if(!brwlbe.getBlockState().getValue(DualRailwayLightsBlock.POWERED)){
-            if(brwlbe.ticks >= brwlbe.flasherTickDelay / 2){
+            if(brwlbe.alternateFlash){
                 strloc = brwlbe.whiteLoc;
             }
             else{
@@ -30,7 +30,7 @@ public class TriRailwayLightsBERenderer implements BlockEntityRenderer<TriRailwa
             }
         }
         else{
-            if(brwlbe.ticks >= brwlbe.flasherTickDelay / 2){
+            if(brwlbe.alternateFlash){
                 strloc = brwlbe.on0;
             }
             else{

@@ -111,6 +111,11 @@ public class TriRailwayLightsBE extends BlockEntity{
         if(brlbe.ticks >= 32767){
             brlbe.ticks = 0;
         }
+
+        if(brlbe.ticks % brlbe.flasherTickDelay == 0){
+            brlbe.alternateFlash = !brlbe.alternateFlash;
+            brlbe.updateBlock();
+        }
     }
 
     public static void clientTick(Level lvl, BlockPos bp, BlockState bs, TriRailwayLightsBE brlbe){

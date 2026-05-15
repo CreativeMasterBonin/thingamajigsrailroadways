@@ -228,6 +228,7 @@ public class CrossingComponentControllerBE extends BlockEntity{
                         if(dualLights.linkedToController){
                             dualLights.ticks = be.universalTicks;
                             dualLights.flasherTickDelay = be.universalFlashInterval;
+                            dualLights.alternateFlash = be.universalAlternatingFlash;
                             if (sbs.getValue(BlockStateProperties.POWERED)) {
                                 dualLights.externalPower = true;
                                 dualLights.updateBlock();
@@ -245,6 +246,7 @@ public class CrossingComponentControllerBE extends BlockEntity{
                         if(triLights.linkedToController){
                             triLights.ticks = be.universalTicks;
                             triLights.flasherTickDelay = be.universalFlashInterval;
+                            triLights.alternateFlash = be.universalAlternatingFlash;
                             if (sbs.getValue(BlockStateProperties.POWERED)) {
                                 triLights.externalPower = true;
                                 triLights.updateBlock();
