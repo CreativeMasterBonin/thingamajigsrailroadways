@@ -56,5 +56,9 @@ public class TRRMenu{
             MENU_TYPES.register("enhanced_directional_crossing_light_menu", () ->
                     IMenuTypeExtension.create(EnhancedDirectionalCrossingLightMenu::new));
 
+    public static final DeferredHolder<MenuType<?>,MenuType<WigwagMenu>> WIGWAG_MENU =
+            MENU_TYPES.register("wigwag_menu", () ->
+                    IMenuTypeExtension.create(WigwagMenu::new));
+
     public static void register(IEventBus eventBus){MENU_TYPES.register(eventBus);}
 }

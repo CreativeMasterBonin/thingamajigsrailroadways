@@ -49,7 +49,7 @@ public class TRRBlocks {
             () -> new CrossbuckBlock(BlockBehaviour.Properties.of()));
 
     public static final DeferredBlock<Block> RAILROAD_CROSSING_LIGHTS = register("railroad_crossing_lights",
-            () -> new RailroadCrossingLights(BlockBehaviour.Properties.of().lightLevel(railroadLightsEmission(15))));
+            () -> new RailroadCrossingLights(BlockBehaviour.Properties.of()));
 
     public static final DeferredBlock<Block> ELECTRONIC_BELL_TYPE_1 = register("railroad_crossing_ebell_type_one",
             () -> new BaseRailroadCrossingBell(BlockBehaviour.Properties.of(),true){
@@ -424,7 +424,7 @@ public class TRRBlocks {
 
 
     public static final DeferredBlock<Block> BIG_RAILROAD_CROSSING_LIGHTS = register("big_railroad_crossing_lights",
-            () -> new RailroadCrossingLights(BlockBehaviour.Properties.of().lightLevel(railroadLightsEmission(15))){
+            () -> new RailroadCrossingLights(BlockBehaviour.Properties.of()){
                 @Override
                 public RenderShape getRenderShape(BlockState bs) {
                     return RenderShape.ENTITYBLOCK_ANIMATED;

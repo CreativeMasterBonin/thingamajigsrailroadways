@@ -6,12 +6,15 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
+import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.rk.railroadways.block.custom.RailroadCrossingArmLightedBlock;
 import net.rk.railroadways.entity.blockentity.custom.RailroadCrossingArmWithLights;
 import net.rk.railroadways.entity.blockentity.model.RRArmLightsModel;
+import net.rk.railroadways.util.Utilities;
 
 public class RailroadCrossingArmWithLightsRenderer implements BlockEntityRenderer<RailroadCrossingArmWithLights> {
     private ResourceLocation noLight = ResourceLocation.parse("thingamajigsrailroadways:textures/entity/railroad_arm_no_light.png");
@@ -43,8 +46,12 @@ public class RailroadCrossingArmWithLightsRenderer implements BlockEntityRendere
             }
         }
 
+        int lightLevel = i;
+        if(railroadCrossingBE.railroadCrossingArmState == RailroadCrossingArmWithLights.RailroadCrossingArmState.DOWN || railroadCrossingBE.railroadCrossingArmState == RailroadCrossingArmWithLights.RailroadCrossingArmState.MOVING && railroadCrossingBE.getBlockState().getValue(BlockStateProperties.POWERED)){
+            lightLevel = Utilities.getLightLevel(2);
+        }
         this.model.setupAnim(railroadCrossingBE);
-        this.model.renderToBuffer(poseStack,vc,i,i1);
+        this.model.renderToBuffer(poseStack,vc,lightLevel,i1);
         poseStack.popPose();
     }
 

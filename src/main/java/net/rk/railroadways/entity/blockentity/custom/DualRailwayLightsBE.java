@@ -3,6 +3,7 @@ package net.rk.railroadways.entity.blockentity.custom;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtUtils;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
@@ -13,11 +14,14 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.rk.railroadways.entity.blockentity.TRRBlockEntity;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Optional;
+
 public class DualRailwayLightsBE extends BlockEntity{
     BlockPos bp;
     public float yAngle = 0.0f;
     public int ticks;
-    public int delayTicks = 50;
+    public boolean alternateFlash = false;
+    public int flasherTickDelay = 50;
 
     public String offLoc = "thingamajigsrailroadways:textures/entity/dual_off.png";
     public String whiteLoc = "thingamajigsrailroadways:textures/entity/dual_white.png";
@@ -103,7 +107,7 @@ public class DualRailwayLightsBE extends BlockEntity{
         }
         ++drlbe.ticks;
         // hard reset tick counter
-        if(drlbe.ticks >= drlbe.delayTicks){
+        if(drlbe.ticks >= 32767){
             drlbe.ticks = 0;
         }
     }
@@ -111,19 +115,39 @@ public class DualRailwayLightsBE extends BlockEntity{
     public static void clientTick(Level lvl, BlockPos bp, BlockState bs, DualRailwayLightsBE drlbe){
         ++drlbe.ticks;
         // hard reset tick counter
-        if(drlbe.ticks >= drlbe.delayTicks){
+        if(drlbe.ticks >= 32767){
             drlbe.ticks = 0;
         }
     }
 
     @Override
-    protected void saveAdditional(CompoundTag pTag, HolderLookup.Provider slp) {
-        super.saveAdditional(pTag, slp);
+    public void saveAdditional(CompoundTag pTag, HolderLookup.Provider slp) {
         pTag.putFloat("y_angle",yAngle);
+        pTag.putInt("flasher_tick_delay",flasherTickDelay);
+        pTag.putBoolean("linked_to_controller",linkedToController);
+        pTag.put("linked_position", NbtUtils.writeBlockPos(linkedPosition));
+        pTag.putBoolean("on_alt_flash",alternateFlash);
     }
 
     @Override
-    protected void loadAdditional(CompoundTag pTag, HolderLookup.Provider lp) {
+    public void loadAdditional(CompoundTag pTag, HolderLookup.Provider lp) {
         yAngle = pTag.getFloat("y_angle");
+        if(pTag.contains("flasher_tick_delay")){
+            flasherTickDelay = pTag.getInt("flasher_tick_delay");
+        }
+        if(flasherTickDelay <= 0){
+            flasherTickDelay = 15;
+            updateBlock();
+        }
+        if(pTag.contains("linked_to_controller")){
+            linkedToController = pTag.getBoolean("linked_to_controller");
+        }
+        if(pTag.contains("linked_position")){
+            Optional<BlockPos> savedPairPos = NbtUtils.readBlockPos(pTag,"linked_position");
+            savedPairPos.ifPresent(blockPos -> linkedPosition = blockPos);
+        }
+        if(pTag.contains("on_alt_flash")){
+            alternateFlash = pTag.getBoolean("on_alt_flash");
+        }
     }
 }

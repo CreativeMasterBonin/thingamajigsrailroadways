@@ -176,7 +176,7 @@ public class DualRailwayLightsBlock extends BaseEntityBlock{
             }
         }
         catch (Exception e){
-            Logger.getAnonymousLogger().warning("Railroadways exception caught in Dual Railway Lights Block! Err: " + e.getMessage());
+            Logger.getAnonymousLogger().warning("Railroadways exception caught in DualRailwayLightsBlock Err: " + e.getMessage());
             return InteractionResult.FAIL;
         }
         return InteractionResult.PASS;

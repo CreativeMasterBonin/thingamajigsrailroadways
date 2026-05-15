@@ -18,6 +18,8 @@ import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.client.model.data.ModelData;
 import net.rk.railroadways.Thingamajigsrailroadways;
 import net.rk.railroadways.entity.blockentity.custom.WigWagBE;
@@ -185,5 +187,27 @@ public class WigWagBERenderer implements BlockEntityRenderer<WigWagBE> {
         }
 
         poseStack.popPose();
+    }
+
+    @Override
+    public AABB getRenderBoundingBox(WigWagBE blockEntity){
+        return new AABB(blockEntity.getBlockPos().getX() - 2, blockEntity.getBlockPos().getY(), blockEntity.getBlockPos().getZ() - 2,
+                blockEntity.getBlockPos().getX() + 2, blockEntity.getBlockPos().getY() + 2, blockEntity.getBlockPos().getZ() + 2);
+    }
+
+    @Override
+    public boolean shouldRender(WigWagBE be, Vec3 vec3) {
+        return Vec3.atCenterOf(be.getBlockPos()).multiply(2.0, 2.0, 2.0)
+                .closerThan(vec3.multiply(2.0, 2.0, 2.0), (double)this.getViewDistance());
+    }
+
+    @Override
+    public int getViewDistance() {
+        return 82;
+    }
+
+    @Override
+    public boolean shouldRenderOffScreen(WigWagBE blockEntity){
+        return true;
     }
 }

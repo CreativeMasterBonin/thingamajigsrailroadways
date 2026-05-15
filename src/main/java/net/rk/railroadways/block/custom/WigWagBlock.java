@@ -1,12 +1,21 @@
 package net.rk.railroadways.block.custom;
 
+import com.mojang.logging.LogUtils;
 import com.mojang.serialization.MapCodec;
+import io.netty.buffer.Unpooled;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.MenuProvider;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
@@ -22,6 +31,7 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
+import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
@@ -30,6 +40,7 @@ import net.rk.railroadways.block.TRRBlocks;
 import net.rk.railroadways.datagen.TRRBlockTag;
 import net.rk.railroadways.entity.blockentity.TRRBlockEntity;
 import net.rk.railroadways.entity.blockentity.custom.WigWagBE;
+import net.rk.railroadways.menu.WigwagMenu;
 import net.rk.railroadways.util.PoleShapes;
 import org.jetbrains.annotations.Nullable;
 
@@ -129,6 +140,32 @@ public class WigWagBlock extends BaseEntityBlock {
     @Override
     public void tick(BlockState bs, ServerLevel sl, BlockPos bp, RandomSource rs) {
         sl.updateNeighborsAt(bp.above(),this);
+    }
+
+    @Override
+    public InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hitResult) {
+        try{
+            if(player instanceof ServerPlayer){
+                player.openMenu(new MenuProvider(){
+                    @Override
+                    public Component getDisplayName() {
+                        return Component.translatable("menu.railroadways.wigwag.title")
+                                .withStyle(ChatFormatting.WHITE);
+                    }
+                    @Override
+                    public AbstractContainerMenu createMenu(int id, Inventory inventory, Player player) {
+                        return new WigwagMenu(id, inventory,
+                                new FriendlyByteBuf(Unpooled.buffer()).writeBlockPos(pos));
+                    }
+                },pos);
+                return InteractionResult.sidedSuccess(level.isClientSide);
+            }
+        }
+        catch (Exception e){
+            LogUtils.getLogger().warn("Railroadways caught an exception with WigWagBlock: {}", e.getMessage());
+            return InteractionResult.FAIL;
+        }
+        return InteractionResult.PASS;
     }
 
     @Override

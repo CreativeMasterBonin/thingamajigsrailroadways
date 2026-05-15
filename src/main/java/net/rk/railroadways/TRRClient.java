@@ -51,6 +51,27 @@ public class TRRClient{
                 .sprite(ResourceLocation.fromNamespaceAndPath(Thingamajigsrailroadways.MODID,"icon/edc_all"), 15, 13)
                 .build();
     }
+    public static SpriteIconButton wigWagPole(int width, Button.OnPress onPress, boolean iconOnly) {
+        Component component = Component.translatable("button.railroadways.text.pole");
+        return SpriteIconButton.builder(component, onPress, iconOnly)
+                .width(width)
+                .sprite(ResourceLocation.fromNamespaceAndPath(Thingamajigsrailroadways.MODID,"icon/wigwag_pole"), 16, 16)
+                .build();
+    }
+    public static SpriteIconButton wigWagStandalone(int width, Button.OnPress onPress, boolean iconOnly) {
+        Component component = Component.translatable("button.railroadways.text.standalone");
+        return SpriteIconButton.builder(component, onPress, iconOnly)
+                .width(width)
+                .sprite(ResourceLocation.fromNamespaceAndPath(Thingamajigsrailroadways.MODID,"icon/wigwag_standalone"), 16, 16)
+                .build();
+    }
+    public static SpriteIconButton wigWagTwoRing(int width, Button.OnPress onPress, boolean iconOnly) {
+        Component component = Component.translatable("button.railroadways.text.two_ring");
+        return SpriteIconButton.builder(component, onPress, iconOnly)
+                .width(width)
+                .sprite(ResourceLocation.fromNamespaceAndPath(Thingamajigsrailroadways.MODID,"icon/wigwag_two_ring"), 16, 16)
+                .build();
+    }
 
     public TRRClient(IEventBus eventBus, ModContainer container){
         eventBus.addListener(this::clientExtensions);
@@ -104,6 +125,7 @@ public class TRRClient{
         event.register(TRRMenu.POLE_WITH_CROSSING_STOP_LIGHT_MENU.get(),PoleWithCrossingStopLightScreen::new);
         event.register(TRRMenu.MULTIPURPOSE_SIGN_MENU.get(),MultipurposeSignScreen::new);
         event.register(TRRMenu.EDC_LIGHT_MENU.get(),EnhancedDirectionalCrossingLightScreen::new);
+        event.register(TRRMenu.WIGWAG_MENU.get(),WigwagScreen::new);
     }
 
     public void clientExtensions(RegisterClientExtensionsEvent event) {

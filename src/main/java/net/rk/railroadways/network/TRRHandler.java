@@ -65,5 +65,11 @@ public class TRRHandler {
                 EDCLightsPayload.STREAM_CODEC,
                 EDCLightsPacket.get()::handle
         );
+
+        regex_reg.playToServer(
+                WigwagPayload.TYPE,
+                WigwagPayload.STREAM_CODEC,
+                WigwagPacket.get()::handle
+        );
     }
 }

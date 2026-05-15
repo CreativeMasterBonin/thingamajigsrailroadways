@@ -29,6 +29,7 @@ public class WigWagBE extends BlockEntity {
     public float swingAngle = 0.0f;
     public boolean strokeLeft = false; // pitch changer
     public byte signalDesignType = 127;
+    public float maxSwingAngle = -45.0f;
 
     // linking variables
     public boolean linkedToController = false;
@@ -95,6 +96,7 @@ public class WigWagBE extends BlockEntity {
         pTag.put("linked_position", NbtUtils.writeBlockPos(linkedPosition));
         pTag.putFloat("swing_angle",swingAngle);
         pTag.putByte("signal_design_type",signalDesignType);
+        pTag.putFloat("max_swing_angle",maxSwingAngle);
     }
 
     @Override
@@ -113,6 +115,10 @@ public class WigWagBE extends BlockEntity {
         if(pTag.contains("signal_design_type")){
             signalDesignType = pTag.getByte("signal_design_type");
         }
+        if(pTag.contains("max_swing_angle")){
+            maxSwingAngle = pTag.getFloat("max_swing_angle");
+        }
+        maxSwingAngle = Mth.clamp(maxSwingAngle,-85.0f,-45.0f);
     }
 
     public static void serverTick(Level slvl, BlockPos sbp, BlockState sbs, WigWagBE wigWag){
@@ -160,11 +166,11 @@ public class WigWagBE extends BlockEntity {
         // universal behavior
         // the 'physics' of the wigwag
         if(sbs.getValue(BlockStateProperties.POWERED)){
-            if(wigWag.swingAngle > -45.0f){
+            if(wigWag.swingAngle > wigWag.maxSwingAngle){
                 wigWag.swingAngle -= (float)((Util.getMillis() % 1200) / 1400.0f);
                 wigWag.updateBlock();
             }
-            else if(wigWag.swingAngle < -45.0f){
+            else if(wigWag.swingAngle < wigWag.maxSwingAngle){
                 wigWag.swingAngle += (float)((Util.getMillis() % 1200) / 1400.0f);
                 wigWag.updateBlock();
             }

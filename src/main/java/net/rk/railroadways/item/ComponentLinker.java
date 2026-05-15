@@ -178,6 +178,32 @@ public class ComponentLinker extends Item{
                                         }
                                         return InteractionResult.CONSUME;
                                     }
+                                    case DualRailwayLightsBE dualLights -> {
+                                        if (!dualLights.linkedToController) {
+                                            be.pairedPositions.add(blockPos);
+                                            dualLights.pairToLinkedPos(linker.getComponents().get(Thingamajigsrailroadways.SELECTED_POSITION.asOptional().get()));
+                                            player.playSound(SoundEvents.NOTE_BLOCK_BELL.value(),0.7f,1.0f);
+                                            player.displayClientMessage(Component.translatable("item.crossing_component_linker.successful_pair", dualLights.getBlockPos().toShortString(), be.getBlockPos().toShortString()), true);
+                                        } else {
+                                            dualLights.unpair();
+                                            be.removePosition(dualLights.getBlockPos(), false);
+                                            player.displayClientMessage(Component.translatable("item.crossing_component_linker.successful_unpair", dualLights.getBlockPos().toShortString(), be.getBlockPos().toShortString()), true);
+                                        }
+                                        return InteractionResult.CONSUME;
+                                    }
+                                    case TriRailwayLightsBE triLights -> {
+                                        if (!triLights.linkedToController) {
+                                            be.pairedPositions.add(blockPos);
+                                            triLights.pairToLinkedPos(linker.getComponents().get(Thingamajigsrailroadways.SELECTED_POSITION.asOptional().get()));
+                                            player.playSound(SoundEvents.NOTE_BLOCK_BELL.value(),0.7f,1.0f);
+                                            player.displayClientMessage(Component.translatable("item.crossing_component_linker.successful_pair", triLights.getBlockPos().toShortString(), be.getBlockPos().toShortString()), true);
+                                        } else {
+                                            triLights.unpair();
+                                            be.removePosition(triLights.getBlockPos(), false);
+                                            player.displayClientMessage(Component.translatable("item.crossing_component_linker.successful_unpair", triLights.getBlockPos().toShortString(), be.getBlockPos().toShortString()), true);
+                                        }
+                                        return InteractionResult.CONSUME;
+                                    }
                                     case BritRailwayLightsBE britLights -> {
                                         if (!britLights.linkedToController) {
                                             be.pairedPositions.add(blockPos);

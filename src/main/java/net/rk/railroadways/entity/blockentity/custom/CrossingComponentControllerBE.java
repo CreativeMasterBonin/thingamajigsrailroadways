@@ -130,7 +130,7 @@ public class CrossingComponentControllerBE extends BlockEntity{
                 if(!slvl.isLoaded(pos)){
                     continue;
                 }
-                else{
+                else{ // red lighted bigger gate
                     if (slvl.getBlockEntity(pos) instanceof RailroadCrossingArmWithLights lightedArm) {
                         if(lightedArm.linkedToController){
                             if (lightedArm.flasherTickDelay != be.universalFlashInterval) {
@@ -152,7 +152,7 @@ public class CrossingComponentControllerBE extends BlockEntity{
                             be.pairedPositions.remove(pos);
                             be.setChanged();
                         }
-                    }
+                    } // old tiny gate
                     else if (slvl.getBlockEntity(pos) instanceof RailroadCrossingBE gate) {
                         if(gate.linkedToController){
                             gate.ticks = be.universalTicks;
@@ -170,18 +170,15 @@ public class CrossingComponentControllerBE extends BlockEntity{
                             be.pairedPositions.remove(pos);
                             be.setChanged();
                         }
-                    }
+                    } // all standard quad red lights
                     else if (slvl.getBlockEntity(pos) instanceof RailroadCrossingLightsBE crossingLights) {
                         if(crossingLights.linkedToController){
                             if (crossingLights.flasherTickDelay != be.universalFlashInterval) {
                                 crossingLights.flasherTickDelay = be.universalFlashInterval;
                                 crossingLights.updateBlock();
                             }
-
                             crossingLights.ticks = be.universalTicks;
-
                             crossingLights.alternateFlashCycle = be.universalAlternatingFlash;
-
                             if (sbs.getValue(BlockStateProperties.POWERED)) {
                                 crossingLights.externalPower = true;
                                 crossingLights.updateBlock();
@@ -194,7 +191,7 @@ public class CrossingComponentControllerBE extends BlockEntity{
                             be.pairedPositions.remove(pos);
                             be.setChanged();
                         }
-                    }
+                    } // all cantilever-based quad red lights
                     else if (slvl.getBlockEntity(pos) instanceof RailroadCrossingCantLightsBE cantileverLights) {
                         if(cantileverLights.linkedToController){
                             if (cantileverLights.flasherTickDelay != be.universalFlashInterval) {
@@ -203,24 +200,14 @@ public class CrossingComponentControllerBE extends BlockEntity{
                             }
                             cantileverLights.ticks = be.universalTicks;
                             cantileverLights.alternateFlashCycle = be.universalAlternatingFlash;
-
                             cantileverLights.externalPower = sbs.getValue(BlockStateProperties.POWERED);
                             cantileverLights.updateBlock();
-                            //System.out.println(cantileverLights.getFlashState());
-
-                            /*if (sbs.getValue(BlockStateProperties.POWERED)) {
-                                cantileverLights.externalPower = true;
-                                cantileverLights.updateBlock();
-                            } else {
-                                cantileverLights.externalPower = false;
-                                cantileverLights.updateBlock();
-                            }*/
                         }
                         else{
                             be.pairedPositions.remove(pos);
                             be.setChanged();
                         }
-                    }
+                    } // wigwag
                     else if (slvl.getBlockEntity(pos) instanceof WigWagBE wigWagBE) {
                         if(wigWagBE.linkedToController){
                             wigWagBE.ticks = be.universalTicks;
@@ -236,7 +223,41 @@ public class CrossingComponentControllerBE extends BlockEntity{
                             be.pairedPositions.remove(pos);
                             be.setChanged();
                         }
-                    }
+                    } // the white and red light signal
+                    else if (slvl.getBlockEntity(pos) instanceof DualRailwayLightsBE dualLights) {
+                        if(dualLights.linkedToController){
+                            dualLights.ticks = be.universalTicks;
+                            dualLights.flasherTickDelay = be.universalFlashInterval;
+                            if (sbs.getValue(BlockStateProperties.POWERED)) {
+                                dualLights.externalPower = true;
+                                dualLights.updateBlock();
+                            } else {
+                                dualLights.externalPower = false;
+                                dualLights.updateBlock();
+                            }
+                        }
+                        else{
+                            be.pairedPositions.remove(pos);
+                            be.setChanged();
+                        }
+                    } // the two red and one white signal
+                    else if (slvl.getBlockEntity(pos) instanceof TriRailwayLightsBE triLights) {
+                        if(triLights.linkedToController){
+                            triLights.ticks = be.universalTicks;
+                            triLights.flasherTickDelay = be.universalFlashInterval;
+                            if (sbs.getValue(BlockStateProperties.POWERED)) {
+                                triLights.externalPower = true;
+                                triLights.updateBlock();
+                            } else {
+                                triLights.externalPower = false;
+                                triLights.updateBlock();
+                            }
+                        }
+                        else{
+                            be.pairedPositions.remove(pos);
+                            be.setChanged();
+                        }
+                    } // the two red and yellow/amber light signal
                     else if(slvl.getBlockEntity(pos) instanceof BritRailwayLightsBE britLights){
                         if(britLights.linkedToController){
                             britLights.ticks = be.universalTicks;
@@ -263,7 +284,7 @@ public class CrossingComponentControllerBE extends BlockEntity{
                             be.pairedPositions.remove(pos);
                             be.setChanged();
                         }
-                    }
+                    } // multi-colored light directional signal
                     else if (slvl.getBlockEntity(pos) instanceof EnhancedDirectionalCrossingLightBE lights) {
                         if(lights.linkedToController){
                             lights.ticks = be.universalTicks;

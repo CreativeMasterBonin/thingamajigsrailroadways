@@ -22,7 +22,7 @@ public class DualRailwayLightsBERenderer implements BlockEntityRenderer<DualRail
     public void render(DualRailwayLightsBE brwlbe, float v, PoseStack poseStack, MultiBufferSource multiBufferSource, int i, int i1){
         String strloc = brwlbe.offLoc;
         if(!brwlbe.getBlockState().getValue(TriRailwayLightsBlock.POWERED)){
-            if(brwlbe.ticks >= brwlbe.delayTicks / 2){
+            if(brwlbe.ticks >= brwlbe.flasherTickDelay / 2){
                 strloc = brwlbe.whiteLoc;
             }
             else{
@@ -30,7 +30,7 @@ public class DualRailwayLightsBERenderer implements BlockEntityRenderer<DualRail
             }
         }
         else{
-            if(brwlbe.ticks >= brwlbe.delayTicks / 2){
+            if(brwlbe.ticks >= brwlbe.flasherTickDelay / 2){
                 strloc = brwlbe.redLoc;
             }
             else{

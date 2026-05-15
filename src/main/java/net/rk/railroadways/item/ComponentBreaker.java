@@ -61,6 +61,16 @@ public class ComponentBreaker extends Item {
                 wigWagBE.unpair();
                 level.playSound(player,pos,SoundEvents.LODESTONE_COMPASS_LOCK, SoundSource.BLOCKS,0.9f,1.4f);
             }
+            else if(be instanceof DualRailwayLightsBE dualLights){
+                dualLights.ticks = 0;
+                dualLights.unpair();
+                level.playSound(player,pos,SoundEvents.LODESTONE_COMPASS_LOCK, SoundSource.BLOCKS,0.9f,1.1f);
+            }
+            else if(be instanceof TriRailwayLightsBE triLights){
+                triLights.ticks = 0;
+                triLights.unpair();
+                level.playSound(player,pos,SoundEvents.LODESTONE_COMPASS_LOCK, SoundSource.BLOCKS,0.9f,1.1f);
+            }
             else if(be instanceof BritRailwayLightsBE britLights){
                 britLights.ticks = 0;
                 britLights.unpair();

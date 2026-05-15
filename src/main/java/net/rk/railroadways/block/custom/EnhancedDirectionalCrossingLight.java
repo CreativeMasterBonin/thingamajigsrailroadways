@@ -130,7 +130,7 @@ public class EnhancedDirectionalCrossingLight extends BaseEntityBlock {
             }
         }
         catch (Exception e){
-            LogUtils.getLogger().warn("Railroadways caught an exception with Multipurpose Sign: {}", e.getMessage());
+            LogUtils.getLogger().warn("Railroadways caught an exception with EnhancedDirectionalCrossingLight: {}", e.getMessage());
             return InteractionResult.FAIL;
         }
         return InteractionResult.PASS;
