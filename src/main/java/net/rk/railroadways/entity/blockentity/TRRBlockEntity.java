@@ -78,6 +78,11 @@ public class TRRBlockEntity{
                     BlockEntityType.Builder.of(EnhancedDirectionalCrossingLightBE::new,TRRBlocks.ENHANCED_DIRECTIONAL_CROSSING_LIGHT.get())
                             .build(null));
 
+    public static final Supplier<BlockEntityType<WigWagBE>> WIGWAG_BE = BLOCK_ENTITIES.register(
+            "wigwag_be",() ->
+                    BlockEntityType.Builder.of(WigWagBE::new,TRRBlocks.WIGWAG.get())
+                            .build(null));
+
     public static void register(IEventBus eventBus){
         BLOCK_ENTITIES.register(eventBus);
     }

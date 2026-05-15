@@ -165,6 +165,19 @@ public class ComponentLinker extends Item{
                                         }
                                         return InteractionResult.CONSUME;
                                     }
+                                    case WigWagBE wigWagBE -> {
+                                        if (!wigWagBE.linkedToController) {
+                                            be.pairedPositions.add(blockPos);
+                                            wigWagBE.pairToLinkedPos(linker.getComponents().get(Thingamajigsrailroadways.SELECTED_POSITION.asOptional().get()));
+                                            player.playSound(SoundEvents.NOTE_BLOCK_BELL.value(),0.7f,1.0f);
+                                            player.displayClientMessage(Component.translatable("item.crossing_component_linker.successful_pair", wigWagBE.getBlockPos().toShortString(), be.getBlockPos().toShortString()), true);
+                                        } else {
+                                            wigWagBE.unpair();
+                                            be.removePosition(wigWagBE.getBlockPos(), false);
+                                            player.displayClientMessage(Component.translatable("item.crossing_component_linker.successful_unpair", wigWagBE.getBlockPos().toShortString(), be.getBlockPos().toShortString()), true);
+                                        }
+                                        return InteractionResult.CONSUME;
+                                    }
                                     case BritRailwayLightsBE britLights -> {
                                         if (!britLights.linkedToController) {
                                             be.pairedPositions.add(blockPos);

@@ -15,7 +15,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
-import net.rk.railroadways.block.TRRBlocks;
 import net.rk.railroadways.entity.blockentity.TRRBlockEntity;
 import org.jetbrains.annotations.Nullable;
 
@@ -216,6 +215,22 @@ public class CrossingComponentControllerBE extends BlockEntity{
                                 cantileverLights.externalPower = false;
                                 cantileverLights.updateBlock();
                             }*/
+                        }
+                        else{
+                            be.pairedPositions.remove(pos);
+                            be.setChanged();
+                        }
+                    }
+                    else if (slvl.getBlockEntity(pos) instanceof WigWagBE wigWagBE) {
+                        if(wigWagBE.linkedToController){
+                            wigWagBE.ticks = be.universalTicks;
+                            if (sbs.getValue(BlockStateProperties.POWERED)) {
+                                wigWagBE.externalPower = true;
+                                wigWagBE.updateBlock();
+                            } else {
+                                wigWagBE.externalPower = false;
+                                wigWagBE.updateBlock();
+                            }
                         }
                         else{
                             be.pairedPositions.remove(pos);

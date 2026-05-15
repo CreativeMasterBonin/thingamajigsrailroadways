@@ -33,6 +33,7 @@ public class TRRItemModel extends ItemModelProvider{
         generatedItem(TRRItems.COMPONENT_BREAKER.get().asItem(),"component_breaker");
         fromModelMod(TRRBlocks.CROSSING_COMPONENT_CONTROLLER.get(),"block/crossing_component_controller_off");
         fromModelMod(TRRBlocks.ELECTRONIC_BELL_TYPE_6.get(),"block/railroad_crossing_bell_type_six");
+        fromModelMod(TRRBlocks.WIGWAG.get(),"block/wig_wag/wig_wag_held");
     }
 
     private ItemModelBuilder fromModelMod(Block block2, String source){

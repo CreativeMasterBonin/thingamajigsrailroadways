@@ -284,6 +284,16 @@ public class TRRRecipe extends RecipeProvider{
                 .requires(Ingredient.of(Items.ORANGE_DYE))
                 .unlockedBy("has_thingy",has(TRRBlocks.VERTICAL_POLE_REDSTONE_RR.asItem()))
                 .save(rc);
+
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC,TRRBlocks.WIGWAG.asItem(),2)
+                .requires(Ingredient.of(TRRBlocks.VERTICAL_POLE_REDSTONE_RR.asItem()))
+                .requires(Ingredient.of(Items.REDSTONE_LAMP))
+                .requires(Ingredient.of(Items.IRON_INGOT))
+                .requires(Ingredient.of(Items.STICK))
+                .requires(Ingredient.of(Items.RED_DYE))
+                .requires(Ingredient.of(Items.ARMS_UP_POTTERY_SHERD))
+                .unlockedBy("has_thingy",has(TRRBlocks.VERTICAL_POLE_REDSTONE_RR.asItem()))
+                .save(rc);
     }
 
     public static RecipeBuilder stonecutterAny(Item requiredItem, Ingredient inputItem, Item result, int amt) {

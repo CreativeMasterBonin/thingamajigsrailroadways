@@ -1,0 +1,48 @@
+{
+	"format_version": "1.9.0",
+	"credit": "CreativeMasterBonin",
+	"textures": {
+		"0": "thingamajigsrailroadways:block/rr_metal",
+		"particle": "#0"
+	},
+	"elements": [
+		{
+			"from": [7, 0, 7],
+			"to": [9, 16, 9],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, 8, 8]},
+			"faces": {
+				"north": {"uv": [0, 0, 2, 16], "texture": "#0"},
+				"east": {"uv": [14, 0, 16, 16], "texture": "#0"},
+				"south": {"uv": [0, 0, 2, 16], "texture": "#0"},
+				"west": {"uv": [14, 0, 16, 16], "texture": "#0"},
+				"up": {"uv": [0, 16, 2, 14], "texture": "#0"},
+				"down": {"uv": [0, 14, 2, 16], "texture": "#0", "cullface": "down"}
+			}
+		},
+		{
+			"from": [7, 14, -16],
+			"to": [9, 16, 7],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, 15, -4.5]},
+			"faces": {
+				"north": {"uv": [1, 0, 3, 2], "texture": "#0"},
+				"east": {"uv": [0, 0, 16, 2], "texture": "#0"},
+				"west": {"uv": [16, 0, 0, 2], "texture": "#0"},
+				"up": {"uv": [7, 0, 9, 16], "texture": "#0"},
+				"down": {"uv": [14, 16, 16, 0], "texture": "#0"}
+			}
+		},
+		{
+			"from": [7.25, 8, -7],
+			"to": [8.75, 10, 7],
+			"rotation": {"angle": 22.5, "axis": "x", "origin": [8, 9, 7]},
+			"faces": {
+				"north": {"uv": [3.5, 0, 5, 2], "texture": "#0"},
+				"east": {"uv": [2, 0, 16, 2], "texture": "#0"},
+				"south": {"uv": [0.5, 14, 2, 16], "texture": "#0"},
+				"west": {"uv": [1, 0, 15, 2], "texture": "#0"},
+				"up": {"uv": [0, 0, 1.5, 14], "texture": "#0"},
+				"down": {"uv": [8, 1, 9.5, 15], "texture": "#0"}
+			}
+		}
+	]
+}

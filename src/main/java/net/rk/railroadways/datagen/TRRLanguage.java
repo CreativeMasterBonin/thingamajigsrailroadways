@@ -53,7 +53,9 @@ public class TRRLanguage extends LanguageProvider {
         this.add(TRRItems.COMPONENT_BREAKER.asItem(),"Crossing Component Breaker");
         this.add(TRRBlocks.MULTIPURPOSE_SIGN.get(),"Multipurpose Sign");
         this.add(TRRBlocks.ENHANCED_DIRECTIONAL_CROSSING_LIGHT.get(),"Enhanced Directional Crossing Light");
+        this.add(TRRBlocks.WIGWAG.get(),"Wigwag");
 
+        this.add("block.railroadways.wigwag.desc","An electro-mechanical stop signal arm, compatible with vertical redstone systems");
         this.add("menu.railroadways.enhanced_directional_crossing_light.title","EDC Crossing Light");
         this.add("item.enhanced_directional_crossing_light.desc","Strobes two red lights with directional orange lights on lower half");
         this.add("checkbox.title.swap_dirs","Swap Direction");

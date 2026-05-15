@@ -6,6 +6,7 @@ import net.minecraft.client.gui.components.SpriteIconButton;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
 import net.minecraft.client.resources.model.ModelResourceLocation;
+import net.minecraft.data.models.model.ModelLocationUtils;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.api.distmarker.Dist;
@@ -57,6 +58,7 @@ public class TRRClient{
         eventBus.addListener(this::layerSetup);
         eventBus.addListener(this::setupMenuTypes);
         eventBus.addListener(this::addCreative);
+        eventBus.addListener(this::registerOtherModels);
     }
 
     public void clientSetup(FMLClientSetupEvent event) {
@@ -71,6 +73,7 @@ public class TRRClient{
         BlockEntityRenderers.register(TRRBlockEntity.POLE_WITH_CROSSING_STOP_LIGHT_BE.get(),PoleWithCrossingStopLightBERenderer::new);
         BlockEntityRenderers.register(TRRBlockEntity.MULTIPURPOSE_SIGN_BE.get(),MultipurposeSignBERenderer::new);
         BlockEntityRenderers.register(TRRBlockEntity.ENHANCED_DIRECTIONAL_CROSSING_LIGHT_BE.get(),EnhancedDirectionalCrossingLightBERenderer::new);
+        BlockEntityRenderers.register(TRRBlockEntity.WIGWAG_BE.get(),WigWagBERenderer::new);
     }
 
     public void layerSetup(EntityRenderersEvent.RegisterLayerDefinitions event){
@@ -158,5 +161,24 @@ public class TRRClient{
             event.accept(TRRBlocks.ELECTRONIC_BELL_TYPE_5.asItem());
             event.accept(TRRBlocks.ELECTRONIC_BELL_TYPE_6.asItem());
         }
+    }
+
+    public void registerOtherModels(ModelEvent.RegisterAdditional event){
+        event.register(new ModelResourceLocation(
+                ResourceLocation.fromNamespaceAndPath(Thingamajigsrailroadways.MODID,"block/wig_wag/wig_wag_arm"),"standalone"));
+        event.register(new ModelResourceLocation(
+                ResourceLocation.fromNamespaceAndPath(Thingamajigsrailroadways.MODID,"block/wig_wag/wig_wag_arm_on"),"standalone"));
+        event.register(new ModelResourceLocation(
+                ResourceLocation.fromNamespaceAndPath(Thingamajigsrailroadways.MODID,"block/wig_wag/wig_wag_arm_pole"),"standalone"));
+        event.register(new ModelResourceLocation(
+                ResourceLocation.fromNamespaceAndPath(Thingamajigsrailroadways.MODID,"block/wig_wag/wig_wag_base"),"standalone"));
+        event.register(new ModelResourceLocation(
+                ResourceLocation.fromNamespaceAndPath(Thingamajigsrailroadways.MODID,"block/wig_wag/wig_wag_arm_with_weight"),"standalone"));
+        event.register(new ModelResourceLocation(
+                ResourceLocation.fromNamespaceAndPath(Thingamajigsrailroadways.MODID,"block/wig_wag/wig_wag_arm_with_weight_on"),"standalone"));
+        event.register(new ModelResourceLocation(
+                ResourceLocation.fromNamespaceAndPath(Thingamajigsrailroadways.MODID,"block/wig_wag/wig_wag_base_standalone"),"standalone"));
+        event.register(new ModelResourceLocation(
+                ResourceLocation.fromNamespaceAndPath(Thingamajigsrailroadways.MODID,"block/wig_wag/wig_wag_base_two_ring"),"standalone"));
     }
 }
