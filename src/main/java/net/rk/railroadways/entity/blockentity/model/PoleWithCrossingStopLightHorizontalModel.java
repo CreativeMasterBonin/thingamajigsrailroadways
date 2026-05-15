@@ -45,6 +45,7 @@ public class PoleWithCrossingStopLightHorizontalModel extends Model {
         main.xRot = Mth.PI;
         horizontalSignage.xRot = Mth.PI;
         horizontalSignage.yRot = Utilities.degreesToRadians(pole.yAngle);
+        main.yRot = horizontalSignage.yRot; // fix angle misalignment
     }
 
     @Override
