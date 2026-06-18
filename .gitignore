@@ -1,0 +1,13 @@
+/.gradle/
+/build/
+/gradle/
+*.class
+*.jar
+/workflows/*
+/build/classes/java/main/
+/.idea/
+/runs/
+/run/
+.DS_Store
+.ds_store
+/generated/
