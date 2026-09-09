@@ -23,6 +23,7 @@ import net.neoforged.neoforge.registries.DataPackRegistryEvent;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import net.rk.railroadways.block.TRRBlocks;
+import net.rk.railroadways.entity.TRREntities;
 import net.rk.railroadways.entity.blockentity.TRRBlockEntity;
 import net.rk.railroadways.item.TRRItems;
 import net.rk.railroadways.menu.TRRMenu;
@@ -67,6 +68,7 @@ public class Thingamajigsrailroadways{
 
         COMPONENTS.register(modEventBus);
 
+        TRREntities.ENTITY_TYPES.register(modEventBus);
         TRRBlocks.BLOCKS.register(modEventBus);
         TRRItems.ITEMS.register(modEventBus);
         TRRBlockEntity.register(modEventBus);
