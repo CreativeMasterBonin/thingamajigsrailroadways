@@ -1,22 +1,31 @@
 package net.rk.railroadways.entity.custom;
 
+import io.netty.buffer.ByteBuf;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.ByIdMap;
 import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.AreaEffectCloud;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Leashable;
+import net.minecraft.world.entity.animal.armadillo.Armadillo;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.vehicle.AbstractMinecart;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
+import net.rk.railroadways.Thingamajigsrailroadways;
 
 import javax.annotation.Nullable;
+import java.util.function.IntFunction;
 
 public abstract class AbstractLocomotive extends AbstractMinecart implements Leashable {
     public enum LocomotiveType {
@@ -85,27 +94,42 @@ public abstract class AbstractLocomotive extends AbstractMinecart implements Lea
     public float maxSpeed = 1.25f;
     private Mode mode = Mode.STOPPED;
     public boolean isDerailed = false;
-    private static final EntityDataAccessor<Boolean> DATA_DERAILED = null;
-    private static final EntityDataAccessor<Float> DATA_CURRENT_SPEED = null;
-    private static final EntityDataAccessor<Float> DATA_MAX_SPEED = null;
-    private static final EntityDataAccessor<Boolean> DATA_AUTO_MOVE = null;
-    private static final EntityDataAccessor<Mode> DATA_MODE = null;
+    private static final EntityDataAccessor<Boolean> DATA_DERAILED = SynchedEntityData.defineId(AbstractLocomotive.class, EntityDataSerializers.BOOLEAN);
+    private static final EntityDataAccessor<Float> DATA_CURRENT_SPEED = SynchedEntityData.defineId(AbstractLocomotive.class, EntityDataSerializers.FLOAT);
+    private static final EntityDataAccessor<Float> DATA_MAX_SPEED = SynchedEntityData.defineId(AbstractLocomotive.class, EntityDataSerializers.FLOAT);
+    private static final EntityDataAccessor<Boolean> DATA_AUTO_MOVE = SynchedEntityData.defineId(AbstractLocomotive.class, EntityDataSerializers.BOOLEAN);
+    private static final EntityDataAccessor<Mode> DATA_MODE = SynchedEntityData.defineId(AbstractLocomotive.class, Thingamajigsrailroadways.MODE_ENTITY_DATA_SERIALIZER);
 
-    enum Mode implements StringRepresentable {
-        STOPPED("stopped"),
-        REVERSE("reverse"),
-        IDLE("idle"),
-        FORWARD("forward");
+    public static enum Mode implements StringRepresentable {
+        STOPPED("stopped",0),
+        REVERSE("reverse",1),
+        IDLE("idle",2),
+        FORWARD("forward",3);
         private final String name;
+        private final int id;
 
-        Mode(String name){
+        Mode(String name,int id){
             this.name = name;
+            this.id = id;
         }
 
         @Override
         public String getSerializedName() {
             return this.name;
         }
+
+        // for codecs and such
+        public int id() {
+            return id;
+        }
+
+        public static Mode fromName(String name){
+            return (Mode)CODEC.byName(name);
+        }
+
+        private static final StringRepresentable.EnumCodec<AbstractLocomotive.Mode> CODEC = StringRepresentable.fromEnum(AbstractLocomotive.Mode::values);
+        private static final IntFunction<AbstractLocomotive.Mode> BY_ID = ByIdMap.continuous(AbstractLocomotive.Mode::id, values(), ByIdMap.OutOfBoundsStrategy.ZERO);
+        public static final StreamCodec<ByteBuf,AbstractLocomotive.Mode> STREAM_CODEC = ByteBufCodecs.idMapper(BY_ID, AbstractLocomotive.Mode::id);
     }
 
     public Mode getMode(){
@@ -163,5 +187,10 @@ public abstract class AbstractLocomotive extends AbstractMinecart implements Lea
     @Override
     protected Item getDropItem() {
         return Items.STONE;
+    }
+
+    @Override
+    public Type getMinecartType() {
+        return Type.RIDEABLE;
     }
 }

@@ -4,6 +4,7 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.Level;
 import net.rk.railroadways.entity.TRREntities;
+import net.rk.railroadways.item.TRRItems;
 
 public class DieselLocomotive extends AbstractLocomotive {
     public DieselLocomotive(Level level, double x, double y, double z) {
@@ -17,17 +18,12 @@ public class DieselLocomotive extends AbstractLocomotive {
     }
 
     @Override
-    public Type getMinecartType() {
-        return Type.RIDEABLE;
-    }
-
-    @Override
     public LocomotiveType getLocomotiveType(){
         return LocomotiveType.DIESEL;
     }
 
     @Override
     public Item getDropItem() {
-        return null;
+        return TRRItems.DIESEL_LOCOMOTIVE_PLACER.asItem();
     }
 }

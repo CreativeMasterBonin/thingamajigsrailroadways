@@ -10,6 +10,8 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.data.PackOutput;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.syncher.EntityDataSerializer;
+import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.CreativeModeTabs;
 import net.neoforged.bus.api.IEventBus;
@@ -22,9 +24,11 @@ import net.neoforged.neoforge.data.event.GatherDataEvent;
 import net.neoforged.neoforge.registries.DataPackRegistryEvent;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
+import net.neoforged.neoforge.registries.NeoForgeRegistries;
 import net.rk.railroadways.block.TRRBlocks;
 import net.rk.railroadways.entity.TRREntities;
 import net.rk.railroadways.entity.blockentity.TRRBlockEntity;
+import net.rk.railroadways.entity.custom.AbstractLocomotive;
 import net.rk.railroadways.item.TRRItems;
 import net.rk.railroadways.menu.TRRMenu;
 import net.rk.railroadways.network.TRRHandler;
@@ -49,6 +53,12 @@ public class Thingamajigsrailroadways{
                     .build()
     );
 
+    public static final DeferredRegister<EntityDataSerializer<?>> ENTITY_DATA_SERIALIZERS = DeferredRegister.create(
+            NeoForgeRegistries.ENTITY_DATA_SERIALIZERS,Thingamajigsrailroadways.MODID);
+
+    public static final EntityDataSerializer<AbstractLocomotive.Mode> MODE_ENTITY_DATA_SERIALIZER =
+            EntityDataSerializer.forValueType(AbstractLocomotive.Mode.STREAM_CODEC);
+
     public static final DeferredRegister<DataComponentType<?>> COMPONENTS =
             DeferredRegister.create(Registries.DATA_COMPONENT_TYPE,Thingamajigsrailroadways.MODID);
 
@@ -67,6 +77,9 @@ public class Thingamajigsrailroadways{
         TRRSound.register(modEventBus);
 
         COMPONENTS.register(modEventBus);
+        // register serializers
+        ENTITY_DATA_SERIALIZERS.register("locomotive_mode_entity_data_serializer",() -> MODE_ENTITY_DATA_SERIALIZER);
+        ENTITY_DATA_SERIALIZERS.register(modEventBus);
 
         TRREntities.ENTITY_TYPES.register(modEventBus);
         TRRBlocks.BLOCKS.register(modEventBus);

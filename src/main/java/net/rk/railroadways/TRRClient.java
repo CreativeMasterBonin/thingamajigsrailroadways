@@ -5,6 +5,7 @@ import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.SpriteIconButton;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
+import net.minecraft.client.renderer.entity.EntityRenderers;
 import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.data.models.model.ModelLocationUtils;
 import net.minecraft.network.chat.Component;
@@ -21,8 +22,10 @@ import net.neoforged.neoforge.client.extensions.common.IClientItemExtensions;
 import net.neoforged.neoforge.client.extensions.common.RegisterClientExtensionsEvent;
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
 import net.rk.railroadways.block.TRRBlocks;
+import net.rk.railroadways.entity.TRREntities;
 import net.rk.railroadways.entity.blockentity.TRRBlockEntity;
 import net.rk.railroadways.entity.blockentity.model.*;
+import net.rk.railroadways.entity.custom.model.DieselLocomotiveModel;
 import net.rk.railroadways.item.TRRItems;
 import net.rk.railroadways.menu.TRRMenu;
 import net.rk.railroadways.render.*;
@@ -83,6 +86,7 @@ public class TRRClient{
     }
 
     public void clientSetup(FMLClientSetupEvent event) {
+        // block entities
         BlockEntityRenderers.register(TRRBlockEntity.RAILROAD_CROSSING_ARM_BE.get(), RailroadCrossingArmBERenderer::new);
         BlockEntityRenderers.register(TRRBlockEntity.DYNAMIC_SIGN_BE.get(), DynamicSignBERenderer::new);
         BlockEntityRenderers.register(TRRBlockEntity.RR_LIGHTS_BE.get(), RailroadCrossingLightsBERenderer::new);
@@ -95,9 +99,12 @@ public class TRRClient{
         BlockEntityRenderers.register(TRRBlockEntity.MULTIPURPOSE_SIGN_BE.get(),MultipurposeSignBERenderer::new);
         BlockEntityRenderers.register(TRRBlockEntity.ENHANCED_DIRECTIONAL_CROSSING_LIGHT_BE.get(),EnhancedDirectionalCrossingLightBERenderer::new);
         BlockEntityRenderers.register(TRRBlockEntity.WIGWAG_BE.get(),WigWagBERenderer::new);
+        // entities
+        EntityRenderers.register(TRREntities.DIESEL_LOCOMOTIVE.get(),DieselLocomotiveRenderer::new);
     }
 
     public void layerSetup(EntityRenderersEvent.RegisterLayerDefinitions event){
+        // block entities
         event.registerLayerDefinition(RRArmModel.LAYER_LOCATION,RRArmModel::createBodyLayer);
         event.registerLayerDefinition(DynamicSignModel.SIGN_TEXTURE_LOCATION,DynamicSignModel::createBodyLayer);
         event.registerLayerDefinition(RRLightsModel.LIGHTS_TEXTURE_LOCATION,RRLightsModel::createBodyLayer);
@@ -111,6 +118,8 @@ public class TRRClient{
         event.registerLayerDefinition(PoleWithCrossingStopLightVerticalModel.VERTICAL_STOP_LAYER,PoleWithCrossingStopLightVerticalModel::createBodyLayer);
         event.registerLayerDefinition(PoleWithCrossingStopLightHorizontalModel.HORIZONTAL_STOP_LAYER,PoleWithCrossingStopLightHorizontalModel::createBodyLayer);
         event.registerLayerDefinition(MultipurposeSignModel.DEFAULT_MULTIPURPOSE_TEXTURE,MultipurposeSignModel::createBodyLayer);
+        // entities
+        event.registerLayerDefinition(DieselLocomotiveModel.DEFAULT,DieselLocomotiveModel::createBodyLayer);
     }
 
     public void setupMenuTypes(RegisterMenuScreensEvent event){
@@ -183,6 +192,8 @@ public class TRRClient{
             event.accept(TRRBlocks.ELECTRONIC_BELL_TYPE_4.asItem());
             event.accept(TRRBlocks.ELECTRONIC_BELL_TYPE_5.asItem());
             event.accept(TRRBlocks.ELECTRONIC_BELL_TYPE_6.asItem());
+            // locomotives
+            event.accept(TRRItems.DIESEL_LOCOMOTIVE_PLACER.asItem());
         }
     }
 

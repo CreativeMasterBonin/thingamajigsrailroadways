@@ -16,7 +16,7 @@ public class TRREntities {
             Thingamajigsrailroadways.MODID);
 
 
-    public static final DeferredHolder<EntityType<?>,EntityType<DieselLocomotive>> DIESEL_LOCOMOTIVE = register("chair",
+    public static final DeferredHolder<EntityType<?>,EntityType<DieselLocomotive>> DIESEL_LOCOMOTIVE = register("diesel_locomotive",
             () -> EntityType.Builder.<DieselLocomotive>of(DieselLocomotive::new,MobCategory.MISC)
                     .sized(0.98F, 0.7F).passengerAttachments(0.1875F).clientTrackingRange(8));
 
