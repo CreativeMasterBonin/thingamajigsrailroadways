@@ -22,6 +22,11 @@ public class DieselLocomotive extends AbstractLocomotive {
     }
 
     @Override
+    public LocomotiveType getLocomotiveType(){
+        return LocomotiveType.DIESEL;
+    }
+
+    @Override
     public Item getDropItem() {
         return null;
     }
