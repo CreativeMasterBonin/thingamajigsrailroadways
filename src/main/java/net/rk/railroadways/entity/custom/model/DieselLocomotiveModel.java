@@ -101,6 +101,7 @@ public class DieselLocomotiveModel extends EntityModel<DieselLocomotive> {
 
     }
 
+    // unused as it does not work
     public void setup(DieselLocomotive locomotive,float partialTick){
         if(locomotive.getBlockStateOn().getBlock() instanceof RailBlock){
             RailShape value = locomotive.getBlockStateOn().getValue(RailBlock.SHAPE);

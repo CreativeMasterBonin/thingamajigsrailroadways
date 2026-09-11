@@ -18,7 +18,7 @@ public class TRREntities {
 
     public static final DeferredHolder<EntityType<?>,EntityType<DieselLocomotive>> DIESEL_LOCOMOTIVE = register("diesel_locomotive",
             () -> EntityType.Builder.<DieselLocomotive>of(DieselLocomotive::new,MobCategory.MISC)
-                    .sized(0.98F, 0.7F).passengerAttachments(0.1875F).clientTrackingRange(8));
+                    .sized(0.98f, 0.815f).passengerAttachments(0.1881f).clientTrackingRange(12));
 
 
     public static <T extends Entity> DeferredHolder<EntityType<?>, EntityType<T>> register(String name, Supplier<EntityType.Builder<T>> builder) {

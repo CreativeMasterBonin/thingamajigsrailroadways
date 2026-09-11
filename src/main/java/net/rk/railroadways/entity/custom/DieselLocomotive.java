@@ -2,6 +2,7 @@ package net.rk.railroadways.entity.custom;
 
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.rk.railroadways.entity.TRREntities;
 import net.rk.railroadways.item.TRRItems;
@@ -15,6 +16,11 @@ public class DieselLocomotive extends AbstractLocomotive {
     }
     public DieselLocomotive(EntityType<DieselLocomotive> dieselLocomotiveEntityType, Level level) {
         super(TRREntities.DIESEL_LOCOMOTIVE.get(),level);
+    }
+
+    @Override
+    public ItemStack getPickResult() {
+        return new ItemStack(TRRItems.DIESEL_LOCOMOTIVE_PLACER.asItem());
     }
 
     @Override
